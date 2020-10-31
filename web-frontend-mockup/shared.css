@@ -1,0 +1,134 @@
+body {
+    font-family: sans-serif;
+    background-color: #7dd4cf;
+
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+}
+
+#hs-menu {
+    background-color: #11958e;
+}
+
+#hs-menu, #hs-menu ul, #hs-menu ul li {
+    padding: 0;
+    margin: 0;
+}
+
+#hs-menu ul {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+#hs-menu ul li {
+    display: inline-block;
+    list-style-type: none;
+}
+
+#hs-menu ul li a {
+    box-sizing: border-box;
+    text-decoration: none;
+    display: inline-block;
+    border: 10px solid transparent;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hs-menu-free-space {
+    flex-grow: 1;
+}
+
+.hs-menu-option-text, .hs-menu-option-img  {
+    text-overflow: ellipsis;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#hs-menu ul li a:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#hs-menu ul li, #hs-menu ul li a, #hs-menu ul li a:visited {
+    color: white;
+}
+
+.hs-menu-option-img img {
+    width: 24px;
+    height: 24px;
+}
+
+#hs-app-container {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: row;
+}
+
+#hs-app-menu {
+    background-color: #282828;
+}
+
+#hs-app-menu ul {
+    margin: 0;
+    padding: 0;
+}
+
+#hs-app-menu ul li {
+    color: white;
+    list-style-type: none;
+}
+
+#hs-app-menu ul li a, #hs-app-menu ul li a:visited, #hs-app-menu ul li a:link {
+    white-space: nowrap;
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 5px 5px 5px 5px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#hs-app-menu ul li a img {
+    vertical-align: middle;
+    width: 32px;
+    height: 32px;
+}
+
+#hs-app-menu ul li a:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#hs-app-viewport {
+    background-color: white;
+    flex-grow: 1;
+    padding: 10px;
+}
+
+@media all and (min-width: 800px) {
+    #hs-app-menu ul {
+        width: 240px;
+    }
+
+    #hs-app-menu:hover ul {
+        width: 360px;
+    }
+}
+
+@media all and (max-width: 800px) {
+    .hs-app-menu-label {
+        display: none;
+    }
+
+    #hs-app-menu:hover ul {
+        width: 360px;
+    }
+
+    #hs-app-menu:hover .hs-app-menu-label {
+        display: initial;
+    }
+}
