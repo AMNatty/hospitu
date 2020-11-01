@@ -38,6 +38,21 @@ body {
     height: 100%;
 }
 
+#hs-menu ul li .hs-menu-small-box {
+    box-sizing: border-box;
+    text-decoration: none;
+    border: 5px solid transparent;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .hs-menu-free-space {
     flex-grow: 1;
 }
@@ -59,6 +74,31 @@ body {
 .hs-menu-option-img img {
     width: 24px;
     height: 24px;
+}
+
+#hs-menu a.hs-menu-current-entity {
+    width: 240px;
+    display: flex;
+    align-items: flex-start;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#hs-menu .hs-menu-current-entity .hs-menu-current-container {
+    margin: 0 auto;
+    border: 1px solid white;
+    border-radius: 50px;
+    padding: 5px 25px;
+}
+
+#hs-menu .hs-menu-current-entity .hs-menu-option-text  {
+    text-align: left;
+}
+
+#hs-menu .hs-menu-current-entity .hs-menu-current-role  {
+    font-size: 50%;
 }
 
 #hs-app-container {
@@ -120,8 +160,16 @@ body {
 }
 
 @media all and (max-width: 800px) {
+    #hs-menu .hs-menu-time {
+        display: none;
+    }
+
     .hs-app-menu-label {
         display: none;
+    }
+
+    #hs-menu a.hs-menu-current-entity {
+        width: auto;
     }
 
     #hs-app-menu:hover ul {

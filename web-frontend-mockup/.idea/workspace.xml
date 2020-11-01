@@ -20,18 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b08054c9-894d-4732-a290-22e05f12ca0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/web-frontend-mockup.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/account_circle-white-18dp.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps-white-18dp.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/close-white-18dp.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/normalize.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/receipt-white-18dp.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/receipt_long-white-18dp.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/workspace.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared.css" beforeDir="false" afterPath="$PROJECT_DIR$/shared.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workspace.html" beforeDir="false" afterPath="$PROJECT_DIR$/workspace.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +56,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -75,8 +67,17 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1604164243024</updated>
-      <workItem from="1604164244138" duration="8304000" />
+      <workItem from="1604164244138" duration="9730000" />
+      <workItem from="1604248438224" duration="3834000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial mockup">
+      <created>1604172653620</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1604172653620</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -92,8 +93,21 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Initial mockup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial mockup" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="554" y="284" width="802" height="537" key="Vcs.Push.Dialog.v2" timestamp="1604172659187">
+      <screen x="0" y="28" width="1920" height="1052" />
+    </state>
+    <state x="554" y="284" width="802" height="537" key="Vcs.Push.Dialog.v2/0.28.1920.1052@0.28.1920.1052" timestamp="1604172659187" />
+    <state x="624" y="254" key="run.anything.popup" timestamp="1604253527055">
+      <screen x="0" y="28" width="1920" height="1052" />
+    </state>
+    <state x="624" y="254" key="run.anything.popup/0.28.1920.1052@0.28.1920.1052" timestamp="1604253527055" />
   </component>
 </project>
