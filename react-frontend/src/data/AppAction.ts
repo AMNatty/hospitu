@@ -2,11 +2,11 @@ import { AppActionType } from "./AppActionType";
 import { Action } from "redux";
 
 export interface IAppAction extends Action<AppActionType> {
-    type: AppActionType;
+    readonly type: AppActionType;
 }
 
 export class LoginAction implements IAppAction {
-    type: AppActionType;
+    readonly type: AppActionType;
 
     constructor()
     {
@@ -15,7 +15,7 @@ export class LoginAction implements IAppAction {
 }
 
 export class LogoutAction implements IAppAction {
-    type: AppActionType;
+    readonly type: AppActionType;
 
     constructor()
     {

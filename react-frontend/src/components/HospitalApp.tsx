@@ -1,22 +1,21 @@
 import React from "react";
-import { IApplicationState, LoginState } from "../data/AppState";
+import { IApplicationState, LoginScreenSectionState, LoginState } from "../data/AppState";
 
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { LoginAction, LogoutAction } from "../data/AppAction";
+import { LogoutAction } from "../data/AppAction";
+import { LoginScreen } from "./LoginScreen";
 
 class HospitalApp extends React.Component<{
     appState: IApplicationState,
     dispatch: Dispatch
 }, unknown>
 {
-    toggleLogin()
+    logout()
     {
         if (this.props.appState.loginState != LoginState.LOGGED_OUT)
             this.props.dispatch(new LogoutAction());
-        else
-            this.props.dispatch(new LoginAction());
     }
 
     render()
@@ -29,7 +28,7 @@ class HospitalApp extends React.Component<{
                         <span>
                             Hello world!
                         </span>
-                        <button onClick={this.toggleLogin.bind(this)}>
+                        <button onClick={this.logout.bind(this)}>
                             Log out
                         </button>
                     </div>
@@ -37,14 +36,7 @@ class HospitalApp extends React.Component<{
 
             case LoginState.LOGGED_OUT:
                 return (
-                    <div>
-                        <span>
-                            Goodbye world!
-                        </span>
-                        <button onClick={this.toggleLogin.bind(this)}>
-                            Log in
-                        </button>
-                    </div>
+                    <LoginScreen dispatch={this.props.dispatch} sectionState={this.props.appState.currentSection as LoginScreenSectionState} />
                 );
 
         }
