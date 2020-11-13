@@ -4,8 +4,13 @@ export enum LoginState
     LOGGED_OUT = "LOGGED_OUT"
 }
 
-export interface ApplicationState
+export interface IApplicationState
 {
     loginState: LoginState;
 }
 
+const applicationStateDefault: IApplicationState = {
+    loginState: LoginState.LOGGED_OUT
+};
+
+export  { applicationStateDefault };
