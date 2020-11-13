@@ -1,9 +1,5 @@
 # HospITU
 
-## Available Scripts
-
-In the project directory, you can run:
-
 ## Commands
 
 A list of helpful commands to get your started.
