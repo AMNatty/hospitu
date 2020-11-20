@@ -40,10 +40,10 @@ set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
 setlocal
 
 set BUILD_DIR=%APP_HOME%build\
-set JVM_TARGET_DIR=%BUILD_DIR%gradle-jvm\amazon-corretto-11-x64-windows-jdk-f3b61a\
+set JVM_TARGET_DIR=%BUILD_DIR%gradle-jvm\amazon-corretto-15-x64-windows-jdk-1c81cf\
 
 set JVM_TEMP_FILE=jvm-windows-x64.zip
-set JVM_URL=https://corretto.aws/downloads/latest/amazon-corretto-11-x64-windows-jdk.zip
+set JVM_URL=https://corretto.aws/downloads/latest/amazon-corretto-15-x64-windows-jdk.zip
 
 set POWERSHELL=%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe
 
