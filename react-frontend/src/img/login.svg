@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap"?>
+<svg version="1.1" viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="bgFill" x1="0" x2="0" y1="0" y2="1">
+            <stop stop-color="#008080" offset="0"/>
+            <stop stop-color="#002f2f" offset="1"/>
+        </linearGradient>
+    </defs>
+    <rect x="0" y="0" width="640" height="360" fill="url(#bgFill)" />
+    <text x="16" y="40" font-family="Roboto" font-size="26.667px" style="line-height:1.25" xml:space="preserve">
+        <tspan x="16" y="40" fill="#ffffff" font-size="26.667px">Informační systém HospITU</tspan>
+    </text>
+    <path d="m480 250h50v-50h50v50h50v50h-50v50h-50v-50h-50z" fill="#fff"/>
+</svg>

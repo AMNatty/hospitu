@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 
 import "./style/index.less";
 
+import "core-js";
+
 import { Provider } from "react-redux";
 
 import HospitalApp from "./components/HospitalApp";

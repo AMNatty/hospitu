@@ -1,37 +1,28 @@
 import React from "react";
-import { IApplicationState, LoginScreenSectionState, LoginState } from "../data/AppState";
+import { IApplicationState, InternalScreenSectionState, LoginScreenSectionState, LoginState } from "../data/AppState";
 
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { LogoutAction } from "../data/AppAction";
 import { LoginScreen } from "./LoginScreen";
+import { InternalAppScreen } from "./InternalAppScreen";
 
 class HospitalApp extends React.Component<{
     appState: IApplicationState,
     dispatch: Dispatch
-}, unknown>
+}>
 {
-    logout()
-    {
-        if (this.props.appState.loginState != LoginState.LOGGED_OUT)
-            this.props.dispatch(new LogoutAction());
-    }
-
     render()
     {
         switch (this.props.appState.loginState)
         {
             case LoginState.LOGGED_IN:
                 return (
-                    <div>
+                    <InternalAppScreen dispatch={this.props.dispatch} sectionState={this.props.appState.currentSection as InternalScreenSectionState}>
                         <span>
-                            Hello world!
+                            Filler text
                         </span>
-                        <button onClick={this.logout.bind(this)}>
-                            Log out
-                        </button>
-                    </div>
+                    </InternalAppScreen>
                 );
 
             case LoginState.LOGGED_OUT:

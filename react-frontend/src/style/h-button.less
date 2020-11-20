@@ -1,0 +1,110 @@
+@import "shared";
+
+@button-shared: {
+    .button-shape() {
+        @controls-shared();
+        .shared-style();
+
+        cursor: pointer;
+
+        border: 0;
+
+        padding-left: 16px;
+        padding-right: 16px;
+        height: 36px;
+        min-width: 64px;
+
+        letter-spacing: 0.07em;
+        font-weight: 500;
+        font-size: 14px;
+
+        text-transform: uppercase;
+
+        white-space: nowrap;
+
+        margin: 8px;
+
+        user-select: none;
+    }
+}
+
+.h-button
+{
+    @button-shared();
+    .button-shape();
+
+    @controls-shapes();
+    .rounded-corner-shape();
+
+    background-color: @primary-color;
+    color: @primary-text-color;
+
+    box-shadow: rgba(0, 0, 0, 33.3%) 0 1px 2px;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+.h-button:active
+{
+    box-shadow: rgba(0, 0, 0, 50%) 0 4px 8px;
+}
+
+.h-button-text
+{
+    @button-shared();
+    .button-shape();
+
+    @controls-shapes();
+    .rounded-corner-shape();
+
+    background-color: @primary-text-color;
+    color: @primary-color;
+}
+
+.h-button-text-inverted
+{
+    @button-shared();
+    .button-shape();
+
+    @controls-shapes();
+    .rounded-corner-shape();
+
+    background-color: @primary-color;
+    color: @primary-text-color;
+}
+
+.h-button-text-border
+{
+    @button-shared();
+    .button-shape();
+
+    @controls-shapes();
+    .rounded-corner-shape();
+
+    background-color: @primary-text-color;
+    color: @primary-color;
+
+    box-sizing: border-box;
+    border: 2px solid lighten(greyscale(@primary-color), 50%);
+}
+
+.h-button:focus:not(:focus-visible), .h-button-text-inverted:focus:not(:focus-visible), .h-button-text-border:focus:not(:focus-visible), .h-button-text:focus:not(:focus-visible)
+{
+    outline: none;
+}
+
+.h-button:active, .h-button-text-inverted:active
+{
+    background-color: lighten(@primary-color, 5%);
+}
+
+.h-button-text-border:active, .h-button-text:active
+{
+    background-color: darken(@primary-text-color, 20%);
+}
+
+.h-button[disabled], .h-button-text[disabled], .h-button-text-inverted[disabled], .h-button-text-border[disabled] {
+    background-color: fade(darken(@primary-text-color, 40%), 50%);
+    color: greyscale(@primary-color);
+    cursor: default;
+    box-shadow: none;
+}

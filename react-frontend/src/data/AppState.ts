@@ -4,7 +4,8 @@ export enum LoginState {
 }
 
 export enum SectionType {
-    LOGIN_SCREEN = "LOGIN_SCREEN"
+    LOGIN_SCREEN = "LOGIN_SCREEN",
+    INTERNAL_SCREEN = "INTERNAL_SCREEN",
 }
 
 export interface IApplicationSection {
@@ -23,6 +24,15 @@ export class LoginScreenSectionState implements IApplicationSection {
     constructor()
     {
         this.sectionType = SectionType.LOGIN_SCREEN;
+    }
+}
+
+export class InternalScreenSectionState implements IApplicationSection {
+    readonly sectionType: SectionType;
+
+    constructor()
+    {
+        this.sectionType = SectionType.INTERNAL_SCREEN;
     }
 }
 
