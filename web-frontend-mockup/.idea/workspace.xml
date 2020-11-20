@@ -20,9 +20,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b08054c9-894d-4732-a290-22e05f12ca0a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../backend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/cz/vutbr/fit/hospitu/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/cz/vutbr/fit/hospitu/ServerConfigLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/cz/vutbr/fit/hospitu/controller/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/cz/vutbr/fit/hospitu/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/cz/vutbr/fit/hospitu/data/LoginData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/cz/vutbr/fit/hospitu/sql/SQLConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/cz/vutbr/fit/hospitu/sql/table/AbstractTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/cz/vutbr/fit/hospitu/sql/table/Tables.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/cz/vutbr/fit/hospitu/sql/table/UserTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared.css" beforeDir="false" afterPath="$PROJECT_DIR$/shared.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workspace.html" beforeDir="false" afterPath="$PROJECT_DIR$/workspace.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +67,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -68,7 +81,11 @@
       <option name="presentableId" value="Default" />
       <updated>1604164243024</updated>
       <workItem from="1604164244138" duration="9730000" />
-      <workItem from="1604248438224" duration="3834000" />
+      <workItem from="1604248438224" duration="5538000" />
+      <workItem from="1604503947618" duration="6000" />
+      <workItem from="1605186785452" duration="6001000" />
+      <workItem from="1605552675537" duration="606000" />
+      <workItem from="1605840058951" duration="1929000" />
     </task>
     <task id="LOCAL-00001" summary="Initial mockup">
       <created>1604172653620</created>
@@ -77,7 +94,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604172653620</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="New mockup based on the new wireframe">
+      <created>1604271551943</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604271551943</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -98,13 +122,18 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Initial mockup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial mockup" />
+    <MESSAGE value="New mockup based on the new wireframe" />
+    <option name="LAST_COMMIT_MESSAGE" value="New mockup based on the new wireframe" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="554" y="284" width="802" height="537" key="Vcs.Push.Dialog.v2" timestamp="1604172659187">
+    <state x="742" y="311" width="426" height="484" key="FileChooserDialogImpl" timestamp="1605190143503">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
-    <state x="554" y="284" width="802" height="537" key="Vcs.Push.Dialog.v2/0.28.1920.1052@0.28.1920.1052" timestamp="1604172659187" />
+    <state x="742" y="311" width="426" height="484" key="FileChooserDialogImpl/0.28.1920.1052@0.28.1920.1052" timestamp="1605190143503" />
+    <state x="554" y="284" width="802" height="537" key="Vcs.Push.Dialog.v2" timestamp="1604271553680">
+      <screen x="0" y="28" width="1920" height="1052" />
+    </state>
+    <state x="554" y="284" width="802" height="537" key="Vcs.Push.Dialog.v2/0.28.1920.1052@0.28.1920.1052" timestamp="1604271553680" />
     <state x="624" y="254" key="run.anything.popup" timestamp="1604253527055">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
