@@ -1,0 +1,24 @@
+<project name="hospital" default="compile" basedir=".">
+
+    <path id="classpath">
+        <fileset dir="lib" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+        <delete dir="dest"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="build"/>
+        <javac srcdir="src" destdir="build" includeantruntime="false" encoding="utf8" classpathref="classpath"></javac>
+        <mkdir dir="dest"/>
+        <jar destfile="dest/hospital.jar" basedir="build">
+            <manifest><attribute name="Main-Class" value="Main"/></manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="compile">
+        <java jar="dest/hospital.jar" fork="true"/>
+    </target>
+</project>
