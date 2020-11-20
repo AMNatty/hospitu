@@ -1,15 +1,8 @@
 plugins {
+    id "java"
     id "application"
-    id "me.filippov.gradle.jvm.wrapper" version "0.9.3"
 }
 
-apply plugin: 'java'
-
-jvmWrapper {
-    linuxJvmUrl = "https://corretto.aws/downloads/latest/amazon-corretto-15-x64-linux-jdk.tar.gz"
-    macJvmUrl = "https://corretto.aws/downloads/latest/amazon-corretto-15-x64-macos-jdk.tar.gz"
-    windowsJvmUrl = "https://corretto.aws/downloads/latest/amazon-corretto-15-x64-windows-jdk.zip"
-}
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
     gradleVersion = '6.6.1'
