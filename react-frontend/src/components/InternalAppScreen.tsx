@@ -10,6 +10,7 @@ import closeIcon from "../img/close-white-18dp.svg";
 import appsIcon from "../img/apps-white-18dp.svg";
 import receiptIcon from "../img/receipt-white-18dp.svg";
 import receiptLongIcon from "../img/receipt_long-white-18dp.svg";
+import { HClockDate, HClockTime } from "./HClock";
 
 
 export class InternalAppScreen extends React.Component<{
@@ -46,7 +47,7 @@ export class InternalAppScreen extends React.Component<{
                                             Čas:
                                         </td>
                                         <td>
-                                            17:12
+                                            <HClockTime />
                                         </td>
                                     </tr>
                                     <tr>
@@ -54,7 +55,7 @@ export class InternalAppScreen extends React.Component<{
                                             Datum:
                                         </td>
                                         <td>
-                                            31.10.2020
+                                            <HClockDate />
                                         </td>
                                     </tr>
                                 </table>
