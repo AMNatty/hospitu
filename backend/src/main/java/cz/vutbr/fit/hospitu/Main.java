@@ -2,6 +2,9 @@ package cz.vutbr.fit.hospitu;
 
 import cz.vutbr.fit.hospitu.controller.LoginController;
 import cz.vutbr.fit.hospitu.controller.UserController;
+import cz.vutbr.fit.hospitu.data.response.Generic400ResponseData;
+import cz.vutbr.fit.hospitu.data.response.Generic404ResponseData;
+import cz.vutbr.fit.hospitu.data.response.Generic500ResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import cz.vutbr.fit.hospitu.sql.table.Tables;
 import io.javalin.Javalin;
@@ -32,9 +35,9 @@ public class Main
                 config.defaultContentType = "application/json";
                 config.enableCorsForAllOrigins();
             }).error(500, ctx -> {
-                ctx.result("");
+                ctx.json(new Generic500ResponseData());
             }).error(400, ctx -> {
-                ctx.result("");
+                ctx.json(new Generic400ResponseData());
             }).routes(() -> {
                 ApiBuilder.path("users", () -> {
                     ApiBuilder.path("login", () -> {

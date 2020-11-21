@@ -1,6 +1,6 @@
-package cz.vutbr.fit.hospitu.data;
+package cz.vutbr.fit.hospitu.data.request;
 
-public class LoginData
+public class LoginRequestData
 {
     private String username;
     private String password;

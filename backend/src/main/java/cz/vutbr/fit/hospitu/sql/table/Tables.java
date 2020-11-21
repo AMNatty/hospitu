@@ -16,7 +16,6 @@ public class Tables
                 table.create(connection);
             else
                 System.out.printf("Table '%s' already exists, will not be created%n", table.getName());
-
         }
     }
 }
