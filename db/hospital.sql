@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 16, 2020 at 12:40 PM
+-- Generation Time: Nov 21, 2020 at 04:03 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -107,7 +107,8 @@ CREATE TABLE `doctors` (
 
 INSERT INTO `doctors` (`id_doctors`, `first_name`, `last_name`, `work_hours`, `department_number`) VALUES
 (1, 'Jan', 'Novák', 1, 4),
-(2, 'Jana', 'Procházková', 2, 4);
+(2, 'Jana', 'Procházková', 2, 4),
+(3, 'Marie', 'Novotná', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -144,7 +145,8 @@ CREATE TABLE `hours` (
 INSERT INTO `hours` (`id_hours`, `since`, `until`) VALUES
 (1, '06:00:00.000', '14:30:00.000'),
 (2, '14:00:00.000', '22:30:00.000'),
-(3, '22:00:00.000', '06:30:00.000');
+(3, '22:00:00.000', '06:30:00.000'),
+(4, '10:00:00.000', '16:00:00.000');
 
 -- --------------------------------------------------------
 
@@ -232,6 +234,36 @@ INSERT INTO `login_pacients` (`login_id`, `pacient_id`, `login`, `password`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `meds_supplies`
+--
+
+CREATE TABLE `meds_supplies` (
+  `id_meds` int(11) NOT NULL,
+  `name` varchar(45) COLLATE utf8_czech_ci NOT NULL,
+  `type` varchar(45) COLLATE utf8_czech_ci NOT NULL,
+  `in_stock` varchar(45) COLLATE utf8_czech_ci NOT NULL,
+  `ordered` varchar(45) COLLATE utf8_czech_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+--
+-- Dumping data for table `meds_supplies`
+--
+
+INSERT INTO `meds_supplies` (`id_meds`, `name`, `type`, `in_stock`, `ordered`) VALUES
+(1, 'Obvazy', 'Vybavení', 'True', 'False'),
+(2, 'Kepra 250mg', 'Léky', 'False', 'False'),
+(3, 'Kepra 500mg', 'Léky', 'True', 'False'),
+(4, 'Injekční stříkačky', 'Vybavení', 'True', 'False'),
+(5, 'Sanytol', 'Vybavení', 'True', 'True'),
+(6, 'Roušky', 'Vybavení', 'True', 'True'),
+(7, 'Paralen 500mg', 'Léky', 'False', 'True'),
+(8, 'Cefazolin 500mg', 'Léky', 'True', 'False'),
+(9, 'Azytromycin 500mg', 'Léky', 'True', 'False'),
+(10, 'Depakine 500mg', 'Léky', 'True', 'False');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pacients`
 --
 
@@ -243,9 +275,11 @@ CREATE TABLE `pacients` (
   `health_issue` varchar(200) COLLATE utf8_czech_ci NOT NULL,
   `health_description` varchar(500) COLLATE utf8_czech_ci NOT NULL,
   `state` varchar(50) COLLATE utf8_czech_ci NOT NULL,
+  `accepted` date DEFAULT NULL,
+  `released` date DEFAULT NULL,
   `ordered_since` datetime DEFAULT NULL,
   `ordered_until` datetime DEFAULT NULL,
-  `practitioner` varchar(100) COLLATE utf8_czech_ci NOT NULL,
+  `practitioner` int(11) NOT NULL,
   `insurance_agent` int(11) NOT NULL,
   `physician` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -254,9 +288,30 @@ CREATE TABLE `pacients` (
 -- Dumping data for table `pacients`
 --
 
-INSERT INTO `pacients` (`id_pacients`, `first_name`, `last_name`, `allergies`, `health_issue`, `health_description`, `state`, `ordered_since`, `ordered_until`, `practitioner`, `insurance_agent`, `physician`) VALUES
-(1, 'Jiří', 'Krejčí', 'Prach', 'Zápal plic', 'Potíže s dýcháním.', 'čeká na vyšetření', '2020-12-02 12:00:00', '2020-12-02 12:20:00', 'Pavel Svoboda', 1, 1),
-(2, 'Marie', 'Dvořáková', NULL, 'Angína', 'Podrážděný hrtan.', 'Ukončen', NULL, NULL, 'Pavel Svoboda', 2, 2);
+INSERT INTO `pacients` (`id_pacients`, `first_name`, `last_name`, `allergies`, `health_issue`, `health_description`, `state`, `accepted`, `released`, `ordered_since`, `ordered_until`, `practitioner`, `insurance_agent`, `physician`) VALUES
+(1, 'Jiří', 'Krejčí', 'Prach', 'Zápal plic', 'Potíže s dýcháním.', 'čeká na vyšetření', '2020-12-01', NULL, '2020-12-02 12:00:00', '2020-12-02 12:20:00', 1, 1, 1),
+(2, 'Marie', 'Dvořáková', NULL, 'Angína', 'Podrážděný hrtan.', 'Ukončen', '2020-11-20', '2020-12-01', NULL, NULL, 1, 2, 2),
+(3, 'Petr', 'Krejčí', 'Pyl', 'Epilepsie', 'Časté malé záchvaty. ', 'čeká na vyšetření', '2020-10-01', NULL, '2021-02-26 10:00:00', '2021-02-26 10:30:00', 1, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pacients_meds`
+--
+
+CREATE TABLE `pacients_meds` (
+  `id_pacients` int(11) DEFAULT NULL,
+  `id_meds` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+--
+-- Dumping data for table `pacients_meds`
+--
+
+INSERT INTO `pacients_meds` (`id_pacients`, `id_meds`) VALUES
+(1, 9),
+(3, 3),
+(3, 10);
 
 -- --------------------------------------------------------
 
@@ -274,11 +329,48 @@ CREATE TABLE `pacient_view` (
 ,`state` varchar(50)
 ,`ordered_since` datetime
 ,`ordered_until` datetime
-,`practitioner` varchar(100)
+,`practitioner` int(11)
 ,`agent_name` varchar(55)
 ,`insurance_agency_number` int(10)
 ,`physician_name` varchar(55)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `practitioners`
+--
+
+CREATE TABLE `practitioners` (
+  `id_practioners` int(11) NOT NULL,
+  `first_name` varchar(45) COLLATE utf8_czech_ci NOT NULL,
+  `last_name` varchar(45) COLLATE utf8_czech_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+--
+-- Dumping data for table `practitioners`
+--
+
+INSERT INTO `practitioners` (`id_practioners`, `first_name`, `last_name`) VALUES
+(1, 'Pavel', 'Svoboda'),
+(2, 'Hana', 'Procházková'),
+(3, 'Zdeněk', 'Pokorný');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `us_id` int(11) NOT NULL,
+  `us_login` varchar(24) COLLATE utf8_czech_ci NOT NULL,
+  `us_salt` char(16) COLLATE utf8_czech_ci NOT NULL,
+  `us_password` char(64) COLLATE utf8_czech_ci NOT NULL,
+  `us_name` varchar(40) COLLATE utf8_czech_ci NOT NULL,
+  `us_surname` varchar(40) COLLATE utf8_czech_ci NOT NULL,
+  `us_perms` enum('PATIENT','DOCTOR','INSURANCE_WORKER','ADMIN') COLLATE utf8_czech_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 -- --------------------------------------------------------
 
@@ -363,12 +455,39 @@ ALTER TABLE `login_pacients`
   ADD UNIQUE KEY `foreign_id` (`pacient_id`);
 
 --
+-- Indexes for table `meds_supplies`
+--
+ALTER TABLE `meds_supplies`
+  ADD UNIQUE KEY `id` (`id_meds`);
+
+--
 -- Indexes for table `pacients`
 --
 ALTER TABLE `pacients`
   ADD UNIQUE KEY `id` (`id_pacients`),
   ADD KEY `foreign_id` (`insurance_agent`),
-  ADD KEY `foreign_id2` (`physician`);
+  ADD KEY `foreign_id2` (`physician`),
+  ADD KEY `foreign_id3` (`practitioner`);
+
+--
+-- Indexes for table `pacients_meds`
+--
+ALTER TABLE `pacients_meds`
+  ADD KEY `pacient_id` (`id_pacients`),
+  ADD KEY `meds_id` (`id_meds`);
+
+--
+-- Indexes for table `practitioners`
+--
+ALTER TABLE `practitioners`
+  ADD UNIQUE KEY `id` (`id_practioners`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`us_id`),
+  ADD UNIQUE KEY `users_us_login_uindex` (`us_login`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -378,7 +497,7 @@ ALTER TABLE `pacients`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `agent`
@@ -396,13 +515,13 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `id_doctors` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_doctors` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `hours`
 --
 ALTER TABLE `hours`
-  MODIFY `id_hours` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_hours` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `login_admins`
@@ -429,10 +548,28 @@ ALTER TABLE `login_pacients`
   MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `meds_supplies`
+--
+ALTER TABLE `meds_supplies`
+  MODIFY `id_meds` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `pacients`
 --
 ALTER TABLE `pacients`
-  MODIFY `id_pacients` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pacients` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `practitioners`
+--
+ALTER TABLE `practitioners`
+  MODIFY `id_practioners` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `us_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -474,7 +611,15 @@ ALTER TABLE `login_pacients`
 --
 ALTER TABLE `pacients`
   ADD CONSTRAINT `pacients_ibfk_1` FOREIGN KEY (`physician`) REFERENCES `doctors` (`id_doctors`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pacients_ibfk_2` FOREIGN KEY (`insurance_agent`) REFERENCES `agent` (`id_agent`) ON DELETE CASCADE;
+  ADD CONSTRAINT `pacients_ibfk_2` FOREIGN KEY (`insurance_agent`) REFERENCES `agent` (`id_agent`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pacients_ibfk_3` FOREIGN KEY (`practitioner`) REFERENCES `practitioners` (`id_practioners`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `pacients_meds`
+--
+ALTER TABLE `pacients_meds`
+  ADD CONSTRAINT `pacients_meds_ibfk_1` FOREIGN KEY (`id_pacients`) REFERENCES `pacients` (`id_pacients`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pacients_meds_ibfk_2` FOREIGN KEY (`id_meds`) REFERENCES `meds_supplies` (`id_meds`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
