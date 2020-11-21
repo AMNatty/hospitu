@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 20, 2020 at 07:42 PM
+-- Generation Time: Nov 21, 2020 at 04:03 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -257,7 +257,9 @@ INSERT INTO `meds_supplies` (`id_meds`, `name`, `type`, `in_stock`, `ordered`) V
 (5, 'Sanytol', 'Vybavení', 'True', 'True'),
 (6, 'Roušky', 'Vybavení', 'True', 'True'),
 (7, 'Paralen 500mg', 'Léky', 'False', 'True'),
-(8, 'Cefazolin 500mg', 'Léky', 'True', 'False');
+(8, 'Cefazolin 500mg', 'Léky', 'True', 'False'),
+(9, 'Azytromycin 500mg', 'Léky', 'True', 'False'),
+(10, 'Depakine 500mg', 'Léky', 'True', 'False');
 
 -- --------------------------------------------------------
 
@@ -290,6 +292,26 @@ INSERT INTO `pacients` (`id_pacients`, `first_name`, `last_name`, `allergies`, `
 (1, 'Jiří', 'Krejčí', 'Prach', 'Zápal plic', 'Potíže s dýcháním.', 'čeká na vyšetření', '2020-12-01', NULL, '2020-12-02 12:00:00', '2020-12-02 12:20:00', 1, 1, 1),
 (2, 'Marie', 'Dvořáková', NULL, 'Angína', 'Podrážděný hrtan.', 'Ukončen', '2020-11-20', '2020-12-01', NULL, NULL, 1, 2, 2),
 (3, 'Petr', 'Krejčí', 'Pyl', 'Epilepsie', 'Časté malé záchvaty. ', 'čeká na vyšetření', '2020-10-01', NULL, '2021-02-26 10:00:00', '2021-02-26 10:30:00', 1, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pacients_meds`
+--
+
+CREATE TABLE `pacients_meds` (
+  `id_pacients` int(11) DEFAULT NULL,
+  `id_meds` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+--
+-- Dumping data for table `pacients_meds`
+--
+
+INSERT INTO `pacients_meds` (`id_pacients`, `id_meds`) VALUES
+(1, 9),
+(3, 3),
+(3, 10);
 
 -- --------------------------------------------------------
 
@@ -448,6 +470,13 @@ ALTER TABLE `pacients`
   ADD KEY `foreign_id3` (`practitioner`);
 
 --
+-- Indexes for table `pacients_meds`
+--
+ALTER TABLE `pacients_meds`
+  ADD KEY `pacient_id` (`id_pacients`),
+  ADD KEY `meds_id` (`id_meds`);
+
+--
 -- Indexes for table `practitioners`
 --
 ALTER TABLE `practitioners`
@@ -522,7 +551,7 @@ ALTER TABLE `login_pacients`
 -- AUTO_INCREMENT for table `meds_supplies`
 --
 ALTER TABLE `meds_supplies`
-  MODIFY `id_meds` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_meds` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pacients`
@@ -584,6 +613,13 @@ ALTER TABLE `pacients`
   ADD CONSTRAINT `pacients_ibfk_1` FOREIGN KEY (`physician`) REFERENCES `doctors` (`id_doctors`) ON DELETE CASCADE,
   ADD CONSTRAINT `pacients_ibfk_2` FOREIGN KEY (`insurance_agent`) REFERENCES `agent` (`id_agent`) ON DELETE CASCADE,
   ADD CONSTRAINT `pacients_ibfk_3` FOREIGN KEY (`practitioner`) REFERENCES `practitioners` (`id_practioners`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `pacients_meds`
+--
+ALTER TABLE `pacients_meds`
+  ADD CONSTRAINT `pacients_meds_ibfk_1` FOREIGN KEY (`id_pacients`) REFERENCES `pacients` (`id_pacients`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pacients_meds_ibfk_2` FOREIGN KEY (`id_meds`) REFERENCES `meds_supplies` (`id_meds`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
