@@ -1,8 +1,8 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import "../style/h-card.less";
 
 export class HCard extends React.Component {
-    render(): JSX.Element
+    render(): ReactNode
     {
         return (
             <div className={ "h-card" }>

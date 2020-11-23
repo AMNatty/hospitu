@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 export class HClockDate extends React.Component<unknown, {
     currentDate: Date
@@ -33,7 +33,7 @@ export class HClockDate extends React.Component<unknown, {
         window.clearTimeout(this.timeoutID);
     }
 
-    render(): JSX.Element
+    render(): ReactNode
     {
         return (
             <span>
@@ -76,7 +76,7 @@ export class HClockTime extends React.Component<unknown, {
         window.clearTimeout(this.timeoutID);
     }
 
-    render(): JSX.Element
+    render(): ReactNode
     {
         return (
             <span>

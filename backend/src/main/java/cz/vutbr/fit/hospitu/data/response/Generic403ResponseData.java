@@ -6,4 +6,9 @@ public class Generic403ResponseData extends AbstractGenericCodeResponseData
     {
         super(403, "Forbidden.");
     }
+
+    public Generic403ResponseData(String message)
+    {
+        super(403, message);
+    }
 }

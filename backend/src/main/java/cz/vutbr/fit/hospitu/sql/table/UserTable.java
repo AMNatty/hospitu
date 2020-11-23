@@ -22,7 +22,7 @@ public class UserTable extends AbstractTable
                 us_password CHAR(64)                                                NOT NULL,
                 us_name     VARCHAR(40)                                             NOT NULL,
                 us_surname  VARCHAR(40)                                             NOT NULL,
-                us_perms    ENUM ('PATIENT', 'DOCTOR', 'INSURANCE_WORKER', 'ADMIN') NULL
+                us_perms    ENUM ('PATIENT', 'DOCTOR', 'INSURANCE_WORKER', 'ADMIN') NOT NULL DEFAULT 'PATIENT'
             )
             """;
 

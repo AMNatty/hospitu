@@ -9,6 +9,9 @@ import java.sql.SQLException;
 
 public class SQLConnection
 {
+    private static final int IDLE_CONNECTION_TEST_PERIOD = 60;
+    private static final int MAX_CONNECTION_AGE = 60 * 60;
+
     private static ComboPooledDataSource dataSource;
 
     public static void initialize(ServerConfigLoader.ServerConfig serverConfig) throws ClassNotFoundException, PropertyVetoException
@@ -35,6 +38,9 @@ public class SQLConnection
 
         dataSource = new ComboPooledDataSource();
         dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
+        dataSource.setIdleConnectionTestPeriod(IDLE_CONNECTION_TEST_PERIOD);
+        dataSource.setTestConnectionOnCheckin(true);
+        dataSource.setMaxConnectionAge(MAX_CONNECTION_AGE);
         dataSource.setJdbcUrl(jdbcURL);
         dataSource.setUser(jdbcUser);
         dataSource.setPassword(jdbcPass);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { InternalScreenSectionState } from "../data/AppState";
 import { Dispatch } from "redux";
 import { LogoutAction } from "../data/AppAction";
@@ -21,7 +21,7 @@ export class InternalAppScreen extends React.Component<{
         this.props.dispatch(new LogoutAction());
     }
 
-    render(): JSX.Element
+    render(): ReactNode
     {
         return (
             <div id="hs-wrapper">
@@ -81,12 +81,12 @@ export class InternalAppScreen extends React.Component<{
                                     <img src={ accountCircleIcon } alt="<account>" />
                                 </div>
                                 <div className="hs-menu-option-text">
-                                    Jan Novák ▼
+                                    { this.props.sectionState.loginData.name } { this.props.sectionState.loginData.surname }▼
                                 </div>
                             </a>
                         </li>
                         <li className="hs-menu-option">
-                            <a href="javascript:void(0)" onClick={this.logout}>
+                            <a href="#" onClick={this.logout}>
                                 <div className="hs-menu-option-img">
                                     <img src={ closeIcon } alt="<logout>" />
                                 </div>

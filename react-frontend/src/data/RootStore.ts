@@ -6,7 +6,7 @@ import {
     InternalScreenSectionState,
     LoginScreenSectionState
 } from "./AppState";
-import { IAppAction } from "./AppAction";
+import { IAppAction, LoginAction } from "./AppAction";
 import { AppActionType } from "./AppActionType";
 
 function appStateReducer(state: IApplicationState = applicationStateDefault, actionObj: unknown)
@@ -16,18 +16,23 @@ function appStateReducer(state: IApplicationState = applicationStateDefault, act
     switch (action.type)
     {
         case AppActionType.LOG_IN:
+        {
+            const loginAction = action as LoginAction;
             return {
                 ...state,
                 loginState: LoginState.LOGGED_IN,
-                currentSection: new InternalScreenSectionState()
+                currentSection: new InternalScreenSectionState(loginAction.loginData)
             };
+        }
 
         case AppActionType.LOG_OUT:
+        {
             return {
                 ...state,
                 loginState: LoginState.LOGGED_OUT,
                 currentSection: new LoginScreenSectionState()
             };
+        }
 
         default:
             return state;

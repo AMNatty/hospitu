@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import "../style/h-button.less";
 
@@ -13,17 +13,17 @@ export enum HButtonStyle
 export class HButton extends React.Component<{
     action?: (() => void),
     disabled?: boolean,
-    style?: HButtonStyle
+    buttonStyle?: HButtonStyle
 }> {
     activate = (): void => {
         if (this.props.action)
             this.props.action();
     }
 
-    render(): JSX.Element
+    render(): ReactNode
     {
 
-        const style = this.props.style || HButtonStyle.DEFAULT;
+        const style = this.props.buttonStyle || HButtonStyle.DEFAULT;
 
         return (
             <button className={ style } onClick={ this.props.disabled ? undefined : () => this.activate() } disabled={ this.props.disabled }>

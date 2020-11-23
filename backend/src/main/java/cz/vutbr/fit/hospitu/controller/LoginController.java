@@ -1,5 +1,6 @@
 package cz.vutbr.fit.hospitu.controller;
 
+import cz.vutbr.fit.hospitu.access.AuthorizationManager;
 import cz.vutbr.fit.hospitu.data.request.LoginRequestData;
 import cz.vutbr.fit.hospitu.data.response.Generic404ResponseData;
 import cz.vutbr.fit.hospitu.data.response.LoginResponseData;
@@ -34,11 +35,15 @@ public class LoginController
                     return;
                 }
 
+                int userID = result.getInt("us_id");
+
                 context.status(200).json(new LoginResponseData(
-                        result.getInt("us_id"),
-                        result.getString("us_login"),
-                        result.getString("us_name"),
-                        result.getString("us_surname")
+                    userID,
+                    result.getString("us_login"),
+                    result.getString("us_name"),
+                    result.getString("us_surname"),
+                    result.getString("us_perms"),
+                    AuthorizationManager.instance().authorize(userID)
                 ));
             }
         }

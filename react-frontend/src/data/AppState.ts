@@ -1,3 +1,5 @@
+import { ILoginData } from "./UserData";
+
 export enum LoginState {
     LOGGED_IN = "LOGGED_IN",
     LOGGED_OUT = "LOGGED_OUT"
@@ -14,7 +16,6 @@ export interface IApplicationSection {
 
 export interface IApplicationState {
     loginState: LoginState;
-    userToken: string | null;
     currentSection: IApplicationSection;
 }
 
@@ -29,16 +30,17 @@ export class LoginScreenSectionState implements IApplicationSection {
 
 export class InternalScreenSectionState implements IApplicationSection {
     readonly sectionType: SectionType;
+    readonly loginData: ILoginData;
 
-    constructor()
+    constructor(loginData: ILoginData)
     {
         this.sectionType = SectionType.INTERNAL_SCREEN;
+        this.loginData = loginData;
     }
 }
 
 const applicationStateDefault: IApplicationState = {
     loginState: LoginState.LOGGED_OUT,
-    userToken: null,
     currentSection: new LoginScreenSectionState()
 };
 

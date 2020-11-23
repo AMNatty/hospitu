@@ -1,14 +1,17 @@
 package cz.vutbr.fit.hospitu;
 
+import cz.vutbr.fit.hospitu.access.APIAccessManager;
+import cz.vutbr.fit.hospitu.access.EnumAPIRole;
 import cz.vutbr.fit.hospitu.controller.LoginController;
 import cz.vutbr.fit.hospitu.controller.UserController;
 import cz.vutbr.fit.hospitu.data.response.Generic400ResponseData;
-import cz.vutbr.fit.hospitu.data.response.Generic404ResponseData;
 import cz.vutbr.fit.hospitu.data.response.Generic500ResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import cz.vutbr.fit.hospitu.sql.table.Tables;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.ApiBuilder;
+
+import java.util.Set;
 
 public class Main
 {
@@ -32,23 +35,34 @@ public class Main
             }
 
             Javalin app = Javalin.create(config -> {
+                config.accessManager(APIAccessManager::manage);
                 config.defaultContentType = "application/json";
                 config.enableCorsForAllOrigins();
-            }).error(500, ctx -> {
-                ctx.json(new Generic500ResponseData());
-            }).error(400, ctx -> {
-                ctx.json(new Generic400ResponseData());
-            }).routes(() -> {
-                ApiBuilder.path("users", () -> {
-                    ApiBuilder.path("login", () -> {
-                        ApiBuilder.post(LoginController::postLogin);
-                    });
+            });
+            app.error(500, ctx -> ctx.json(new Generic500ResponseData()));
+            app.error(400, ctx -> ctx.json(new Generic400ResponseData()));
+            app.routes(() -> ApiBuilder.path("users", () -> {
+                ApiBuilder.path("login", () -> {
+                    ApiBuilder.post(LoginController::postLogin, Set.of(EnumAPIRole.ANONYMOUS));
+                });
 
-                    ApiBuilder.path(":user-id", () -> {
-                        ApiBuilder.get(UserController::getUser);
+                ApiBuilder.path("@self", () -> {
+                    ApiBuilder.path("profile", () -> {
+                        ApiBuilder.get(UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
                     });
                 });
-            }).start(serverConfig.getHttpPort());
+
+                ApiBuilder.path(":user-id", () -> {
+                    ApiBuilder.path("profile", () -> {
+                        ApiBuilder.get(UserController::getUserProfile, Set.of(EnumAPIRole.ANONYMOUS));
+                    });
+
+                    ApiBuilder.path("update-role", () -> {
+                        ApiBuilder.post(LoginController::postLogin, Set.of(EnumAPIRole.ADMIN));
+                    });
+                });
+            }));
+            app.start(serverConfig.getHttpPort());
         }
         catch (Exception e)
         {
