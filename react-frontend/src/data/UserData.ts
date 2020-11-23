@@ -6,23 +6,17 @@ export enum EnumRole {
 }
 
 export interface IAPIResponse {
-    code?: number
+    readonly code?: number
 }
 
-export interface IUserData extends IAPIResponse{
+export interface IUserData extends IAPIResponse {
     readonly id: number;
     readonly login: string;
-    name: string;
-    surname: string;
-    role: EnumRole
+    readonly name: string;
+    readonly surname: string;
+    readonly role: EnumRole
 }
 
-export interface ILoginData extends IUserData{
-    readonly id: number;
-    readonly login: string;
-    name: string;
-    surname: string;
-    role: EnumRole;
-
-    token: string;
+export interface ILoginData extends IUserData {
+    readonly token: string;
 }
