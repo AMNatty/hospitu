@@ -5,7 +5,6 @@ import cz.vutbr.fit.hospitu.data.request.LoginRequestData;
 import cz.vutbr.fit.hospitu.data.response.Generic404ResponseData;
 import cz.vutbr.fit.hospitu.data.response.LoginResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
-import cz.vutbr.fit.hospitu.sql.table.Tables;
 import io.javalin.http.Context;
 
 public class LoginController
@@ -15,9 +14,9 @@ public class LoginController
         var loginData = context.bodyAsClass(LoginRequestData.class);
 
         SQLConnection.createTransaction(context, connection -> {
-            String sql = """
-            SELECT * FROM $ WHERE us_login=? AND us_password=SHA2(CONCAT(?, us_salt), 256)
-            """.replace("$", Tables.TABLE_USERS.getName());
+            var sql = """
+            SELECT * FROM users WHERE us_login=? AND us_password=SHA2(CONCAT(?, us_salt), 256)                
+            """;
 
             try (var statement = connection.prepareStatement(sql))
             {

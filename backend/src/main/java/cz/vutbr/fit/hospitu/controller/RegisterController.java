@@ -6,7 +6,6 @@ import cz.vutbr.fit.hospitu.data.request.RegistrationRequestData;
 import cz.vutbr.fit.hospitu.data.response.HumanReadableResponseData;
 import cz.vutbr.fit.hospitu.data.response.RegistrationResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
-import cz.vutbr.fit.hospitu.sql.table.Tables;
 import io.javalin.http.Context;
 
 import java.sql.Statement;
@@ -80,11 +79,11 @@ public class RegisterController
         }
 
         SQLConnection.createTransaction(context, connection -> {
-            String sql = """
-            SELECT us_login FROM $ WHERE us_login=?
-            """.replace("$", Tables.TABLE_USERS.getName());
+            var findExistingSql = """
+            SELECT us_login FROM users WHERE us_login=?
+            """;
 
-            try (var statement = connection.prepareStatement(sql))
+            try (var statement = connection.prepareStatement(findExistingSql))
             {
                 statement.setString(1, registrationRequestData.getUsername());
 
@@ -136,12 +135,12 @@ public class RegisterController
                 return;
             }
 
-            String registerSql = """
-            INSERT INTO $ (us_login, us_salt, us_name, us_surname, us_password, us_perms) 
+            var createSql = """
+            INSERT INTO users (us_login, us_salt, us_name, us_surname, us_password, us_perms) 
             VALUES (?, ?, ?, ?, SHA2(CONCAT(?, ?), 256), ?);
-            """.replace("$", Tables.TABLE_USERS.getName());
+            """;
 
-            try (var statement = connection.prepareStatement(registerSql, Statement.RETURN_GENERATED_KEYS))
+            try (var statement = connection.prepareStatement(createSql, Statement.RETURN_GENERATED_KEYS))
             {
                 statement.setString(1, login);
                 var salt = AuthorizationManager.instance().randomBase64(SALT_LENGTH);

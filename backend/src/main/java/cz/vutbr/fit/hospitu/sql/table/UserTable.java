@@ -7,7 +7,7 @@ public class UserTable extends AbstractTable
 {
     protected UserTable()
     {
-        super("Users", "us_");
+        super("users", "us_");
     }
 
     public List<String> getCreateCommands(Connection connection)
@@ -16,7 +16,7 @@ public class UserTable extends AbstractTable
             CREATE TABLE $
             (
                 us_id       INT PRIMARY KEY AUTO_INCREMENT,
-                us_login    VARCHAR(24)                                             NOT NULL,
+                us_login    VARCHAR(24)                                             UNIQUE NOT NULL,
                 us_salt     CHAR(16)                                                NOT NULL,
                 us_password CHAR(64)                                                NOT NULL,
                 us_name     VARCHAR(40)                                             NOT NULL,
@@ -25,10 +25,6 @@ public class UserTable extends AbstractTable
             )
             """;
 
-        var sql1 = """
-            CREATE UNIQUE INDEX users_us_login_uindex ON $(us_login)
-            """;
-
-        return List.of(sql, sql1);
+        return List.of(sql);
     }
 }
