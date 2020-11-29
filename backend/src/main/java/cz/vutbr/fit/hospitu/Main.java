@@ -3,6 +3,8 @@ package cz.vutbr.fit.hospitu;
 import cz.vutbr.fit.hospitu.access.APIAccessManager;
 import cz.vutbr.fit.hospitu.access.EnumAPIRole;
 import cz.vutbr.fit.hospitu.controller.LoginController;
+import cz.vutbr.fit.hospitu.controller.RegisterController;
+import cz.vutbr.fit.hospitu.controller.RoleController;
 import cz.vutbr.fit.hospitu.controller.UserController;
 import cz.vutbr.fit.hospitu.data.response.Generic400ResponseData;
 import cz.vutbr.fit.hospitu.data.response.Generic500ResponseData;
@@ -41,27 +43,30 @@ public class Main
             });
             app.error(500, ctx -> ctx.json(new Generic500ResponseData()));
             app.error(400, ctx -> ctx.json(new Generic400ResponseData()));
-            app.routes(() -> ApiBuilder.path("users", () -> {
-                ApiBuilder.path("login", () -> {
-                    ApiBuilder.post(LoginController::postLogin, Set.of(EnumAPIRole.ANONYMOUS));
-                });
+            app.routes(() -> {
+                ApiBuilder.path("users", () -> {
+                    ApiBuilder.post("login", LoginController::postLogin, Set.of(EnumAPIRole.ANONYMOUS));
 
-                ApiBuilder.path("@self", () -> {
-                    ApiBuilder.path("profile", () -> {
-                        ApiBuilder.get(UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
-                    });
-                });
+                    ApiBuilder.put("register", RegisterController::putRegister, Set.of(EnumAPIRole.ANONYMOUS));
 
-                ApiBuilder.path(":user-id", () -> {
-                    ApiBuilder.path("profile", () -> {
-                        ApiBuilder.get(UserController::getUserProfile, Set.of(EnumAPIRole.ANONYMOUS));
+                    ApiBuilder.path("@self", () -> {
+                        ApiBuilder.path("profile", () -> {
+                            ApiBuilder.get(UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
+                        });
                     });
 
-                    ApiBuilder.path("update-role", () -> {
-                        ApiBuilder.post(LoginController::postLogin, Set.of(EnumAPIRole.ADMIN));
+                    ApiBuilder.path(":user-id", () -> {
+                        ApiBuilder.path("profile", () -> {
+                            ApiBuilder.get(UserController::getUserProfile, Set.of(EnumAPIRole.ANONYMOUS));
+                        });
+
+                        ApiBuilder.path("update-role", () -> {
+                            ApiBuilder.patch(RoleController::patchChangeRole, Set.of(EnumAPIRole.ADMIN));
+                        });
                     });
                 });
-            }));
+            });
+
             app.start(serverConfig.getHttpPort());
         }
         catch (Exception e)

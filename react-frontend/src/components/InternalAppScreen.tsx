@@ -34,7 +34,7 @@ export class InternalAppScreen extends React.Component<{
                                         Pacient:
                                     </div>
                                     <div className="hs-menu-option-text hs-menu-current-name">
-                                        Jan Novák
+                                        { this.props.sectionState.loginData.name } { this.props.sectionState.loginData.surname }
                                     </div>
                                 </div>
                             </a>
@@ -42,22 +42,24 @@ export class InternalAppScreen extends React.Component<{
                         <li className="hs-menu-option hs-menu-time">
                             <div className="hs-menu-small-box">
                                 <table>
-                                    <tr>
-                                        <td>
-                                            Čas:
-                                        </td>
-                                        <td>
-                                            <HClockTime />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Datum:
-                                        </td>
-                                        <td>
-                                            <HClockDate />
-                                        </td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Čas:
+                                            </td>
+                                            <td>
+                                                <HClockTime />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Datum:
+                                            </td>
+                                            <td>
+                                                <HClockDate />
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </li>

@@ -1,7 +1,6 @@
 package cz.vutbr.fit.hospitu.sql.table;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserTable extends AbstractTable

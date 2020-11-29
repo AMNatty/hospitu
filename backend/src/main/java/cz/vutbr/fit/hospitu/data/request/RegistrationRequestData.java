@@ -1,10 +1,14 @@
 package cz.vutbr.fit.hospitu.data.request;
 
-public class LoginRequestData
+public class RegistrationRequestData
 {
     private String username;
 
     private String password;
+
+    private String name;
+
+    private String surname;
 
     public String getUsername()
     {
@@ -14,5 +18,15 @@ public class LoginRequestData
     public String getPassword()
     {
         return this.password;
+    }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
+    public String getSurname()
+    {
+        return this.surname;
     }
 }

@@ -15,12 +15,12 @@ public abstract class AbstractTable
         this.prefix = prefix;
     }
 
-    public String getName()
+    public final String getName()
     {
         return this.name;
     }
 
-    public String getPrefix()
+    public final String getPrefix()
     {
         return this.prefix;
     }

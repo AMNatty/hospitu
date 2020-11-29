@@ -1,5 +1,7 @@
 package cz.vutbr.fit.hospitu.data.response;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Generic403ResponseData extends AbstractGenericCodeResponseData
 {
     public Generic403ResponseData()
@@ -7,7 +9,7 @@ public class Generic403ResponseData extends AbstractGenericCodeResponseData
         super(403, "Forbidden.");
     }
 
-    public Generic403ResponseData(String message)
+    public Generic403ResponseData(@NotNull String message)
     {
         super(403, message);
     }

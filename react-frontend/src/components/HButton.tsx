@@ -11,22 +11,39 @@ export enum HButtonStyle
 }
 
 export class HButton extends React.Component<{
-    action?: (() => void),
+    action?: (() => void) | "submit",
     disabled?: boolean,
     buttonStyle?: HButtonStyle
 }> {
-    activate = (): void => {
-        if (this.props.action)
-            this.props.action();
+    activate = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        if (this.props.disabled)
+        {
+            event.preventDefault();
+            return;
+        }
+
+        const action = this.props.action;
+
+        if (typeof action === "string")
+        {
+            return;
+        }
+
+        if (!action)
+        {
+            event.preventDefault();
+            return;
+        }
+
+        action();
     }
 
     render(): ReactNode
     {
-
         const style = this.props.buttonStyle || HButtonStyle.DEFAULT;
 
         return (
-            <button className={ style } onClick={ this.props.disabled ? undefined : () => this.activate() } disabled={ this.props.disabled }>
+            <button className={ style } type={ typeof this.props.action === "string" ? this.props.action : "button" } onClick={ this.activate } disabled={ this.props.disabled }>
                 { this.props.children }
             </button>
         );

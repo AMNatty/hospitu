@@ -47,6 +47,19 @@ public class AuthorizationManager
         return token;
     }
 
+    public synchronized String randomBase64(int length)
+    {
+        assert length % 4 == 0;
+
+        final int bytes = length * 3 / 4;
+        byte[] randomBytes = new byte[bytes];
+        secureRandom.nextBytes(randomBytes);
+
+        var base64Encoder = Base64.getEncoder();
+        var base64Buf = base64Encoder.encode(randomBytes);
+        return new String(base64Buf, StandardCharsets.UTF_8);
+    }
+
     public synchronized OptionalInt getUser(String token)
     {
         var user = authorizedUsers.get(token);

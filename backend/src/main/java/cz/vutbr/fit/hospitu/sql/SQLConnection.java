@@ -2,6 +2,8 @@ package cz.vutbr.fit.hospitu.sql;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import cz.vutbr.fit.hospitu.ServerConfigLoader;
+import io.javalin.http.Context;
+import org.apache.commons.lang3.function.FailableConsumer;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
@@ -49,5 +51,34 @@ public class SQLConnection
     public static Connection create() throws SQLException
     {
         return dataSource.getConnection();
+    }
+
+    public static boolean createTransaction(Context context, FailableConsumer<Connection, SQLException> connectionConsumer)
+    {
+        try (var connection = SQLConnection.create())
+        {
+            try
+            {
+                connection.setAutoCommit(false);
+
+                connectionConsumer.accept(connection);
+
+                connection.commit();
+                return true;
+            }
+            catch (SQLException e)
+            {
+                connection.rollback();
+                e.printStackTrace();
+                context.status(500);
+                return false;
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            context.status(500);
+            return false;
+        }
     }
 }

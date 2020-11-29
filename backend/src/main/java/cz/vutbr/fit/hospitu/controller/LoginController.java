@@ -8,16 +8,13 @@ import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import cz.vutbr.fit.hospitu.sql.table.Tables;
 import io.javalin.http.Context;
 
-import java.sql.SQLException;
-
 public class LoginController
 {
     public static void postLogin(Context context)
     {
         var loginData = context.bodyAsClass(LoginRequestData.class);
 
-        try (var connection = SQLConnection.create())
-        {
+        SQLConnection.createTransaction(context, connection -> {
             String sql = """
             SELECT * FROM $ WHERE us_login=? AND us_password=SHA2(CONCAT(?, us_salt), 256)
             """.replace("$", Tables.TABLE_USERS.getName());
@@ -46,11 +43,6 @@ public class LoginController
                     AuthorizationManager.instance().authorize(userID)
                 ));
             }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-            context.status(500);
-        }
+        });
     }
 }

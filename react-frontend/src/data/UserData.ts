@@ -9,6 +9,11 @@ export interface IAPIResponse {
     readonly code?: number
 }
 
+export interface IAPIReadableResponse {
+    readonly code: number,
+    readonly humanReadableMessage: string
+}
+
 export interface IUserData extends IAPIResponse {
     readonly id: number;
     readonly login: string;

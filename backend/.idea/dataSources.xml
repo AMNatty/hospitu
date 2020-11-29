@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="itudata@localhost" uuid="8e99bcd7-396c-4c4e-8c48-c7c18e1454c4">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/itudata</jdbc-url>
+      <time-zone>Europe/Prague</time-zone>
+    </data-source>
+  </component>
+</project>

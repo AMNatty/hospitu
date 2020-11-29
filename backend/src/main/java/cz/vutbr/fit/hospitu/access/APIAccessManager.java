@@ -1,7 +1,7 @@
 package cz.vutbr.fit.hospitu.access;
 
 import cz.vutbr.fit.hospitu.data.response.Generic401ResponseData;
-import cz.vutbr.fit.hospitu.data.response.Generic404ResponseData;
+import cz.vutbr.fit.hospitu.data.response.Generic403ResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import cz.vutbr.fit.hospitu.sql.table.Tables;
 import io.javalin.core.security.Role;
@@ -23,7 +23,7 @@ public class APIAccessManager
     public static synchronized boolean setRole(Connection connection, int user, EnumAPIRole role) throws SQLException
     {
         String sql = """
-        UPDATE users SET us_perms=? WHERE us_id=?
+        UPDATE $ SET us_perms=? WHERE us_id=?
         """.replace("$", Tables.TABLE_USERS.getName());
 
         try (var statement = connection.prepareStatement(sql))
@@ -114,13 +114,13 @@ public class APIAccessManager
 
         if (accessLevel == null)
         {
-            ctx.status(404).json(new Generic404ResponseData("User not found."));
+            ctx.status(403).json(new Generic403ResponseData("User not found."));
             return;
         }
 
         if (permittedRoles.stream().noneMatch(accessLevel::contains))
         {
-            ctx.status(401).json(new Generic401ResponseData());
+            ctx.status(403).json(new Generic403ResponseData());
             return;
         }
 

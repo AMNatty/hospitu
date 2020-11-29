@@ -16,7 +16,11 @@ import { config } from "./config/config";
 
 Axios.defaults.baseURL = config.apiBaseURI;
 Axios.defaults.validateStatus = status => {
-    return status >= 200 && status < 300 || status >= 400 && status <= 404 || status == 500;
+    return status >= 200 && status < 300 ||
+        status >= 400 && status <= 404 ||
+        status == 409 ||
+        status == 410 ||
+        status == 500;
 };
 
 ReactDOM.render(
