@@ -19,6 +19,10 @@ public class PatientCheckupsTable extends AbstractTable
                  ptch_us_id       INT  NOT NULL,
                  ptch_dr_id       INT  NULL COMMENT 'ID lékaře spravujícího tento záznam',
                  ptch_description TEXT NOT NULL,
+                 ptch_name        VARCHAR(120) NOT NULL,
+                 ptch_from        DATETIME NOT NULL,
+                 ptch_to          DATETIME NOT NULL,
+                 ptch_finished    BOOLEAN DEFAULT FALSE NOT NULL,
                                       
                  CONSTRAINT patientcheckups_doctors_dr_us_id_fk
                      FOREIGN KEY (ptch_dr_id) REFERENCES doctors (dr_us_id),
