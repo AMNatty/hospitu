@@ -240,8 +240,8 @@ export class LoginScreen extends HFormComponent<{
                                 <HInput readOnly={ fieldsDisabled } minLength={ 6 } maxLength={ 64 } fieldInfo={ this.managedField("passwordRepeat") } required={ true } label={ "Zopakujte  heslo" } type={ "password" } />
                             </HBox>
                             <HBox>
-                                <HInput readOnly={ fieldsDisabled } pattern={ "[^@#<>'\"\\\\\\/]+" } maxLength={ 40 } fieldInfo={ this.managedField("name") } required={ true } label={ "Jméno" } type={ "text" } />
-                                <HInput readOnly={ fieldsDisabled } pattern={ "[^@#<>'\"\\\\\\/]+" } maxLength={ 40 } fieldInfo={ this.managedField("surname") } required={ true } label={ "Příjmení" } type={ "text" } />
+                                <HInput readOnly={ fieldsDisabled } pattern={ "[^@#<>\"\\\\/]+" } maxLength={ 40 } fieldInfo={ this.managedField("name") } required={ true } label={ "Jméno" } type={ "text" } />
+                                <HInput readOnly={ fieldsDisabled } pattern={ "[^@#<>\"\\\\/]+" } maxLength={ 40 } fieldInfo={ this.managedField("surname") } required={ true } label={ "Příjmení" } type={ "text" } />
                             </HBox>
                         </VBox>
                         <div className={ "login-error-text-container" }>

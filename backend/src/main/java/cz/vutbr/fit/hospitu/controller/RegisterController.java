@@ -28,7 +28,7 @@ public class RegisterController
     private static final int SALT_LENGTH = 16;
 
     private static final String USERNAME_REGEX = "[a-zA-Z0-9]+[a-zA-Z0-9-.]+[a-zA-Z0-9]+";
-    private static final String NAME_REGEX = "[^@#<>'\"\\\\\\/]+";
+    private static final String NAME_REGEX = "[^@#<>\\\\/]+";
 
     public static void putRegister(Context context)
     {
