@@ -11,6 +11,7 @@ import appsIcon from "../img/apps-white-18dp.svg";
 import { HClockDate, HClockTime } from "./HClock";
 import { HView } from "./view/HView";
 import { HProfileView } from "./view/user-view/HUserInfo";
+import { RoleToNameMap } from "../data/UserData";
 
 
 export class InternalAppScreen extends React.Component<{
@@ -34,7 +35,7 @@ export class InternalAppScreen extends React.Component<{
                             <a href="#" className="hs-menu-current-entity">
                                 <div className="hs-menu-current-container">
                                     <div className="hs-menu-option-text hs-menu-current-role">
-                                        Pacient:
+                                        { RoleToNameMap[this.props.sectionState.loginData.role] }:
                                     </div>
                                     <div className="hs-menu-option-text hs-menu-current-name">
                                         { this.props.sectionState.loginData.name } { this.props.sectionState.loginData.surname }

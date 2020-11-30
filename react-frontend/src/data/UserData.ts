@@ -22,6 +22,15 @@ export interface IUserData extends IAPIResponse {
     readonly role: EnumRole
 }
 
+const RoleToNameMap: Record<EnumRole, string> = {
+    [EnumRole.PATIENT]: "Pacient",
+    [EnumRole.DOCTOR]: "Lékař",
+    [EnumRole.INSURANCE_WORKER]: "Pracovník pojišťovny",
+    [EnumRole.ADMIN]: "Administrátor"
+};
+
+export { RoleToNameMap };
+
 export interface ILoginData extends IUserData {
     readonly token: string;
 }

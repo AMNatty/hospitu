@@ -1,7 +1,7 @@
 import { HView, ISectionProps } from "../HView";
 import React, { ReactNode } from "react";
 import { HForm, HFormComponent } from "../../HForm";
-import { IUserData } from "../../../data/UserData";
+import { IUserData, RoleToNameMap } from "../../../data/UserData";
 import { HFlow, HInput } from "../../HInput";
 import { HCard, HGrid, HHeader, HSubHeader, VBox } from "../../HCard";
 import { HButton, HButtonStyle } from "../../HButton";
@@ -32,7 +32,7 @@ class HUserProfile extends HFormComponent<{
             editMode: false,
             fields: {
                 ...props.userData,
-                role: "" + props.userData.role,
+                role: RoleToNameMap[props.userData.role],
                 id: "" + props.userData.id,
 
                 phone: "",
