@@ -18,6 +18,7 @@ public class CheckupReportsTable extends AbstractTable
                 cr_id        INT PRIMARY KEY AUTO_INCREMENT,
                 cr_dr_id     INT                  NOT NULL COMMENT 'ID přiřazeného lékaře',
                 cr_ptch_id   INT                  NOT NULL COMMENT 'ID nadřazeného záznamu',
+                cr_name      VARCHAR(150)         NOT NULL,
                 cr_performed TINYINT(1) DEFAULT 0 NOT NULL,
                 cr_report    TEXT                 NULL,
                 cr_price     DECIMAL(8, 2)        NULL,
