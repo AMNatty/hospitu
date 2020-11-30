@@ -2,7 +2,6 @@ import { HView, IHSection, ISectionProps } from "../HView";
 import receiptWhite from "../../../img/receipt-white-18dp.svg";
 import accountLogo from "../../../img/account_circle-white-18dp.svg";
 import { HProfileView } from "../user-view/HUserInfo";
-import { HPatientView } from "../patient-view/HPatientView";
 import React, { ReactNode } from "react";
 
 export abstract class HInsuranceView<T extends ISectionProps> extends HView<T> {
@@ -12,7 +11,7 @@ export abstract class HInsuranceView<T extends ISectionProps> extends HView<T> {
     }
 }
 
-export class HInsuranceWelcomeView<T extends ISectionProps> extends HPatientView<T> {
+export class HInsuranceWelcomeView<T extends ISectionProps> extends HInsuranceView<T> {
     constructor(props: T)
     {
         super(props);
