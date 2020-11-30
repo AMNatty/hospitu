@@ -1,0 +1,161 @@
+@import "shared";
+@import "color-scheme";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main {
+    width: 100%;
+    height: 100vh;
+    @controls-shared();
+    .shared-style();
+}
+
+.main .container {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: @secondary-color;
+    padding: 1em;
+    font-size: 18px;
+}
+
+.main .info, .main .medinfo {
+    width: 100%;
+    max-width: 550px;
+    min-width: 400px;
+    height: auto;
+    margin: 0.5em;
+    padding: 0.5em;
+    font-size: 18px;
+    background-color:  @primary-color;
+    border-radius: 5px;
+}
+
+.accountImage {
+    width: 45%;
+    height: 130px;
+    border: 1px solid white;
+    float: left;
+    margin-right: 1em;
+    margin-bottom: 0.75em;
+}
+
+.profileHeader {
+    font-size: 22px;
+    color: white;
+    font-weight: 100;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 9px;
+}
+
+.half-input {
+    width: 50%;
+    display: inline-block;
+}
+
+.full-input {
+    width: 100%;
+    padding-right: 0.5em;
+}
+
+.aside {
+    padding-right: 0.5em;
+}
+
+.profile-input {
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.main .container label {
+    display: block;
+    color: white;
+    margin-bottom: 0.25em;
+}
+
+.main .container input {
+    padding: 0.25em;
+    padding-left: 0.5em;
+    border: 1px solid rgb(59, 59, 59);
+    border-radius: 25px;
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    -webkit-box-shadow: inset 3px 3px 14px 2px rgb(59, 59, 59);
+    -moz-box-shadow: inset 3px 3px 14px 2px rgb(59, 59, 59);
+    box-shadow: inset 3px 3px 14px 2px rgb(59, 59, 59);    
+}
+
+.non-selectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.non-selectable:hover {
+    cursor: default;
+}
+
+.main .container input:focus {
+    outline: none;
+    border-radius: 25px;
+    border: 2px solid rgb(68, 95, 69);
+}
+
+.button-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#change {
+    padding: 0.5em;
+    color: white;
+    font-weight: 100;
+    background-color: transparent;
+    border: none;
+    position: relative;
+    background-color: rgb(51, 173, 51);
+    border-radius: 25px;
+    width: 175px;
+    transition: 0.2s;
+    text-align: center;
+    margin-right: 9px;
+}
+
+#change:hover {
+    cursor: pointer;
+    background-color: rgb(35, 114, 35);
+    transition: 0.2s;
+}
+
+@media all and (max-width: 1431px) {
+    .main .info, .main .medinfo {
+        max-width: 600px;
+        min-width: 400px;
+    }
+
+    .button-container {
+        justify-content: center;
+    }
+
+    #change-patient {
+        margin-right: 0;
+    }
+
+    .main .container {
+        justify-content: center;
+    }
+}

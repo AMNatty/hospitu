@@ -6,6 +6,7 @@ import cz.vutbr.fit.hospitu.controller.LoginController;
 import cz.vutbr.fit.hospitu.controller.RegisterController;
 import cz.vutbr.fit.hospitu.controller.RoleController;
 import cz.vutbr.fit.hospitu.controller.UserController;
+import cz.vutbr.fit.hospitu.controller.*;
 import cz.vutbr.fit.hospitu.data.response.Generic400ResponseData;
 import cz.vutbr.fit.hospitu.data.response.Generic500ResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
@@ -63,6 +64,27 @@ public class Main
                         ApiBuilder.path("update-role", () -> {
                             ApiBuilder.patch(RoleController::patchChangeRole, Set.of(EnumAPIRole.ADMIN));
                         });
+                    });
+                });
+                ApiBuilder.path("hFile", () -> {
+                    ApiBuilder.path("info", () -> {
+                        ApiBuilder.get(FilesController::getFiles, Set.of(EnumAPIRole.DOCTOR));
+                    });
+                    ApiBuilder.path("patients", () -> {
+                        ApiBuilder.get(FilesController::getPatient, Set.of(EnumAPIRole.DOCTOR));
+                    });
+                });
+                ApiBuilder.path("doctors", () -> {
+                    ApiBuilder.path("info", () -> {
+                        ApiBuilder.get(DoctorController::getDoctorInfo, Set.of(EnumAPIRole.DOCTOR));
+                    });
+                    ApiBuilder.path("files", () -> {
+                        ApiBuilder.get(DoctorController::getDoctorFiles, Set.of(EnumAPIRole.DOCTOR));
+                    });
+                });
+                ApiBuilder.path("tickets", () -> {
+                    ApiBuilder.path("info", () -> {
+                        ApiBuilder.get(TicketController::getTickets, Set.of(EnumAPIRole.DOCTOR));
                     });
                 });
             });
