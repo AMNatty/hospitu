@@ -37,9 +37,10 @@ export abstract class HFormComponent<P, S extends {
 export class HForm extends React.Component<{
     onSubmit: (() => void)
 }> {
-    handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    handleSubmit = (event: React.FormEvent<HTMLFormElement>): boolean => {
         this.props.onSubmit();
         event.preventDefault();
+        return false;
     }
 
     render(): ReactNode

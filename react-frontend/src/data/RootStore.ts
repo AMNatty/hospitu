@@ -6,7 +6,7 @@ import {
     InternalScreenSectionState,
     LoginScreenSectionState, SectionType
 } from "./AppState";
-import { IAppAction, LoginAction, SwitchViewAction } from "./AppAction";
+import { IAppAction, LoginAction, SwitchSectionAction, SwitchViewAction } from "./AppAction";
 import { AppActionType } from "./AppActionType";
 
 function appStateReducer(state: IApplicationState = applicationStateDefault, actionObj: unknown)
@@ -38,9 +38,8 @@ function appStateReducer(state: IApplicationState = applicationStateDefault, act
         case AppActionType.SWITCH_VIEW:
         {
             const switchViewAction = action as SwitchViewAction;
-            const isSubclass = state.currentSection.sectionType === SectionType.INTERNAL_SCREEN;
 
-            if (!isSubclass)
+            if (state.currentSection.sectionType !== SectionType.INTERNAL_SCREEN)
                 break;
 
             return {
@@ -51,6 +50,24 @@ function appStateReducer(state: IApplicationState = applicationStateDefault, act
                         ...(state.currentSection as InternalScreenSectionState).sectionState,
                         currentView: switchViewAction.targetView
                     }
+                }
+            };
+        }
+
+        case AppActionType.SWITCH_SECTION:
+        {
+            const switchSectionAction = action as SwitchSectionAction;
+
+            if (state.currentSection.sectionType !== SectionType.INTERNAL_SCREEN)
+                break;
+
+            console.log(switchSectionAction.targetSection);
+
+            return {
+                ...state,
+                currentSection: {
+                    ...state.currentSection,
+                    sectionState: switchSectionAction.targetSection
                 }
             };
         }

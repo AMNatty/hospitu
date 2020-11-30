@@ -46,6 +46,40 @@ export interface IInternalApplicationState {
     currentView: typeof HView
 }
 
+export function internalAppStateFromRole(role: EnumRole): IInternalApplicationState
+{
+    switch (role)
+    {
+        case EnumRole.ADMIN:
+            return {
+                internalState: EnumInternalState.ADMIN_PANEL,
+                internalSection: HAdminSection,
+                currentView: HAdminSection.defaultView
+            };
+
+        case EnumRole.DOCTOR:
+            return {
+                internalState: EnumInternalState.DOCTOR_PANEL,
+                internalSection: HDoctorSection,
+                currentView: HDoctorSection.defaultView
+            };
+
+        case EnumRole.INSURANCE_WORKER:
+            return {
+                internalState: EnumInternalState.INSURANCE_WORKER_PANEL,
+                internalSection: HInsuranceSection,
+                currentView: HInsuranceSection.defaultView
+            };
+
+        case EnumRole.PATIENT:
+            return  {
+                internalState: EnumInternalState.PATIENT_PANEL,
+                internalSection: HPatientSection,
+                currentView: HPatientSection.defaultView
+            };
+    }
+}
+
 export class InternalScreenSectionState implements IApplicationSection {
     readonly sectionType: SectionType;
     readonly loginData: ILoginData;
@@ -57,48 +91,7 @@ export class InternalScreenSectionState implements IApplicationSection {
         this.sectionType = SectionType.INTERNAL_SCREEN;
         this.loginData = loginData;
         this.managedUser = managedUser;
-
-        if (sectionState)
-        {
-            this.sectionState = sectionState;
-        }
-        else
-        {
-            switch (this.loginData.role)
-            {
-                case EnumRole.ADMIN:
-                    this.sectionState = {
-                        internalState: EnumInternalState.ADMIN_PANEL,
-                        internalSection: HAdminSection,
-                        currentView: HAdminSection.defaultView
-                    };
-                    break;
-
-                case EnumRole.DOCTOR:
-                    this.sectionState = {
-                        internalState: EnumInternalState.DOCTOR_PANEL,
-                        internalSection: HDoctorSection,
-                        currentView: HDoctorSection.defaultView
-                    };
-                    break;
-
-                case EnumRole.INSURANCE_WORKER:
-                    this.sectionState = {
-                        internalState: EnumInternalState.INSURANCE_WORKER_PANEL,
-                        internalSection: HInsuranceSection,
-                        currentView: HInsuranceSection.defaultView
-                    };
-                    break;
-
-                case EnumRole.PATIENT:
-                    this.sectionState = {
-                        internalState: EnumInternalState.PATIENT_PANEL,
-                        internalSection: HPatientSection,
-                        currentView: HPatientSection.defaultView
-                    };
-                    break;
-            }
-        }
+        this.sectionState = sectionState ?? internalAppStateFromRole(loginData.role);
     }
 }
 

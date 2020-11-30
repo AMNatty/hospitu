@@ -33,7 +33,7 @@ class HUserProfile extends HFormComponent<{
             fields: {
                 ...props.userData,
                 role: RoleToNameMap[props.userData.role],
-                id: "" + props.userData.id,
+                id: props.userData.id.toString(),
 
                 phone: "",
                 email: "",
@@ -44,22 +44,24 @@ class HUserProfile extends HFormComponent<{
     }
 
     toggleProfileEdit = (): void => {
-        this.setState({
-            editMode: !this.state.editMode
-        });
+        this.setState(state => ({
+            editMode: !state.editMode
+        }));
     }
 
     updateProfile = (): void => {
         // TODO
 
-        this.toggleProfileEdit();
+        this.setState({
+            editMode: false
+        });
     }
 
     render()
     {
         return (
             <HCard>
-                <HForm onSubmit={ this.updateProfile }>
+                <HForm key={ this.state.editMode ? 1 : 0 } onSubmit={ this.updateProfile }>
                     <VBox>
                         <VBox>
                             <HHeader>
@@ -77,7 +79,7 @@ class HUserProfile extends HFormComponent<{
                                         <HInput label={ "Číslo uživatele" } readOnly={ true } fieldInfo={ this.managedField("id") } />
                                         <HInput label={ "Jméno" } required={ true } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("name") } />
                                         <HInput label={ "Příjmení" } required={ true } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("surname") } />
-                                        <HInput label={ "Typ účtu" } required={ true } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("role") } />
+                                        <HInput label={ "Typ účtu" } required={ true } readOnly={ true } fieldInfo={ this.managedField("role") } />
                                     </HGrid>
                                 </VBox>
                                 <VBox>

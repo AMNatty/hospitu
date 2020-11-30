@@ -2,6 +2,7 @@ import { AppActionType } from "./AppActionType";
 import { Action } from "redux";
 import { ILoginData } from "./UserData";
 import { HView } from "../components/view/HView";
+import { IInternalApplicationState } from "./AppState";
 
 export interface IAppAction extends Action<AppActionType> {
     readonly type: AppActionType;
@@ -35,5 +36,16 @@ export class SwitchViewAction implements IAppAction {
     {
         this.type = AppActionType.SWITCH_VIEW;
         this.targetView = targetView;
+    }
+}
+
+export class SwitchSectionAction implements IAppAction {
+    readonly type: AppActionType;
+    readonly targetSection: IInternalApplicationState
+
+    constructor(tgtSection: IInternalApplicationState)
+    {
+        this.type = AppActionType.SWITCH_SECTION;
+        this.targetSection = tgtSection;
     }
 }
