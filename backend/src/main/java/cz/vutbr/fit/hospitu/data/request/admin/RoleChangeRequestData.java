@@ -1,4 +1,4 @@
-package cz.vutbr.fit.hospitu.data.request;
+package cz.vutbr.fit.hospitu.data.request.admin;
 
 import cz.vutbr.fit.hospitu.access.EnumAPIRole;
 

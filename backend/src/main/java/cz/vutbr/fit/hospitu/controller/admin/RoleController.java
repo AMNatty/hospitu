@@ -1,4 +1,4 @@
-package cz.vutbr.fit.hospitu.controller;
+package cz.vutbr.fit.hospitu.controller.admin;
 
 import io.javalin.http.Context;
 

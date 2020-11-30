@@ -3,8 +3,8 @@ package cz.vutbr.fit.hospitu.controller;
 import cz.vutbr.fit.hospitu.access.AuthorizationManager;
 import cz.vutbr.fit.hospitu.access.EnumAPIRole;
 import cz.vutbr.fit.hospitu.data.request.RegistrationRequestData;
-import cz.vutbr.fit.hospitu.data.response.HumanReadableResponseData;
-import cz.vutbr.fit.hospitu.data.response.RegistrationResponseData;
+import cz.vutbr.fit.hospitu.data.response.impl.doctor.HumanReadableResponseData;
+import cz.vutbr.fit.hospitu.data.response.impl.RegistrationResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import io.javalin.http.Context;
 
@@ -101,7 +101,7 @@ public class RegisterController
 
             if (login.length() < USERNAME_MIN_LENGTH || login.length() > USERNAME_MAX_LENGTH)
             {
-                context.status(403).json(new HumanReadableResponseData(400,
+                context.status(403).json(new HumanReadableResponseData(403,
                     "Username length out of range.",
                     String.format("Uživateské jméno musí mít délku v rozsahu %d až %d znaků.", USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH)
                 ));
@@ -110,7 +110,7 @@ public class RegisterController
 
             if (password.length() < PASSWORD_MIN_LENGTH || password.length() > PASSWORD_MAX_LENGTH)
             {
-                context.status(403).json(new HumanReadableResponseData(400,
+                context.status(403).json(new HumanReadableResponseData(403,
                     "Password length out of range.",
                     String.format("Heslo musí mít délku v rozsahu %d až %d znaků.", PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH)
                 ));
@@ -119,7 +119,7 @@ public class RegisterController
 
             if (name.length() < NAME_MIN_LENGTH || name.length() > NAME_MAX_LENGTH)
             {
-                context.status(403).json(new HumanReadableResponseData(400,
+                context.status(403).json(new HumanReadableResponseData(403,
                     "Name length out of range.",
                     String.format("Jméno musí mít délku v rozsahu %d až %d znaků.", NAME_MIN_LENGTH, NAME_MAX_LENGTH)
                 ));
@@ -128,7 +128,7 @@ public class RegisterController
 
             if (surname.length() < SURNAME_MIN_LENGTH || surname.length() > SURNAME_MAX_LENGTH)
             {
-                context.status(403).json(new HumanReadableResponseData(400,
+                context.status(403).json(new HumanReadableResponseData(403,
                     "Password length out of range.",
                     String.format("Heslo musí mít délku v rozsahu %d až %d znaků.", SURNAME_MIN_LENGTH, SURNAME_MAX_LENGTH)
                 ));

@@ -2,8 +2,8 @@ package cz.vutbr.fit.hospitu.controller;
 
 import cz.vutbr.fit.hospitu.access.AuthorizationManager;
 import cz.vutbr.fit.hospitu.data.request.LoginRequestData;
-import cz.vutbr.fit.hospitu.data.response.Generic404ResponseData;
-import cz.vutbr.fit.hospitu.data.response.LoginResponseData;
+import cz.vutbr.fit.hospitu.data.response.generic.Generic404ResponseData;
+import cz.vutbr.fit.hospitu.data.response.impl.LoginResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import io.javalin.http.Context;
 

@@ -1,4 +1,4 @@
-package cz.vutbr.fit.hospitu.data.response;
+package cz.vutbr.fit.hospitu.data.response.impl;
 
 import org.jetbrains.annotations.NotNull;
 

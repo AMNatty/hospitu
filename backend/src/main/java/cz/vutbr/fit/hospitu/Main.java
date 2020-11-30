@@ -4,11 +4,13 @@ import cz.vutbr.fit.hospitu.access.APIAccessManager;
 import cz.vutbr.fit.hospitu.access.EnumAPIRole;
 import cz.vutbr.fit.hospitu.controller.LoginController;
 import cz.vutbr.fit.hospitu.controller.RegisterController;
-import cz.vutbr.fit.hospitu.controller.RoleController;
-import cz.vutbr.fit.hospitu.controller.UserController;
-import cz.vutbr.fit.hospitu.controller.*;
-import cz.vutbr.fit.hospitu.data.response.Generic400ResponseData;
-import cz.vutbr.fit.hospitu.data.response.Generic500ResponseData;
+import cz.vutbr.fit.hospitu.controller.admin.RoleController;
+import cz.vutbr.fit.hospitu.controller.doctor.DoctorController;
+import cz.vutbr.fit.hospitu.controller.doctor.FilesController;
+import cz.vutbr.fit.hospitu.controller.doctor.TicketController;
+import cz.vutbr.fit.hospitu.controller.doctor.UserController;
+import cz.vutbr.fit.hospitu.data.response.generic.Generic400ResponseData;
+import cz.vutbr.fit.hospitu.data.response.generic.Generic500ResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import cz.vutbr.fit.hospitu.sql.table.Tables;
 import io.javalin.Javalin;
@@ -66,22 +68,27 @@ public class Main
                         });
                     });
                 });
+
                 ApiBuilder.path("hFile", () -> {
                     ApiBuilder.path("info", () -> {
                         ApiBuilder.get(FilesController::getFiles, Set.of(EnumAPIRole.DOCTOR));
                     });
+
                     ApiBuilder.path("patients", () -> {
                         ApiBuilder.get(FilesController::getPatient, Set.of(EnumAPIRole.DOCTOR));
                     });
                 });
+
                 ApiBuilder.path("doctors", () -> {
                     ApiBuilder.path("info", () -> {
                         ApiBuilder.get(DoctorController::getDoctorInfo, Set.of(EnumAPIRole.DOCTOR));
                     });
+
                     ApiBuilder.path("files", () -> {
                         ApiBuilder.get(DoctorController::getDoctorFiles, Set.of(EnumAPIRole.DOCTOR));
                     });
                 });
+
                 ApiBuilder.path("tickets", () -> {
                     ApiBuilder.path("info", () -> {
                         ApiBuilder.get(TicketController::getTickets, Set.of(EnumAPIRole.DOCTOR));

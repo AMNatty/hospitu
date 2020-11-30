@@ -1,4 +1,4 @@
-package cz.vutbr.fit.hospitu.data.response;
+package cz.vutbr.fit.hospitu.data.response.generic;
 
 public class Generic401ResponseData extends AbstractGenericCodeResponseData
 {

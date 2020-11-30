@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="itudata@localhost" uuid="8e99bcd7-396c-4c4e-8c48-c7c18e1454c4">
-      <driver-ref>mysql</driver-ref>
+    <data-source source="LOCAL" name="itudata@172.104.154.171" uuid="97c88203-ac87-4ceb-a6cb-eb8cb538180f">
+      <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/itudata</jdbc-url>
-      <time-zone>Europe/Prague</time-zone>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://172.104.154.171:3306/itudata</jdbc-url>
+      <time-zone>UTC</time-zone>
     </data-source>
   </component>
 </project>

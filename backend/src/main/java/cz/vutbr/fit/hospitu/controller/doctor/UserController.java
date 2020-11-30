@@ -1,10 +1,10 @@
-package cz.vutbr.fit.hospitu.controller;
+package cz.vutbr.fit.hospitu.controller.doctor;
 
 import cz.vutbr.fit.hospitu.access.APIAccessManager;
 import cz.vutbr.fit.hospitu.access.EnumAPIRole;
-import cz.vutbr.fit.hospitu.data.response.Generic403ResponseData;
-import cz.vutbr.fit.hospitu.data.response.Generic404ResponseData;
-import cz.vutbr.fit.hospitu.data.response.UserResponseData;
+import cz.vutbr.fit.hospitu.data.response.generic.Generic403ResponseData;
+import cz.vutbr.fit.hospitu.data.response.generic.Generic404ResponseData;
+import cz.vutbr.fit.hospitu.data.response.impl.UserResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import io.javalin.http.Context;
 

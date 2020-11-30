@@ -78,6 +78,6 @@ export class DoctorProfile extends React.Component<{
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

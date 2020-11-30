@@ -1,5 +1,6 @@
-package cz.vutbr.fit.hospitu.data.response;
+package cz.vutbr.fit.hospitu.data.response.impl.doctor;
 
+import cz.vutbr.fit.hospitu.data.response.generic.AbstractGenericCodeResponseData;
 import org.jetbrains.annotations.NotNull;
 
 public class HumanReadableResponseData extends AbstractGenericCodeResponseData

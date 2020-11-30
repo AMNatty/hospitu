@@ -1,5 +1,6 @@
-package cz.vutbr.fit.hospitu.data.response;
+package cz.vutbr.fit.hospitu.data.response.impl;
 
+import cz.vutbr.fit.hospitu.data.response.AbstractResponseData;
 import org.jetbrains.annotations.NotNull;
 
 public class UserResponseData extends AbstractResponseData
