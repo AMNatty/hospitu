@@ -4,9 +4,9 @@ import {
     applicationStateDefault,
     LoginState,
     InternalScreenSectionState,
-    LoginScreenSectionState
+    LoginScreenSectionState, SectionType
 } from "./AppState";
-import { IAppAction, LoginAction } from "./AppAction";
+import { IAppAction, LoginAction, SwitchViewAction } from "./AppAction";
 import { AppActionType } from "./AppActionType";
 
 function appStateReducer(state: IApplicationState = applicationStateDefault, actionObj: unknown)
@@ -18,6 +18,7 @@ function appStateReducer(state: IApplicationState = applicationStateDefault, act
         case AppActionType.LOG_IN:
         {
             const loginAction = action as LoginAction;
+
             return {
                 ...state,
                 loginState: LoginState.LOGGED_IN,
@@ -34,9 +35,31 @@ function appStateReducer(state: IApplicationState = applicationStateDefault, act
             };
         }
 
+        case AppActionType.SWITCH_VIEW:
+        {
+            const switchViewAction = action as SwitchViewAction;
+            const isSubclass = state.currentSection.sectionType === SectionType.INTERNAL_SCREEN;
+
+            if (!isSubclass)
+                break;
+
+            return {
+                ...state,
+                currentSection: {
+                    ...state.currentSection,
+                    sectionState: {
+                        ...(state.currentSection as InternalScreenSectionState).sectionState,
+                        currentView: switchViewAction.targetView
+                    }
+                }
+            };
+        }
+
         default:
             return state;
     }
+
+    return state;
 }
 
 const spreadClassToObject: Middleware =

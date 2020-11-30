@@ -1,20 +1,21 @@
 import React, { ReactNode } from "react";
 import { InternalScreenSectionState } from "../data/AppState";
 import { Dispatch } from "redux";
-import { LogoutAction } from "../data/AppAction";
+import { LogoutAction, SwitchViewAction } from "../data/AppAction";
 
 import "../style/h-internal-shared.less";
 
 import accountCircleIcon from "../img/account_circle-white-18dp.svg";
 import closeIcon from "../img/close-white-18dp.svg";
 import appsIcon from "../img/apps-white-18dp.svg";
-import receiptIcon from "../img/receipt-white-18dp.svg";
-import receiptLongIcon from "../img/receipt_long-white-18dp.svg";
 import { HClockDate, HClockTime } from "./HClock";
+import { HView } from "./view/HView";
+import { HProfileView } from "./view/user-view/HUserInfo";
 
 
 export class InternalAppScreen extends React.Component<{
     dispatch: Dispatch,
+    currentView: typeof HView,
     sectionState: InternalScreenSectionState
 }> {
     logout = (): void => {
@@ -23,6 +24,8 @@ export class InternalAppScreen extends React.Component<{
 
     render(): ReactNode
     {
+        const ViewComponent = this.props.currentView;
+
         return (
             <div id="hs-wrapper">
                 <div id="hs-menu">
@@ -78,17 +81,17 @@ export class InternalAppScreen extends React.Component<{
                         </li>
 
                         <li className="hs-menu-option">
-                            <a href="#">
+                            <a href="#" onClick={ () => this.props.dispatch(new SwitchViewAction(HProfileView)) }>
                                 <div className="hs-menu-option-img">
                                     <img src={ accountCircleIcon } alt="<account>" />
                                 </div>
                                 <div className="hs-menu-option-text">
-                                    { this.props.sectionState.loginData.name } { this.props.sectionState.loginData.surname }▼
+                                    { this.props.sectionState.loginData.name } { this.props.sectionState.loginData.surname }
                                 </div>
                             </a>
                         </li>
                         <li className="hs-menu-option">
-                            <a href="#" onClick={this.logout}>
+                            <a href="#" onClick={ this.logout }>
                                 <div className="hs-menu-option-img">
                                     <img src={ closeIcon } alt="<logout>" />
                                 </div>
@@ -102,26 +105,24 @@ export class InternalAppScreen extends React.Component<{
                 <div id="hs-app-container">
                     <div id="hs-app-menu">
                         <ul>
-                            <li>
-                                <a href="#">
-                                    <img src={ receiptIcon } alt="+" />
-                                    <span className="hs-app-menu-label">
-                                        Moje recepty
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src={ receiptLongIcon } alt="..." />
-                                    <span className="hs-app-menu-label">
-                                        Lorem ipsum
-                                    </span>
-                                </a>
-                            </li>
+                            {
+                                this.props.sectionState.sectionState.internalSection.menuItems.map(menuItem => (
+                                    <li key={ menuItem.name }>
+                                        <a href="#" onClick={ () => this.props.dispatch(new SwitchViewAction(menuItem.targetView)) }>
+                                            <img src={ menuItem.icon } alt={ menuItem.name } />
+                                            <span className="hs-app-menu-label">
+                                                { menuItem.name }
+                                            </span>
+                                        </a>
+                                    </li>
+                                ))
+                            }
                         </ul>
                     </div>
                     <div id="hs-app-viewport">
-                        { this.props.children }
+                        {
+                            <ViewComponent dispatch={ this.props.dispatch } loginData={ this.props.sectionState.loginData } sectionState={ this.props.sectionState.sectionState }  />
+                        }
                     </div>
                 </div>
             </div>

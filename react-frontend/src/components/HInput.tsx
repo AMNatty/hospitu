@@ -11,6 +11,7 @@ export class HInput extends React.Component<{
     minLength?: number,
     maxLength?: number,
     pattern?: string,
+    flexGrow?: boolean,
     fieldInfo: HFieldInfo
 }, {
     defaultValue: string
@@ -33,7 +34,7 @@ export class HInput extends React.Component<{
         const additionalClasses = this.props.required ? " h-input-required" : "";
 
         return (
-            <div className={ "h-input-container" }>
+            <div className={ "h-input-container" + (this.props.flexGrow ? " h-input-container-grow" : "") }>
                 <input onChange={ this.valueChanged } pattern={ this.props.pattern } minLength={ this.props.minLength } maxLength={ this.props.maxLength } defaultValue={ this.state.defaultValue } readOnly={ this.props.readOnly ?? false } className={ "h-input" } placeholder={ " " } required={ this.props.required ?? false } type={ this.props.type ?? "text" } name={ this.props.fieldInfo.fieldName } />
                 <span className={ "h-input-placeholder" + additionalClasses }>{ this.props.label }</span>
             </div>

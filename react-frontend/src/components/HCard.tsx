@@ -23,6 +23,17 @@ export class HHeader extends React.Component {
     }
 }
 
+export class HSubHeader extends React.Component {
+    render(): ReactNode
+    {
+        return (
+            <div className={ "h-sub-header" }>
+                { this.props.children }
+            </div>
+        );
+    }
+}
+
 export class HBox extends  React.Component {
     render(): ReactNode
     {
@@ -39,6 +50,40 @@ export class VBox extends  React.Component {
     {
         return (
             <div className={ "h-vbox" }>
+                { this.props.children }
+            </div>
+        );
+    }
+}
+
+export class HGrid extends React.Component<{
+    shrink?: boolean
+}> {
+    render(): ReactNode
+    {
+        return (
+            <div className={ "h-grid " + (this.props.shrink ? "h-grid-shrink" : "") }>
+                { this.props.children }
+            </div>
+        );
+    }
+}
+
+export class HGridSpan extends  React.Component<{
+    gridColumnStart?: string,
+    gridColumnEnd?: string,
+    gridRowStart?: string,
+    gridRowEnd?: string
+}> {
+    render(): ReactNode
+    {
+        return (
+            <div style={{
+                gridColumnStart: this.props.gridColumnStart,
+                gridColumnEnd: this.props.gridColumnEnd,
+                gridRowStart: this.props.gridRowStart,
+                gridRowEnd: this.props.gridRowEnd
+            }}>
                 { this.props.children }
             </div>
         );

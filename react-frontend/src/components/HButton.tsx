@@ -11,7 +11,8 @@ export enum HButtonStyle
 }
 
 export class HButton extends React.Component<{
-    action?: (() => void) | "submit",
+    action?: (() => void) | "submit" | "reset",
+    action2?: (() => void),
     disabled?: boolean,
     buttonStyle?: HButtonStyle
 }> {
@@ -23,6 +24,11 @@ export class HButton extends React.Component<{
         }
 
         const action = this.props.action;
+
+        if (this.props.action2)
+        {
+            this.props.action2();
+        }
 
         if (typeof action === "string")
         {

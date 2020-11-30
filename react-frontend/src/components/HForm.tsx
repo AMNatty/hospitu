@@ -6,7 +6,7 @@ export interface HFieldInfo {
     changeHandler: ((value: string) => void)
 }
 
-export class HFormComponent<P, S extends {
+export abstract class HFormComponent<P, S extends {
     fields: Record<string, string>
 }> extends React.Component<P, S> {
     managedField = (field: keyof S["fields"]): HFieldInfo => {

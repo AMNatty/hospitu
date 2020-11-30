@@ -17,19 +17,18 @@ class HospitalApp extends React.Component<{
         switch (this.props.appState.loginState)
         {
             case LoginState.LOGGED_IN:
+            {
+                const internalSectionState = this.props.appState.currentSection as InternalScreenSectionState;
+                
                 return (
-                    <InternalAppScreen dispatch={this.props.dispatch} sectionState={this.props.appState.currentSection as InternalScreenSectionState}>
-                        <span>
-                            Filler text
-                        </span>
-                    </InternalAppScreen>
+                    <InternalAppScreen dispatch={ this.props.dispatch } sectionState={ internalSectionState } currentView={ internalSectionState.sectionState.currentView }/>
                 );
+            }
 
             case LoginState.LOGGED_OUT:
                 return (
-                    <LoginScreen dispatch={this.props.dispatch} sectionState={this.props.appState.currentSection as LoginScreenSectionState} />
+                    <LoginScreen dispatch={ this.props.dispatch } sectionState={ this.props.appState.currentSection as LoginScreenSectionState } />
                 );
-
         }
     }
 }

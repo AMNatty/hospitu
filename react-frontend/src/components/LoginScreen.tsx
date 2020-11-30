@@ -5,7 +5,7 @@ import { LoginAction } from "../data/AppAction";
 import { HButton, HButtonStyle } from "./HButton";
 
 import loginImg from "../img/login.svg";
-import { HBox, HCard, HHeader, VBox } from "./HCard";
+import { HBox, HCard, HGrid, HHeader, VBox } from "./HCard";
 import { HFlow, HInput } from "./HInput";
 import Axios from "axios";
 import { IAPIReadableResponse, IAPIResponse, ILoginData } from "../data/UserData";
@@ -140,6 +140,8 @@ export class LoginScreen extends HFormComponent<{
         });
 
         setTimeout(() => {
+            let loggedIn = false;
+
             Axios({
                 url: "/users/login",
                 method: "POST",
@@ -156,6 +158,7 @@ export class LoginScreen extends HFormComponent<{
                     {
                         const responseData = apiResponse as ILoginData;
                         this.props.dispatch(new LoginAction(responseData));
+                        loggedIn = true;
 
                         break;
                     }
@@ -176,9 +179,12 @@ export class LoginScreen extends HFormComponent<{
                     errorText: "Došlo k chybě při přihlašování, zkuste to prosím znovu později."
                 }));
             }).then(() => {
-                this.setState({
-                    screenState: EnumLoginScreenState.LOGIN_DEFAULT
-                });
+                if (!loggedIn)
+                {
+                    this.setState({
+                        screenState: EnumLoginScreenState.LOGIN_DEFAULT
+                    });
+                }
             });
         }, 500);
     }
@@ -229,21 +235,19 @@ export class LoginScreen extends HFormComponent<{
                 content = (
                     <HForm onSubmit={ this.register }>
                         <HFlow>
-                            <HHeader>
-                                Registrace
-                            </HHeader>
+                            <VBox>
+                                <HHeader>
+                                    Registrace
+                                </HHeader>
+                                <HInput readOnly={ fieldsDisabled } pattern={ "[a-zA-Z0-9]+[a-zA-Z0-9-.]+[a-zA-Z0-9]+" } minLength={ 3 } maxLength={ 24 } fieldInfo={ this.managedField("username") } required={ true } label={ "Uživatelské jméno" } type={ "text" }/>
+                                <HGrid>
+                                    <HInput readOnly={ fieldsDisabled } minLength={ 6 } maxLength={ 64 } fieldInfo={ this.managedField("password") } required={ true } label={ "Heslo" } type={ "password" } />
+                                    <HInput readOnly={ fieldsDisabled } minLength={ 6 } maxLength={ 64 } fieldInfo={ this.managedField("passwordRepeat") } required={ true } label={ "Zopakujte  heslo" } type={ "password" } />
+                                    <HInput readOnly={ fieldsDisabled } pattern={ "[^@#<>\"\\\\/]+" } maxLength={ 40 } fieldInfo={ this.managedField("name") } required={ true } label={ "Jméno" } type={ "text" } />
+                                    <HInput readOnly={ fieldsDisabled } pattern={ "[^@#<>\"\\\\/]+" } maxLength={ 40 } fieldInfo={ this.managedField("surname") } required={ true } label={ "Příjmení" } type={ "text" } />
+                                </HGrid>
+                            </VBox>
                         </HFlow>
-                        <VBox>
-                            <HInput readOnly={ fieldsDisabled } pattern={ "[a-zA-Z0-9]+[a-zA-Z0-9-.]+[a-zA-Z0-9]+" } minLength={ 3 } maxLength={ 24 } fieldInfo={ this.managedField("username") } required={ true } label={ "Uživatelské jméno" } type={ "text" }/>
-                            <HBox>
-                                <HInput readOnly={ fieldsDisabled } minLength={ 6 } maxLength={ 64 } fieldInfo={ this.managedField("password") } required={ true } label={ "Heslo" } type={ "password" } />
-                                <HInput readOnly={ fieldsDisabled } minLength={ 6 } maxLength={ 64 } fieldInfo={ this.managedField("passwordRepeat") } required={ true } label={ "Zopakujte  heslo" } type={ "password" } />
-                            </HBox>
-                            <HBox>
-                                <HInput readOnly={ fieldsDisabled } pattern={ "[^@#<>\"\\\\/]+" } maxLength={ 40 } fieldInfo={ this.managedField("name") } required={ true } label={ "Jméno" } type={ "text" } />
-                                <HInput readOnly={ fieldsDisabled } pattern={ "[^@#<>\"\\\\/]+" } maxLength={ 40 } fieldInfo={ this.managedField("surname") } required={ true } label={ "Příjmení" } type={ "text" } />
-                            </HBox>
-                        </VBox>
                         <div className={ "login-error-text-container" }>
                             <span style={{ visibility: !passwordsMatch || this.state.errorText ? "visible" : "hidden" }} className={ "login-error-text" }>
                                 { passwordsMatch ? this.state.errorText : "Zadaná hesla neodpovídají." }
