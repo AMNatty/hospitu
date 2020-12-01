@@ -31,7 +31,13 @@ export class Tickets extends React.Component<{
     doctorList: DoctorData[],
     fileList : FileData[],
     screenState: TicketDisplayData,
+    fileVal: string,
+    fileVal2: string,
+    doctorVal: string,
     ticketData: TicketData,
+    fields : {
+        idTicket : string
+    }
 }> {
 
     constructor(props:never){
@@ -41,6 +47,9 @@ export class Tickets extends React.Component<{
             doctorList:[],
             fileList: [],
             screenState: TicketDisplayData.TicketTable,
+            fileVal: "1",
+            fileVal2: "1",
+            doctorVal: this.props.loginData.id.toString(),
             ticketData: {
                 idTicket : 0,
                 idDoctor : 0,
@@ -49,6 +58,9 @@ export class Tickets extends React.Component<{
                 performed : "",
                 report : "",
                 price : ""
+            },
+            fields : {
+                idTicket: "1"
             }
         };
     }
@@ -175,12 +187,93 @@ export class Tickets extends React.Component<{
         }
     }
 
-    test() : void {
-        return;
+    switchD = (): void => {
+        setTimeout(() => {
+            Axios({
+                url: "/tickets/switch",
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    Authorization: "Bearer " + this.props.loginData.token
+                },
+                data: {
+                    idTicket: this.state.fileVal2,
+                    idDoctor: this.state.doctorVal
+                }
+            }).then((response) => {
+                const apiResponse = response.data as IAPIResponse;
+
+                switch (apiResponse.code)
+                {
+                    case 200:
+                    {
+                        console.log("success")
+                        break;
+                    }
+
+                    default:
+
+                }
+                alert("Dokončeno")
+            }).catch((e) => {
+                console.log(e)
+                alert("Chybe")
+            }).then(() => {
+            });
+        }, 500);
     }
 
-    send() : void {
-        return;
+    send = (): void => {
+        setTimeout(() => {
+            Axios({
+                url: "/tickets/insurance",
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    Authorization: "Bearer " + this.props.loginData.token
+                },
+                data: {
+                    idTicket: this.state.fileVal,
+                }
+            }).then((response) => {
+                const apiResponse = response.data as IAPIResponse;
+
+                switch (apiResponse.code)
+                {
+                    case 200:
+                    {
+                        console.log("success")
+                        break;
+                    }
+
+                    default:
+
+                }
+                alert("Dokončeno")
+            }).catch((e) => {
+                console.log(e)
+                alert("Chybe")
+            }).then(() => {
+            });
+        }, 500);
+    }
+
+    chooseFile = (val : string) : void => {
+        this.setState({
+            fileVal: val.toString()
+        })
+    }
+
+    chooseFileV2 = (val : string) : void => {
+        this.setState({
+            fileVal2: val.toString()
+        })
+    }
+
+    chooseDoctor = (val : string) : void => {
+        this.setState({
+            doctorVal: val.toString()
+        })
     }
 
     render(): ReactNode
@@ -230,15 +323,15 @@ export class Tickets extends React.Component<{
                         </div>
                         <div className="send-insurance">
                             <h3 className="header-switch">Poslat pojišťovně</h3>
-                            <HForm onSubmit={this.test}>
+                            <HForm onSubmit={this.send}>
                                 <div className="send-ticket">
                                     <div className="ticket-to">
                                         <div className="selector-container">
                                             <label htmlFor="ticket-select">Vybrat vyšetření: </label>
-                                            <select name="ticket-select" id="ticket-select" className="ticket-select">
+                                            <select name="ticket-select" id="ticket-select" className="ticket-select" onChange={(e) => this.chooseFile(e.target.value)}>
                                                 {
                                                     this.state.ticketList.map(ticket =>(
-                                                        <option key={ticket.idFile} value={ticket.idFile}>{ticket.name}</option> 
+                                                        <option key={ticket.idTicket} value={ticket.idFile}>{ticket.name}</option> 
                                                     ))
                                                 }
                                             </select>
@@ -246,7 +339,7 @@ export class Tickets extends React.Component<{
                                     </div>
                                     <div className="fill-space"></div>
                                     <div className="send-button">
-                                        <HButton action={ this.send } buttonStyle={ HButtonStyle.TEXT_INVERTED }>
+                                        <HButton action={ "submit" } buttonStyle={ HButtonStyle.TEXT_INVERTED }>
                                             Poslat
                                         </HButton>
                                     </div>
@@ -255,15 +348,15 @@ export class Tickets extends React.Component<{
                         </div>
                         <div className="switch">
                             <h3 className="header-switch">Převést vyšetření</h3>
-                            <HForm onSubmit={this.test}>
+                            <HForm onSubmit={this.switchD}>
                                 <div className="switch-file">
                                     <div className="file-to">
                                         <div className="selector-container">
                                             <label htmlFor="ticket-select-again">Vybrat vyšetření: </label>
-                                            <select name="ticket-select-again" id="ticket-select-again" className="ticket-select-again">
+                                            <select name="ticket-select-again" id="ticket-select-again" className="ticket-select-again" onChange={(e) => this.chooseFileV2(e.target.value)}>
                                                 {
                                                     this.state.ticketList.map(ticket =>(
-                                                        <option key={ticket.idFile} value={ticket.idFile}>{ticket.name}</option> 
+                                                        <option key={ticket.idTicket} value={ticket.idFile}>{ticket.name}</option> 
                                                     ))
                                                 }
                                             </select>
@@ -272,7 +365,7 @@ export class Tickets extends React.Component<{
                                     <div className="to-doctor">
                                         <div className="selector-container">
                                             <label htmlFor="doctor-select">Převést lékaři: </label>
-                                            <select name="doctor-select" id="doctor-select" className="doctor-select">
+                                            <select name="doctor-select" id="doctor-select" className="doctor-select" onChange={(e) => this.chooseDoctor(e.target.value)}>
                                                 {
                                                     this.state.doctorList.map(doctor =>(
                                                     <option key={doctor.idDoctor} value={doctor.idDoctor}>{doctor.firstName} {doctor.lastName}</option> 
@@ -282,7 +375,7 @@ export class Tickets extends React.Component<{
                                         </div>
                                     </div>
                                     <div className="approve">
-                                        <HButton action={ this.test } buttonStyle={ HButtonStyle.TEXT_INVERTED }>
+                                        <HButton action={ "submit" } buttonStyle={ HButtonStyle.TEXT_INVERTED }>
                                             Převést
                                         </HButton>
                                     </div>

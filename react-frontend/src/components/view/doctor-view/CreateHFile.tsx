@@ -20,11 +20,16 @@ export class CreateHFile extends HFormComponent<{
     fileList: FileData[],
     doctorList: DoctorData[],
     fields: {
-        ptch_name: string,
-        ptch_description: string,
-        ptch_from: string,
-        ptch_to: string
-    }
+        idPatient: string,
+        idDoctor: string,
+        description: string,
+        name: string,
+        from: string,
+        to: string,
+        finished: string,
+    },
+    doctorVal: string,
+    patientVal: string
 }> {
     constructor(props: never)
     {
@@ -32,11 +37,16 @@ export class CreateHFile extends HFormComponent<{
         this.state = {
             fileList:[],
             doctorList:[],
+            doctorVal: this.props.loginData.id.toString(),
+            patientVal: "4",
             fields: {
-                ptch_name: "",
-                ptch_description: "",
-                ptch_from: "",
-                ptch_to: ""
+                idPatient: "4",
+                idDoctor: this.props.loginData.id.toString(),
+                description: "",
+                name: "",
+                from: "",
+                to: "",
+                finished: "0"
             }
         };
     }
@@ -101,27 +111,77 @@ export class CreateHFile extends HFormComponent<{
         });
     }
 
-    test() : void {
-        return;
+    createFile = (): void => {
+        setTimeout(() => {
+            Axios({
+                url: "/hFile/create",
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    Authorization: "Bearer " + this.props.loginData.token
+                },
+                data: {
+                    idPatient: this.state.patientVal,
+                    idDoctor: this.state.doctorVal,
+                    description: this.state.fields.description,
+                    name: this.state.fields.name,
+                    from: this.state.fields.from,
+                    to: this.state.fields.to,
+                    finished: "0"
+                }
+            }).then((response) => {
+                const apiResponse = response.data as IAPIResponse;
+
+                switch (apiResponse.code)
+                {
+                    case 200:
+                    {
+                        console.log("success")
+                        break;
+                    }
+
+                    default:
+
+                }
+                alert("Dokončeno")
+            }).catch((e) => {
+                console.log(e)
+                alert("Chyba")
+            }).then(() => {
+            });
+
+        }, 500);
+    }
+
+    addPatient = (val : string) : void => {
+        this.setState({
+            patientVal: val.toString()
+        })
+    }
+
+    addDoctor = (val : string) : void => {
+        this.setState({
+            doctorVal: val.toString()
+        })
     }
 
     render(): JSX.Element
     {
         return (
             <div className="main">
-                <HForm onSubmit={this.test}>
+                <HForm onSubmit={this.createFile}>
                     <div className="h-file">
                         <h3 className="h-headline">Vytvořit Záznam</h3>
                         <div className="container-file">
                             <div className="left-side">
                                 <VBox>
-                                    <HInput fieldInfo={ this.managedField("ptch_name")} label={"Název záznamu"} type={"text"} readOnly={false} required={true}>
+                                    <HInput fieldInfo={ this.managedField("name")} label={"Název záznamu"} type={"text"} readOnly={false} required={true}>
                                     </HInput>
-                                    <HInput fieldInfo={ this.managedField("ptch_description")} label={"Zpráva"} type={"text"} readOnly={false}>
+                                    <HInput fieldInfo={ this.managedField("description")} label={"Zpráva"} type={"text"} readOnly={false}>
                                     </HInput>
-                                    <HInput fieldInfo={ this.managedField("ptch_from")} label={"Termín od"} type={"datetime-local"} readOnly={false}>
+                                    <HInput fieldInfo={ this.managedField("from")} label={"Termín od"} type={"datetime-local"} readOnly={false}>
                                     </HInput>
-                                    <HInput fieldInfo={ this.managedField("ptch_to")} label={"Termín do"} type={"datetime-local"} readOnly={false}>
+                                    <HInput fieldInfo={ this.managedField("to")} label={"Termín do"} type={"datetime-local"} readOnly={false}>
                                     </HInput>
                                 </VBox>
                             </div>
@@ -129,7 +189,7 @@ export class CreateHFile extends HFormComponent<{
                                 <div className="first-selector">
                                     <div className="selector-container">
                                         <label htmlFor="patient-select">Přiřadit pacientovi: </label>
-                                        <select name="patient-select" id="patient-select" className="patient-select">
+                                        <select name="patient-select" id="patient-select" className="patient-select" onChange={(e) => this.addPatient(e.target.value)}>
                                             {
                                                 this.state.fileList.map(fileo =>(
                                                     <option key={fileo.idPatient} value={fileo.idPatient}>{fileo.patientFirstName} {fileo.patientLastName}</option> 
@@ -141,7 +201,7 @@ export class CreateHFile extends HFormComponent<{
                                 <div className="second-selector">
                                     <div className="selector-container">
                                         <label htmlFor="doctor-select">Přiřadit lékaři: </label>
-                                        <select name="doctor-select" id="doctor-select" className="doctor-select">
+                                        <select name="doctor-select" id="doctor-select" className="doctor-select" onChange={(e) => this.addDoctor(e.target.value)}>
                                             {
                                                 this.state.doctorList.map(doctor =>(
                                                     <option key={doctor.idDoctor} value={doctor.idDoctor}>{doctor.firstName} {doctor.lastName}</option> 

@@ -23,7 +23,8 @@ export class Ticket extends HFormComponent<{
     fileList: FileData[],
     editMode: boolean,
     editModeReport: boolean,
-    myTicketData: TicketData
+    myTicketData: TicketData,
+    loaded: number,
     fields: {
         cr_id: string,
         cr_name: string,
@@ -54,6 +55,7 @@ export class Ticket extends HFormComponent<{
                 report : "",
                 price : ""
             },
+            loaded: 0,
             fields: {
                 cr_id: "",
                 cr_name: "",
@@ -88,7 +90,7 @@ export class Ticket extends HFormComponent<{
                     for(let i = 0; i < myTicketListData.length; i++){
                         if(this.props.ticketData.idTicket === myTicketListData[i].idTicket){
                             for(let j = 0; j < myFileListData.length; j++){
-                                if(this.props.ticketData.idFile === myFileListData[i].idFile){
+                                if(this.props.ticketData.idFile === myFileListData[j].idFile){
                                     this.setState(() => ({
                                         ticketList : myTicketListData,
                                         myTicketData : myTicketListData[i],
@@ -103,7 +105,8 @@ export class Ticket extends HFormComponent<{
                                             us_surname: myFileListData[j].patientLastName,
                                             pt_allergies: myFileListData[j].patientAllergies,
                                             pt_condition: myFileListData[j].patientCondition
-                                        }
+                                        },
+                                        loaded : this.state.loaded + 1
                                     }));
                                 }
                             }
@@ -148,12 +151,12 @@ export class Ticket extends HFormComponent<{
         return (
             <div className="main-i">
                 <HCard>
-                    <HForm key={ this.state.editMode ? 1 : 0 } onSubmit={ this.updateTicket }>
+                    <HForm key={ this.state.loaded + (this.state.editMode ? 1 : 0) } onSubmit={ this.updateTicket }>
                         <VBox>
                             <VBox>
                                 <HHeader>
                                     <HFlow>
-                                        Název vyšetření
+                                        {this.state.fields.cr_name}
                                     </HFlow>
                                 </HHeader>
                                 <HFlow>

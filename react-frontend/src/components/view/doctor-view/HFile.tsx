@@ -33,7 +33,8 @@ export class HFile extends HFormComponent<{
         us_surname: string,
         pt_allergies: string,
         pt_condition: string
-    }
+    },
+    loaded : number
 }> {
     constructor(props: never)
     {
@@ -68,7 +69,8 @@ export class HFile extends HFormComponent<{
                 us_surname: "",
                 pt_allergies: "",
                 pt_condition: ""
-            }
+            },
+            loaded : 0
         };
     }
 
@@ -104,7 +106,8 @@ export class HFile extends HFormComponent<{
                                     us_surname: myFileListData[i].patientLastName,
                                     pt_allergies: myFileListData[i].patientAllergies,
                                     pt_condition: myFileListData[i].patientCondition
-                                }
+                                },
+                                loaded: this.state.loaded + 1
                             }));
                         }
                     }
@@ -148,7 +151,7 @@ export class HFile extends HFormComponent<{
         return (
             <div className="main-i">
                 <HCard>
-                    <HForm key={ this.state.editMode ? 1 : 0 } onSubmit={ this.updateFile }>
+                    <HForm key={ this.state.loaded + (this.state.editMode ? 1 : 0) } onSubmit={ this.updateFile }>
                         <VBox>
                             <VBox>
                                 <HHeader>
