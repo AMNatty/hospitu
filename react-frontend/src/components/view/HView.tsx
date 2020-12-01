@@ -1,5 +1,5 @@
 import React from "react";
-import { ILoginData, IUserSearchResult } from "../../data/UserData";
+import { IExtendedUserData, ILoginData } from "../../data/UserData";
 import { IInternalApplicationState } from "../../data/AppState";
 import { Dispatch } from "redux";
 
@@ -8,7 +8,7 @@ export interface ISectionProps {
     sectionState: IInternalApplicationState;
     dispatch: Dispatch;
 
-    managedUser?: IUserSearchResult;
+    managedUser?: IExtendedUserData;
 
     requiresUserManagementCallback: (enabled: boolean) => void
 }

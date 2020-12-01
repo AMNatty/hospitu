@@ -151,6 +151,7 @@
 #hs-app-menu ul li .hs-app-menu-label
 {
     vertical-align: middle;
+    padding-left: 5px;
 }
 
 #hs-app-viewport {
@@ -160,81 +161,6 @@
 
 #hs-app-viewport-inner {
     padding: 10px;
-}
-
-#hs-userbox
-{
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 50%);
-
-    background-color: white;
-    position: sticky;
-    top: 0;
-
-    display: flex;
-    flex-direction: row;
-
-    padding: 10px;
-}
-
-#hs-userbox input
-{
-    @controls-shared();
-    .shared-style();
-
-    @controls-shapes();
-    .rounded-corner-shape();
-
-    border: 2px solid gray;
-    padding: 12px 16px 14px;
-    font-size: 16px;
-
-    vertical-align: bottom;
-
-    flex-grow: 1;
-}
-
-#hs-userbox input:focus
-{
-    border-color: black;
-}
-
-#hs-userbox .hs-userbox-center
-{
-    flex-grow: 0.7;
-}
-
-#hs-userbox .hs-userbox-spacer
-{
-    flex-grow: 0.15;
-}
-
-.hs-userbox-result
-{
-    @controls-shapes();
-    .rounded-corner-shape();
-
-    margin-top: 10px;
-    border: 1px solid gray;
-    display: grid;
-    grid-template-columns: auto auto min-content min-content;
-    align-items: center;
-}
-
-.hs-userbox-result-name
-{
-    font-weight: bold;
-}
-
-.hs-userbox-result-name, .hs-userbox-result-role
-{
-    padding: 10px;
-}
-
-.hs-userbox-error
-{
-    margin-top: 10px;
-    text-align: center;
-    color: red;
 }
 
 @media all and (min-width: 800px) {

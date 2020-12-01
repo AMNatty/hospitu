@@ -1,5 +1,5 @@
-import React, { ChangeEvent, ReactNode } from "react";
-import { internalAppStateFromRole, InternalScreenSectionState } from "../data/AppState";
+import React, { ReactNode } from "react";
+import { EnumInternalState, internalAppStateFromRole, InternalScreenSectionState } from "../data/AppState";
 import { Dispatch } from "redux";
 import { LogoutAction, SwitchSectionAction, SwitchViewAction } from "../data/AppAction";
 
@@ -8,31 +8,31 @@ import "../style/h-internal-shared.less";
 import accountCircleIcon from "../img/account_circle-white-18dp.svg";
 import closeIcon from "../img/close-white-18dp.svg";
 import appsIcon from "../img/apps-white-18dp.svg";
+
 import { HClockDate, HClockTime } from "./HClock";
 import { HView } from "./view/HView";
-import { HProfileView } from "./view/user-view/HUserInfo";
+import { HOtherProfileView, HSelfProfileView } from "./view/user-view/HUserInfo";
 import {
     EnumRole,
     IAPIReadableResponse,
     IAPIResponse,
-    IUserSearch,
+    IExtendedUserData,
     IUserSearchResult,
     RoleToNameMap
 } from "../data/UserData";
-import { HBox, VBox } from "./HCard";
+import { HUserSearchBox } from "./HUserSearchBox";
+import { HSubHeader, VBox } from "./HCard";
 import Axios from "axios";
-import { HButton, HButtonStyle } from "./HButton";
+
 
 export class InternalAppScreen extends React.Component<{
     dispatch: Dispatch,
     currentView: typeof HView,
     sectionState: InternalScreenSectionState
 }, {
-    managedUser?: IUserSearchResult,
-    userSearch?: IUserSearchResult[],
-    errorText?: string,
-    searchTimeout?: number,
-    userManagementEnabled: boolean
+    managedUser?: IExtendedUserData,
+    userManagementEnabled: boolean,
+    errorText?: string
 }> {
     constructor(props: never)
     {
@@ -43,72 +43,57 @@ export class InternalAppScreen extends React.Component<{
         };
     }
 
-    logout = (): void => {
-        this.props.dispatch(new LogoutAction());
-    }
-
-    performSearch = (e: ChangeEvent<HTMLInputElement>): void => {
-        const value = e.target.value;
-
-        if (typeof this.state.searchTimeout !== "undefined")
+    chooseUser = (result: IUserSearchResult | null): void => {
+        if (result === null)
         {
-            clearTimeout(this.state.searchTimeout);
-        }
-
-        this.setState(() => ({
-            errorText: ""
-        }));
-
-        if (value === "")
-        {
-            this.setState(() => ({
-                userSearch: []
-            }));
-
+            this.setState({
+                managedUser: undefined
+            });
             return;
         }
 
-        const timeout = window.setTimeout(() => {
-            Axios.get("/users/search",
-                {
-                    params: {
-                        name: value
-                    },
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json; charset=UTF-8",
-                        "Authorization": "Bearer " + this.props.sectionState.loginData.token
-                    }
+        const uid = result.id === this.props.sectionState.loginData.id ? "@self" : result.id;
+
+        Axios.get(`/users/${uid}/profile-detail`,
+            {
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    "Authorization": "Bearer " + this.props.sectionState.loginData.token
                 }
-            ).then((response) => {
-                const apiResponse = response.data as IAPIResponse;
+            }
+        ).then((response) => {
+            const apiResponse = response.data as IAPIResponse;
 
-                switch (apiResponse.code)
+            switch (apiResponse.code)
+            {
+                case 200:
                 {
-                    case 200:
-                    {
-                        const results = apiResponse as IUserSearch;
-                        this.setState(() => ({
-                            userSearch: results.searchResults
-                        }));
-                        break;
-                    }
-
-                    default:
-                        this.setState(() => ({
-                            errorText: `Chyba při vyhledávání: ${(apiResponse as IAPIReadableResponse).humanReadableMessage}`
-                        }));
+                    const results = apiResponse as IExtendedUserData;
+                    this.setState(() => ({
+                        managedUser: results
+                    }));
+                    break;
                 }
-            }).catch(() => {
-                this.setState(() => ({
-                    errorText: "Došlo k chybě při vyhledávání, prosím zkuste to znovu později."
-                }));
-            });
-        }, 350);
 
-        this.setState({
-            searchTimeout: timeout
+                default:
+                    this.setState(() => ({
+                        errorText: `Chyba při zpracování požadavku: ${(apiResponse as IAPIReadableResponse).humanReadableMessage}`
+                    }));
+            }
+        }).catch(() => {
+            this.setState(() => ({
+                errorText: "Došlo k chybě při zpracování požadavku, prosím zkuste to znovu později."
+            }));
         });
+    }
+
+    viewUser = (result: IUserSearchResult): void => {
+        this.chooseUser(result);
+        this.props.dispatch(new SwitchViewAction(HOtherProfileView));
+    }
+
+    logout = (): void => {
+        this.props.dispatch(new LogoutAction());
     }
 
     render(): ReactNode
@@ -116,6 +101,7 @@ export class InternalAppScreen extends React.Component<{
         const ViewComponentType = this.props.currentView;
 
         const viewComponent = <ViewComponentType
+            key={ this.state.managedUser?.id }
             dispatch={ this.props.dispatch }
             loginData={ this.props.sectionState.loginData }
             sectionState={ this.props.sectionState.sectionState }
@@ -238,7 +224,7 @@ export class InternalAppScreen extends React.Component<{
                         }
 
                         <li className="hs-menu-option">
-                            <a href="#" onClick={ () => this.props.dispatch(new SwitchViewAction(HProfileView)) }>
+                            <a href="#" onClick={ () => this.props.dispatch(new SwitchViewAction(HSelfProfileView)) }>
                                 <div className="hs-menu-option-img">
                                     <img src={ accountCircleIcon } alt="<account>" />
                                 </div>
@@ -278,46 +264,20 @@ export class InternalAppScreen extends React.Component<{
                     </div>
                     <div id="hs-app-viewport">
                         {
+                            this.state.errorText ? (
+                                <HSubHeader>
+                                    { this.state.errorText }
+                                </HSubHeader>
+                            ) : null
+                        }
+                        {
                             this.props.sectionState.sectionState.internalSection.permitsUserManagement && this.state.userManagementEnabled ? (
-                                <div id={ "hs-userbox" }>
-                                    <div className={ "hs-userbox-spacer "} />
-                                    <div className={ "hs-userbox-center "}>
-                                        <VBox>
-                                            <HBox>
-                                                <input type={ "text" } onClick={ event => {
-                                                    if (typeof this.state.managedUser !== "undefined")
-                                                        (event.target as HTMLInputElement).value = "";
-                                                } } onChange={ this.performSearch } placeholder={ "Vyberte uživatele..." } />
-                                            </HBox>
-                                            {
-                                                this.state.errorText ? (
-                                                    <div className={ "hs-userbox-error" }>
-                                                        { this.state.errorText }
-                                                    </div>
-                                                ) : null
-                                            }
-                                            {
-                                                this.state.userSearch?.map(result => (
-                                                    <div className={ "hs-userbox-result" } key={ result.id }>
-                                                        <span className={ "hs-userbox-result-name" }>
-                                                            { result.name } { result.surname }
-                                                        </span>
-                                                        <span className={ "hs-userbox-result-role" }>
-                                                            { RoleToNameMap[result.role] }
-                                                        </span>
-                                                        <HButton buttonStyle={ HButtonStyle.BORDER }>
-                                                            Zobrazit informace
-                                                        </HButton>
-                                                        <HButton buttonStyle={ HButtonStyle.TEXT_INVERTED }>
-                                                            Vybrat
-                                                        </HButton>
-                                                    </div>
-                                                ))
-                                            }
-                                        </VBox>
-                                    </div>
-                                    <div className={ "hs-userbox-spacer "} />
-                                </div>
+                                <HUserSearchBox
+                                    chooseUserCallback={ this.chooseUser }
+                                    viewUserCallback={ this.viewUser }
+                                    loginData={ this.props.sectionState.loginData }
+                                    managedUser={ this.state.managedUser }
+                                    searchRole={ this.props.sectionState.sectionState.internalState === EnumInternalState.ADMIN_PANEL ? EnumRole.ADMIN : EnumRole.DOCTOR } />
                             ) : undefined
                         }
                         <div id="hs-app-viewport-inner">

@@ -3,7 +3,7 @@ export interface IGlobalConfig {
 }
 
 const config: IGlobalConfig = {
-    apiBaseURI: "http://localhost/"
+    apiBaseURI: "http://192.168.0.192/"
 };
 
 export { config };

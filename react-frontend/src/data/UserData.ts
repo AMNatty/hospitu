@@ -21,9 +21,22 @@ export interface IUserSearchResult {
     readonly role: EnumRole
 }
 
+export interface IUserSearchResultExtended extends IUserSearchResult{
+    readonly id: number;
+    readonly name: string;
+    readonly surname: string;
+    readonly role: EnumRole
+    readonly birthDate: string | null;
+}
+
 export interface IUserSearch {
     readonly code: number,
     readonly searchResults: IUserSearchResult[]
+}
+
+export interface IUserSearchExtended {
+    readonly code: number,
+    readonly searchResults: IUserSearchResultExtended[]
 }
 
 export interface IUserData extends IAPIResponse {
@@ -32,6 +45,18 @@ export interface IUserData extends IAPIResponse {
     readonly name: string;
     readonly surname: string;
     readonly role: EnumRole
+}
+
+export interface IExtendedUserData extends IAPIResponse {
+    readonly id: number;
+    readonly login: string;
+    readonly name: string;
+    readonly surname: string;
+    readonly role: EnumRole
+    readonly birthDate: string;
+    readonly birthID: string;
+    readonly email: string;
+    readonly phone: string;
 }
 
 const RoleToNameMap: Record<EnumRole, string> = {

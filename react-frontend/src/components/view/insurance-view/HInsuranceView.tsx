@@ -1,7 +1,7 @@
 import { HView, IHSection, ISectionProps } from "../HView";
-import receiptWhite from "../../../img/receipt-white-18dp.svg";
+import homeIcon from "../../../img/home-white-18dp.svg";
 import accountLogo from "../../../img/account_circle-white-18dp.svg";
-import { HProfileView } from "../user-view/HUserInfo";
+import { HOtherProfileView, HSelfProfileView } from "../user-view/HUserInfo";
 import React, { ReactNode } from "react";
 
 export abstract class HInsuranceView<T extends ISectionProps> extends HView<T> {
@@ -32,19 +32,19 @@ export class HInsuranceWelcomeView<T extends ISectionProps> extends HInsuranceVi
 const HInsuranceSection: IHSection = {
     menuItems: [
         {
-            icon: receiptWhite,
+            icon: homeIcon,
             name: "Domů",
             targetView: HInsuranceWelcomeView
         },
         {
             icon: accountLogo,
             name: "Správa pojištěnců",
-            targetView: HProfileView
+            targetView: HOtherProfileView
         },
         {
             icon: accountLogo,
             name: "Můj profil",
-            targetView: HProfileView
+            targetView: HSelfProfileView
         }
     ],
     permitsUserManagement: true,

@@ -9,7 +9,7 @@ import cz.vutbr.fit.hospitu.controller.admin.RoleController;
 import cz.vutbr.fit.hospitu.controller.doctor.DoctorController;
 import cz.vutbr.fit.hospitu.controller.doctor.FilesController;
 import cz.vutbr.fit.hospitu.controller.doctor.TicketController;
-import cz.vutbr.fit.hospitu.controller.doctor.UserController;
+import cz.vutbr.fit.hospitu.controller.UserController;
 import cz.vutbr.fit.hospitu.controller.validator.ValidationException;
 import cz.vutbr.fit.hospitu.data.response.generic.Generic400ResponseData;
 import cz.vutbr.fit.hospitu.data.response.generic.Generic500ResponseData;
@@ -55,24 +55,24 @@ public class Main
 
                     ApiBuilder.put("register", RegisterController::putRegister, Set.of(EnumAPIRole.ANONYMOUS));
 
-                    ApiBuilder.get("search", UserSearchController::getSearch, Set.of(EnumAPIRole.DOCTOR));
+                    ApiBuilder.get("search", UserSearchController::getSearch, Set.of(EnumAPIRole.DOCTOR, EnumAPIRole.INSURANCE_WORKER));
 
-                    ApiBuilder.get("search-detail", UserSearchController::getSearch, Set.of(EnumAPIRole.DOCTOR));
+                    ApiBuilder.get("search-detail", UserSearchController::getSearchDetailed, Set.of(EnumAPIRole.DOCTOR, EnumAPIRole.INSURANCE_WORKER));
 
                     ApiBuilder.path("@self", () -> {
                         ApiBuilder.get("profile", UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
 
-                        ApiBuilder.get("profile-full", UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
+                        ApiBuilder.get("profile-detail", UserController::getSelfUserProfileDetail, Set.of(EnumAPIRole.PATIENT));
 
-                        ApiBuilder.patch("profile-update", UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
+                        ApiBuilder.patch("profile-update", UserController::updateSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
                     });
 
                     ApiBuilder.path(":user-id", () -> {
                         ApiBuilder.get("profile", UserController::getUserProfile, Set.of(EnumAPIRole.ANONYMOUS));
 
-                        ApiBuilder.patch("profile-full", UserController::getUserProfile, Set.of(EnumAPIRole.DOCTOR, EnumAPIRole.INSURANCE_WORKER));
+                        ApiBuilder.get("profile-detail", UserController::getUserProfileDetail, Set.of(EnumAPIRole.DOCTOR, EnumAPIRole.INSURANCE_WORKER));
 
-                        ApiBuilder.patch("profile-update", UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
+                        ApiBuilder.get("profile-update", UserController::updateUserProfile, Set.of(EnumAPIRole.ADMIN));
 
                         ApiBuilder.patch("update-role", RoleController::patchChangeRole, Set.of(EnumAPIRole.ADMIN));
                     });

@@ -1,8 +1,8 @@
 import { HView, IHSection, ISectionProps } from "../HView";
 import React, { ReactNode } from "react";
-import receiptWhite from "../../../img/receipt-white-18dp.svg";
+import homeIcon from "../../../img/home-white-18dp.svg";
 import accountLogo from "../../../img/account_circle-white-18dp.svg";
-import { HProfileView } from "../user-view/HUserInfo";
+import { HOtherProfileView, HSelfProfileView } from "../user-view/HUserInfo";
 
 export abstract class HAdminView<T extends ISectionProps> extends HView<T> {
     protected constructor(props: T)
@@ -32,19 +32,19 @@ export class HAdminWelcomeView<T extends ISectionProps> extends HAdminView<T> {
 const HAdminSection: IHSection = {
     menuItems: [
         {
-            icon: receiptWhite,
+            icon: homeIcon,
             name: "Domů",
             targetView: HAdminWelcomeView
         },
         {
             icon: accountLogo,
             name: "Správa uživatelů",
-            targetView: HProfileView
+            targetView: HOtherProfileView
         },
         {
             icon: accountLogo,
             name: "Můj profil",
-            targetView: HProfileView
+            targetView: HSelfProfileView
         }
     ],
     permitsUserManagement: true,

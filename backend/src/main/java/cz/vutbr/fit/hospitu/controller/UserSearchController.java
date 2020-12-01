@@ -80,7 +80,7 @@ public class UserSearchController
         var query = context.queryParam("name");
         var role = EnumAPIRole.getByDBName(context.queryParam("role"));
 
-        var roles = role != null ? role.getCumulativePermissions() : EnumSet.allOf(EnumAPIRole.class);
+        var roles = role != null ? EnumSet.of(role) : EnumSet.allOf(EnumAPIRole.class);
 
         SQLConnection.createTransaction(context, connection -> {
             var sql = """
@@ -88,7 +88,7 @@ public class UserSearchController
                 us_name,
                 us_surname,
                 us_perms,
-                uci_birthdate                
+                uci_birthdate
             FROM users
                 LEFT JOIN usercontactinfo u on users.us_id = u.uci_us_id
             WHERE 

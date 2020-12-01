@@ -61,8 +61,6 @@ function appStateReducer(state: IApplicationState = applicationStateDefault, act
             if (state.currentSection.sectionType !== SectionType.INTERNAL_SCREEN)
                 break;
 
-            console.log(switchSectionAction.targetSection);
-
             return {
                 ...state,
                 currentSection: {

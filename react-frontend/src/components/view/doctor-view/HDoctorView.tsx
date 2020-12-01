@@ -1,8 +1,9 @@
 import { HView, IHSection, ISectionProps } from "../HView";
 import React, { ReactNode } from "react";
+import homeIcon from "../../../img/home-white-18dp.svg";
 import receiptWhite from "../../../img/receipt-white-18dp.svg";
 import accountLogo from "../../../img/account_circle-white-18dp.svg";
-import { HProfileView } from "../user-view/HUserInfo";
+import { HOtherProfileView, HSelfProfileView } from "../user-view/HUserInfo";
 import { HFileList } from "./HFileList";
 import { Tickets } from "./Tickets";
 
@@ -63,7 +64,7 @@ export class HDoctorWelcomeView<T extends ISectionProps> extends HDoctorView<T> 
 const HDoctorSection: IHSection = {
     menuItems: [
         {
-            icon: receiptWhite,
+            icon: homeIcon,
             name: "Domů",
             targetView: HDoctorWelcomeView
         },
@@ -80,12 +81,12 @@ const HDoctorSection: IHSection = {
         {
             icon: accountLogo,
             name: "Správa pacientů",
-            targetView: HProfileView
+            targetView: HOtherProfileView
         },
         {
             icon: accountLogo,
             name: "Můj profil",
-            targetView: HProfileView
+            targetView: HSelfProfileView
         }
     ],
     permitsUserManagement: true,

@@ -1,14 +1,33 @@
 import { HView, ISectionProps } from "../HView";
 import React, { ReactNode } from "react";
 import { HForm, HFormComponent } from "../../HForm";
-import { IUserData, RoleToNameMap } from "../../../data/UserData";
+import {
+    IAPIReadableResponse,
+    IAPIResponse,
+    IExtendedUserData,
+    ILoginData,
+    IUserData,
+    RoleToNameMap
+} from "../../../data/UserData";
 import { HFlow, HInput } from "../../HInput";
 import { HCard, HGrid, HHeader, HSubHeader, VBox } from "../../HCard";
 import { HButton, HButtonStyle } from "../../HButton";
+import { Dispatch } from "redux";
+import Axios from "axios";
+import { EnumInternalState } from "../../../data/AppState";
 
-class HUserProfile extends HFormComponent<{
-    userData: IUserData
-}, {
+interface HUserProfileProps
+{
+    user?: IUserData;
+    userData?: IExtendedUserData;
+    editor: ILoginData;
+    editAllowed?: boolean;
+    dispatch: Dispatch;
+}
+
+class HUserProfile extends HFormComponent<HUserProfileProps, {
+    yourProfile: boolean,
+    loaded: number,
     editMode: boolean,
     fields: {
         id: string,
@@ -17,30 +36,109 @@ class HUserProfile extends HFormComponent<{
         surname: string,
         role: string,
 
-        phone: string,
+        birthDate: string,
+        birthID: string,
         email: string,
-        birthdate: string,
-        birthID: string
-    }
+        phone: string
+    },
+    errorText?: string
 }>
 {
-    constructor(props: { userData: IUserData })
+    constructor(props: HUserProfileProps)
     {
         super(props);
 
-        this.state = {
-            editMode: false,
-            fields: {
-                ...props.userData,
-                role: RoleToNameMap[props.userData.role],
-                id: props.userData.id.toString(),
+        if (this.props.userData)
+        {
+            this.state = {
+                yourProfile: this.props.userData.id === this.props.editor.id,
+                loaded: 0,
+                editMode: false,
+                fields: {
+                    ...this.props.userData,
+                    role: RoleToNameMap[this.props.userData.role],
+                    id: this.props.userData.id.toString()
+                }
+            };
+        }
+        else
+        {
+            this.state = {
+                yourProfile: this.props.user ? (this.props.user.id === this.props.editor.id) : true,
+                loaded: 0,
+                editMode: false,
+                fields: {
+                    id: "",
+                    login: "",
+                    name: "",
+                    surname: "",
+                    role: "",
 
-                phone: "",
-                email: "",
-                birthdate: "",
-                birthID: ""
+                    birthDate: "",
+                    birthID: "",
+                    email: "",
+                    phone: ""
+                }
+            };
+        }
+    }
+
+    componentDidMount()
+    {
+        if (!this.props.userData)
+        {
+            this.retrieveData(this.props.user ? this.props.user : this.props.editor);
+        }
+    }
+
+    retrieveData = (user: IUserData): void => {
+        this.setState({
+            errorText: ""
+        });
+
+        const uid = user.id === this.props.editor.id ? "@self" : user.id;
+
+        Axios.get(`/users/${uid}/profile-detail`,
+            {
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    "Authorization": "Bearer " + this.props.editor.token
+                }
             }
-        };
+        ).then((response) => {
+            const apiResponse = response.data as IAPIResponse;
+
+            switch (apiResponse.code)
+            {
+                case 200:
+                {
+                    const results = apiResponse as IExtendedUserData;
+                    this.setState(state => ({
+                        loaded: state.loaded + 1,
+                        fields: {
+                            ...results,
+                            role: RoleToNameMap[results.role],
+                            id: results.id.toString()
+                        }
+                    }));
+                    break;
+                }
+
+                default:
+                    if ((apiResponse as IAPIReadableResponse).humanReadableMessage)
+                        this.setState(() => ({
+                            errorText: `Chyba při vyhledávání: ${(apiResponse as IAPIReadableResponse).humanReadableMessage}`
+                        }));
+                    else
+                        this.setState(() => ({
+                            errorText: "Došlo k chybě při vyhledávání, prosím zkuste to znovu později."
+                        }));
+            }
+        }).catch(() => {
+            this.setState(() => ({
+                errorText: "Došlo k chybě při vyhledávání, prosím zkuste to znovu později."
+            }));
+        });
     }
 
     toggleProfileEdit = (): void => {
@@ -50,23 +148,68 @@ class HUserProfile extends HFormComponent<{
     }
 
     updateProfile = (): void => {
-        // TODO
-
         this.setState({
-            editMode: false
+            errorText: ""
         });
+
+        const inputID = parseInt(this.state.fields.id);
+        const uid = inputID === this.props.editor.id ? "@self" : inputID;
+
+        Axios.patch(`/users/${uid}/profile-update`,
+            {
+                "name": this.state.fields.name,
+                "surname": this.state.fields.surname,
+                "birthDate": this.state.fields.birthDate,
+                "birthID": this.state.fields.birthID,
+                "email": this.state.fields.email,
+                "phone": this.state.fields.phone,
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    "Authorization": "Bearer " + this.props.editor.token
+                }
+            }
+        ).then((response) => {
+            const apiResponse = response.data as IAPIResponse;
+
+            switch (apiResponse.code)
+            {
+                case 200:
+                    break;
+
+                default:
+                    if ((apiResponse as IAPIReadableResponse).humanReadableMessage)
+                        this.setState(() => ({
+                            errorText: `Chyba při vyhledávání: ${(apiResponse as IAPIReadableResponse).humanReadableMessage}`
+                        }));
+                    else
+                        this.setState(() => ({
+                            errorText: "Došlo k chybě při ukládání profilu, prosím zkuste to znovu později."
+                        }));
+            }
+        }).catch(() => {
+            this.setState(() => ({
+                errorText: "Došlo k chybě při ukládání profilu, prosím zkuste to znovu později."
+            }));
+        });
+
+        if (!this.state.errorText)
+            this.setState({
+                editMode: false
+            });
     }
 
     render()
     {
         return (
             <HCard>
-                <HForm key={ this.state.editMode ? 1 : 0 } onSubmit={ this.updateProfile }>
+                <HForm key={ this.state.loaded + (this.state.editMode ? 1 : 0) } onSubmit={ this.updateProfile }>
                     <VBox>
                         <VBox>
                             <HHeader>
                                 <HFlow>
-                                    Váš profil
+                                    { this.state.yourProfile ? "Váš profil" : `Profil uživatele ${ this.state.fields.name } ${ this.state.fields.surname }` }
                                 </HFlow>
                             </HHeader>
                             <HFlow>
@@ -89,22 +232,31 @@ class HUserProfile extends HFormComponent<{
                                     <HGrid shrink={ true }>
                                         <HInput label={ "Telefon" } required={ true } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("phone") } type={ "phone" } />
                                         <HInput label={ "E-mail" } required={ true } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("email") } type={ "email" } />
-                                        <HInput label={ "Datum narození" } required={ true } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("birthdate") } type={ "date" } />
+                                        <HInput label={ "Datum narození" } required={ true } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("birthDate") } type={ "date" } />
                                         <HInput label={ "Rodné číslo" } required={ true } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("birthID") } />
                                     </HGrid>
                                 </VBox>
                             </HFlow>
+                            <HFlow>
+                                <span style={{ color: "red" }}>
+                                    { this.state.errorText }
+                                </span>
+                            </HFlow>
                         </VBox>
-                        <HFlow right={ true }>
-                            <span style={{ visibility: (this.state.editMode ? "visible" : "hidden") }}>
-                                <HButton buttonStyle={ HButtonStyle.TEXT } action={ "reset" } action2={ this.toggleProfileEdit }>
-                                    Zrušit změny
-                                </HButton>
-                            </span>
-                            <HButton buttonStyle={ HButtonStyle.TEXT_INVERTED } action={ this.state.editMode ? "submit" : this.toggleProfileEdit }>
-                                { this.state.editMode ? "Uložit změny" : "Upravit profil" }
-                            </HButton>
-                        </HFlow>
+                        {
+                            this.props.editAllowed ? (
+                                <HFlow right={ true }>
+                                    <span style={{ visibility: (this.state.editMode ? "visible" : "hidden") }}>
+                                        <HButton buttonStyle={ HButtonStyle.TEXT } action={ "reset" } action2={ this.toggleProfileEdit }>
+                                            Zrušit změny
+                                        </HButton>
+                                    </span>
+                                    <HButton buttonStyle={ HButtonStyle.TEXT_INVERTED } action={ this.state.editMode ? "submit" : this.toggleProfileEdit }>
+                                        { this.state.editMode ? "Uložit změny" : "Upravit profil" }
+                                    </HButton>
+                                </HFlow>
+                            ) : null
+                        }
                     </VBox>
                 </HForm>
             </HCard>
@@ -112,7 +264,7 @@ class HUserProfile extends HFormComponent<{
     }
 }
 
-export class HProfileView<T extends ISectionProps> extends HView<T> {
+export class HSelfProfileView<T extends ISectionProps> extends HView<T> {
     constructor(props: T)
     {
         super(props);
@@ -121,7 +273,36 @@ export class HProfileView<T extends ISectionProps> extends HView<T> {
     render(): ReactNode
     {
         return (
-            <HUserProfile userData={ this.props.loginData } />
+            <HUserProfile user={ this.props.loginData } dispatch={ this.props.dispatch } editor={ this.props.loginData } editAllowed={ true } />
         );
+    }
+}
+
+export class HOtherProfileView<T extends ISectionProps> extends HView<T> {
+    constructor(props: T)
+    {
+        super(props);
+    }
+
+    requiresUserManagement = (): boolean => true;
+
+    render(): ReactNode
+    {
+        if (this.props.managedUser)
+        {
+            const allowEdits = (this.props.sectionState.internalState === EnumInternalState.ADMIN_PANEL) || (this.props.loginData.id === this.props.managedUser?.id);
+            return (
+                <HUserProfile userData={ this.props.managedUser } dispatch={ this.props.dispatch }
+                    editor={ this.props.loginData } editAllowed={ allowEdits } />
+            );
+        }
+        else
+        {
+            return (
+                <HHeader>
+                    Pro zobrazení informací prosím nejdříve vyberte uživatele.
+                </HHeader>
+            );
+        }
     }
 }

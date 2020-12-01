@@ -1,9 +1,10 @@
 import { HView, IHSection, ISectionProps } from "../HView";
 import React, { ReactNode } from "react";
 
+import homeIcon from "../../../img/home-white-18dp.svg";
 import receiptWhite from "../../../img/receipt-white-18dp.svg";
 import accountLogo from "../../../img/account_circle-white-18dp.svg";
-import { HProfileView } from "../user-view/HUserInfo";
+import { HSelfProfileView } from "../user-view/HUserInfo";
 
 export abstract class HPatientView<T extends ISectionProps> extends HView<T> {
     protected constructor(props: T)
@@ -33,14 +34,14 @@ export class HPatientWelcomeView<T extends ISectionProps> extends HPatientView<T
 const HPatientSection: IHSection = {
     menuItems: [
         {
-            icon: receiptWhite,
+            icon: homeIcon,
             name: "Domů",
             targetView: HPatientWelcomeView
         },
         {
             icon: accountLogo,
             name: "Můj profil",
-            targetView: HProfileView
+            targetView: HSelfProfileView
         }
     ],
     permitsUserManagement: false,
