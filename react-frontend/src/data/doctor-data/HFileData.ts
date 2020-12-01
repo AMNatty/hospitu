@@ -10,6 +10,6 @@ export interface FileData {
     patientFirstName : string,
     patientLastName : string,
     patientAllergies : string,
-    patientConditions : string,
+    patientCondition : string,
     patientGender : string
 }
