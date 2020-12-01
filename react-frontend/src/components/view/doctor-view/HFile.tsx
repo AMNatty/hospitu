@@ -15,11 +15,13 @@ import "../../../style/healthFiles.less";
 
 export class HFile extends HFormComponent<{
     dispatch: Dispatch,
-    loginData: ILoginData 
+    loginData: ILoginData,
+    fileData: FileData 
 }, {
     fileList: FileData[],
     editMode: boolean,
     editModeReport: boolean,
+    myFileData: FileData,
     fields: {
         ptch_id: string,
         ptch_name: string,
@@ -40,6 +42,21 @@ export class HFile extends HFormComponent<{
             fileList:[],
             editMode: false,
             editModeReport: false,
+            myFileData: {
+                idFile : 0,
+                idDoctor : 0,
+                idPatient : 0,
+                name : "",
+                description : "",
+                finished : "",
+                from : "",
+                to : "",
+                patientFirstName : "",
+                patientLastName : "",
+                patientAllergies : "",
+                patientCondition : "",
+                patientGender : ""
+            },
             fields: {
                 ptch_id: "",
                 ptch_name: "",
@@ -69,9 +86,28 @@ export class HFile extends HFormComponent<{
             {
                 case 200:
                 {
-                    this.setState(() => ({
-                        fileList : response.data.fileListData as FileData[]
-                    }));
+                    //kdyby se upravovali data
+                    const myFileListData = response.data.fileListData as FileData[]
+                    for (let i = 0; i < myFileListData.length; i++) {
+                        if(this.props.fileData.idFile === myFileListData[i].idFile){
+                            this.setState(() => ({
+                                myFileData : myFileListData[i],
+                                fileList : myFileListData,
+                                fields: {
+                                    ptch_id: myFileListData[i].idFile.toString(),
+                                    ptch_name: myFileListData[i].name,
+                                    ptch_description: myFileListData[i].description,
+                                    ptch_from: myFileListData[i].from,
+                                    ptch_to: myFileListData[i].to,
+                                    ptch_finished: (myFileListData[i].finished)? "Čeká na vyšetření" : "Ukončen",
+                                    us_name: myFileListData[i].patientFirstName,
+                                    us_surname: myFileListData[i].patientLastName,
+                                    pt_allergies: myFileListData[i].patientAllergies,
+                                    pt_condition: myFileListData[i].patientCondition
+                                }
+                            }));
+                        }
+                    }
                     break;
                 }
 
@@ -84,6 +120,7 @@ export class HFile extends HFormComponent<{
         }).catch(() => {
             
         });
+
     }
 
     toggleFileEdit = (): void => {
@@ -116,7 +153,7 @@ export class HFile extends HFormComponent<{
                             <VBox>
                                 <HHeader>
                                     <HFlow>
-                                        Název záznamu
+                                        {this.state.fields.ptch_name}
                                     </HFlow>
                                 </HHeader>
                                 <HFlow>
@@ -160,8 +197,7 @@ export class HFile extends HFormComponent<{
                     <HForm key={ this.state.editModeReport ? 1 : 0 } onSubmit = {this.updateFile}>
                         <h3 className="report-h">Lékařská zpráva</h3>
                         <div className="textarea-container">
-                            <textarea name="med-description" id="med-description" >
-
+                            <textarea name="med-description" id="med-description" defaultValue={this.state.fields.ptch_description}>
                             </textarea>
                         </div>
                         <HFlow right={ true }>
@@ -171,7 +207,7 @@ export class HFile extends HFormComponent<{
                                     </HButton>
                                 </span>
                                 <HButton buttonStyle={ HButtonStyle.TEXT_INVERTED } action={ this.state.editModeReport ? "submit" : this.toggleReportEdit }>
-                                    { this.state.editMode ? "Uložit změny" : "Přidat do lékařské zprávy" }
+                                    { this.state.editModeReport ? "Uložit změny" : "Přidat do lékařské zprávy" }
                                 </HButton>
                             </HFlow>
                     </HForm>

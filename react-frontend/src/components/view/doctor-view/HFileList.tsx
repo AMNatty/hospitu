@@ -28,7 +28,8 @@ export class HFileList extends React.Component<{
 },{
     fileList: FileData[],
     doctorList: DoctorData[],
-    screenState: HFileDisplayData
+    screenState: HFileDisplayData,
+    fileData: FileData
 }> {
 
     constructor(props:never){
@@ -37,6 +38,21 @@ export class HFileList extends React.Component<{
             fileList:[],
             doctorList:[],
             screenState: HFileDisplayData.HFileTable,
+            fileData: {
+                idFile : 0,
+                idDoctor : 0,
+                idPatient : 0,
+                name : "",
+                description : "",
+                finished : "",
+                from : "",
+                to : "",
+                patientFirstName : "",
+                patientLastName : "",
+                patientAllergies : "",
+                patientCondition : "",
+                patientGender : ""
+            }
         };
     }
 
@@ -54,8 +70,15 @@ export class HFileList extends React.Component<{
             {
                 case 200:
                 {
+                    const myFileListData = response.data.fileListData as FileData[];
+                    let tmpList : FileData[] = [];
+                    for(let i = 0; i < myFileListData.length; i++){
+                        if(myFileListData[i].idDoctor === this.props.loginData.id){
+                            tmpList.push(myFileListData[i]);
+                        }
+                    }
                     this.setState(() => ({
-                        fileList : response.data.fileListData as FileData[]
+                        fileList : tmpList
                     }));
                     break;
                 }
@@ -116,10 +139,11 @@ export class HFileList extends React.Component<{
         }
     }
 
-    changeFile = (): void => {
+    changeFile = (fileo : FileData): void => {
         switch(this.state.screenState){
             case HFileDisplayData.HFileTable:
                 this.setState({
+                    fileData : fileo,
                     screenState: HFileDisplayData.HFile
                 });
                 break;
@@ -152,7 +176,7 @@ export class HFileList extends React.Component<{
                                 <tbody>
                                     {
                                         this.state.fileList.map(fileo => (
-                                            <tr key={fileo.idFile} onClick={this.changeFile}>
+                                            <tr key={fileo.idFile} onClick={() => this.changeFile(fileo)}>
                                                 <td>{fileo.name}</td>
                                                 <td>{fileo.patientFirstName} {fileo.patientLastName}</td>
                                                 <td>{(fileo.finished) ? "Čeká na vyšetření" : "Ukončen"}</td>
@@ -184,7 +208,7 @@ export class HFileList extends React.Component<{
                 break;
             case HFileDisplayData.HFile:
                 content = (
-                    <HFile dispatch={this.props.dispatch} loginData={this.props.loginData}>
+                    <HFile dispatch={this.props.dispatch} loginData={this.props.loginData} fileData={this.state.fileData}>
                     </HFile>
                 );
                 break;

@@ -15,12 +15,15 @@ import "../../../style/healthFiles.less";
 
 export class Ticket extends HFormComponent<{
     dispatch: Dispatch,
-    loginData: ILoginData 
+    loginData: ILoginData,
+    ticketData: TicketData,
+    fileListData: FileData[]
 }, {
     ticketList: TicketData[],
     fileList: FileData[],
     editMode: boolean,
     editModeReport: boolean,
+    myTicketData: TicketData
     fields: {
         cr_id: string,
         cr_name: string,
@@ -42,6 +45,15 @@ export class Ticket extends HFormComponent<{
             fileList: [],
             editMode: false,
             editModeReport: false,
+            myTicketData: {
+                idTicket : 0,
+                idDoctor : 0,
+                idFile : 0,
+                name : "",
+                performed : "",
+                report : "",
+                price : ""
+            },
             fields: {
                 cr_id: "",
                 cr_name: "",
@@ -59,35 +71,6 @@ export class Ticket extends HFormComponent<{
 
     componentDidMount() : void {
         Axios({
-            url: "/hFile/info",
-            headers: {
-                Authorization: 'Bearer ' + this.props.loginData.token 
-            },
-            method: "GET"
-        }).then((response) => {
-            const apiResponse = response.data as IAPIResponse;
-
-            switch (apiResponse.code)
-            {
-                case 200:
-                {
-                    this.setState(() => ({
-                        fileList : response.data.fileListData as FileData[]
-                    }));
-                    break;
-                }
-
-                case 404:
-                    break;
-
-                default:
-                    
-            }
-        }).catch(() => {
-            //TODO
-        });
-
-        Axios({
             url: "/tickets/info",
             headers: {
                 Authorization: 'Bearer ' + this.props.loginData.token 
@@ -100,9 +83,32 @@ export class Ticket extends HFormComponent<{
             {
                 case 200:
                 {
-                    this.setState(() => ({
-                        ticketList : response.data.ticketListData as TicketData[]
-                    }));
+                    const myTicketListData = response.data.ticketListData as TicketData[];
+                    const myFileListData = this.props.fileListData
+                    for(let i = 0; i < myTicketListData.length; i++){
+                        if(this.props.ticketData.idTicket === myTicketListData[i].idTicket){
+                            for(let j = 0; j < myFileListData.length; j++){
+                                if(this.props.ticketData.idFile === myFileListData[i].idFile){
+                                    this.setState(() => ({
+                                        ticketList : myTicketListData,
+                                        myTicketData : myTicketListData[i],
+                                        fields : {
+                                            cr_id: myTicketListData[i].idTicket.toString(),
+                                            cr_name: myTicketListData[i].name,
+                                            cr_performed: (myTicketListData[i].performed) ? "Čekající" : "Vyřízený",
+                                            cr_report: myTicketListData[i].report,
+                                            cr_price: myTicketListData[i].price + " kč",
+                                            ptch_name: myFileListData[j].name,
+                                            us_name: myFileListData[j].patientFirstName,
+                                            us_surname: myFileListData[j].patientLastName,
+                                            pt_allergies: myFileListData[j].patientAllergies,
+                                            pt_condition: myFileListData[j].patientCondition
+                                        }
+                                    }));
+                                }
+                            }
+                        }
+                    }
                     break;
                 }
 
@@ -191,7 +197,7 @@ export class Ticket extends HFormComponent<{
                     <HForm key={ this.state.editModeReport ? 1 : 0 } onSubmit = {this.updateTicket}>
                         <h3 className="report-h">Lékařská zpráva</h3>
                         <div className="textarea-container">
-                            <textarea name="med-description" id="med-description" >
+                            <textarea name="med-description" id="med-description" defaultValue={this.state.fields.cr_report}>
 
                             </textarea>
                         </div>

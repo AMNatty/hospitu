@@ -5,6 +5,7 @@ import { Dispatch } from "redux";
 import { IAPIResponse, ILoginData } from "../../../data/UserData";
 import { TicketData } from "../../../data/doctor-data/TicketData";
 import { DoctorData } from "../../../data/doctor-data/DoctorData";
+import { FileData } from "../../../data/doctor-data/HFileData";
 
 import  "../../../style/healthFiles.less";
 import "../../../style/doctor-content.less";
@@ -28,7 +29,9 @@ export class Tickets extends React.Component<{
 },{
     ticketList: TicketData[],
     doctorList: DoctorData[],
-    screenState: TicketDisplayData
+    fileList : FileData[],
+    screenState: TicketDisplayData,
+    ticketData: TicketData,
 }> {
 
     constructor(props:never){
@@ -36,7 +39,17 @@ export class Tickets extends React.Component<{
         this.state = {
             ticketList:[],
             doctorList:[],
-            screenState: TicketDisplayData.TicketTable
+            fileList: [],
+            screenState: TicketDisplayData.TicketTable,
+            ticketData: {
+                idTicket : 0,
+                idDoctor : 0,
+                idFile : 0,
+                name : "",
+                performed : "",
+                report : "",
+                price : ""
+            }
         };
     }
 
@@ -54,8 +67,16 @@ export class Tickets extends React.Component<{
             {
                 case 200:
                 {
+                    //pro vypis tech tiketu ktery ma ten lekar
+                    const myTicketListData = response.data.ticketListData as TicketData[];
+                    let tmpList : TicketData[] = [];
+                    for(let i = 0; i < myTicketListData.length; i++){
+                        if(myTicketListData[i].idDoctor === this.props.loginData.id){
+                            tmpList.push(myTicketListData[i]);
+                        }
+                    }
                     this.setState(() => ({
-                        ticketList : response.data.ticketListData as TicketData[]
+                        ticketList : tmpList
                     }));
                     break;
                 }
@@ -98,6 +119,35 @@ export class Tickets extends React.Component<{
         }).catch(() => {
             // TODO
         });
+
+        Axios({
+            url: "/hFile/info",
+            headers: {
+                Authorization: 'Bearer ' + this.props.loginData.token 
+            },
+            method: "GET"
+        }).then((response) => {
+            const apiResponse = response.data as IAPIResponse;
+
+            switch (apiResponse.code)
+            {
+                case 200:
+                {
+                    this.setState(() => ({
+                        fileList : response.data.fileListData as FileData[]
+                    }));
+                    break;
+                }
+
+                case 404:
+                    break;
+
+                default:
+                    
+            }
+        }).catch(() => {
+            //TODO
+        });
     }
 
     createTicket = (): void => {
@@ -112,11 +162,12 @@ export class Tickets extends React.Component<{
         }
     }
 
-    changeTicket = (): void => {
+    changeTicket = (ticket : TicketData): void => {
         switch(this.state.screenState){
             case TicketDisplayData.TicketTable:
                 this.setState({
-                    screenState: TicketDisplayData.Ticket
+                    screenState: TicketDisplayData.Ticket,
+                    ticketData : ticket
                 });
                 break;
             default:
@@ -156,7 +207,7 @@ export class Tickets extends React.Component<{
                                 <tbody>
                                     {
                                         this.state.ticketList.map(ticket => (
-                                            <tr key={ticket.idTicket} onClick={this.changeTicket}>
+                                            <tr key={ticket.idTicket} onClick={() => this.changeTicket(ticket)}>
                                                 <td>{ticket.name}</td>
                                                 <td>{ticket.price} kč</td>
                                                 <td>{(ticket.performed) ? "Čekající" : "Vyřízený"}</td>
@@ -249,7 +300,7 @@ export class Tickets extends React.Component<{
                 break;
             case TicketDisplayData.Ticket:
                 content = (
-                    <Ticket dispatch={this.props.dispatch} loginData={this.props.loginData}>
+                    <Ticket dispatch={this.props.dispatch} loginData={this.props.loginData} ticketData={this.state.ticketData} fileListData={this.state.fileList}>
                     </Ticket>
                 );
                 break;

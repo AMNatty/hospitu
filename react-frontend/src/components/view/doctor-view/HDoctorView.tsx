@@ -79,11 +79,6 @@ const HDoctorSection: IHSection = {
         },
         {
             icon: accountLogo,
-            name: "Správa pacientů",
-            targetView: HProfileView
-        },
-        {
-            icon: accountLogo,
             name: "Můj profil",
             targetView: HProfileView
         }
