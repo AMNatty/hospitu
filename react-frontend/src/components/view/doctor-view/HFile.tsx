@@ -109,7 +109,7 @@ export class HFile extends HFormComponent<{
     render(): JSX.Element
     {
         return (
-            <div className="main">
+            <div className="main-i">
                 <HCard>
                     <HForm key={ this.state.editMode ? 1 : 0 } onSubmit={ this.updateFile }>
                         <VBox>

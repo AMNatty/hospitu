@@ -4,11 +4,7 @@ import receiptWhite from "../../../img/receipt-white-18dp.svg";
 import accountLogo from "../../../img/account_circle-white-18dp.svg";
 import { HProfileView } from "../user-view/HUserInfo";
 import { HFileList } from "./HFileList";
-import { CreateHFile } from "./CreateHFile";
-import { HFile } from "./HFile";
 import { Tickets } from "./Tickets";
-import { Ticket } from "./Ticket";
-import { CreateTicket } from "./CreateTicket";
 
 export abstract class HDoctorView<T extends ISectionProps> extends HView<T> {
     protected constructor(props: T)
@@ -17,9 +13,38 @@ export abstract class HDoctorView<T extends ISectionProps> extends HView<T> {
     }
 }
 
+export class HFileListView<T extends ISectionProps> extends HView<T> {
+    constructor(props: T)
+    {
+        super(props);
+    }
+
+    render(): ReactNode
+    {
+        return (
+            <HFileList dispatch={this.props.dispatch} loginData={this.props.loginData}>
+            </HFileList>
+        );
+    }
+}
+
+export class HTicketListView<T extends ISectionProps> extends HView<T> {
+    constructor(props: T)
+    {
+        super(props);
+    }
+
+    render(): ReactNode
+    {
+        return (
+            <Tickets dispatch={this.props.dispatch} loginData={this.props.loginData}>
+            </Tickets>
+        );
+    }
+}
+
 export class HDoctorWelcomeView<T extends ISectionProps> extends HDoctorView<T> {
     requiresUserManagement = (): boolean => true;
-
     constructor(props: T)
     {
         super(props);
@@ -41,6 +66,16 @@ const HDoctorSection: IHSection = {
             icon: receiptWhite,
             name: "Domů",
             targetView: HDoctorWelcomeView
+        },
+        {
+            icon: receiptWhite,
+            name: "Spravovat záznamy",
+            targetView: HFileListView
+        },
+        {
+            icon: receiptWhite,
+            name: "Spravovat vyšetření",
+            targetView: HTicketListView
         },
         {
             icon: accountLogo,
