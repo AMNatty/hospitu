@@ -86,6 +86,10 @@ public class Main
                     ApiBuilder.path("patients", () -> {
                         ApiBuilder.get(FilesController::getPatient, Set.of(EnumAPIRole.DOCTOR));
                     });
+
+                    ApiBuilder.path("create", () -> {
+                        ApiBuilder.put(FilesController::putFiles, Set.of(EnumAPIRole.DOCTOR));
+                    });
                 });
 
                 ApiBuilder.path("doctors", () -> {
@@ -101,6 +105,18 @@ public class Main
                 ApiBuilder.path("tickets", () -> {
                     ApiBuilder.path("info", () -> {
                         ApiBuilder.get(TicketController::getTickets, Set.of(EnumAPIRole.DOCTOR));
+                    });
+
+                    ApiBuilder.path("create", () -> {
+                        ApiBuilder.put(TicketController::putTickets, Set.of(EnumAPIRole.DOCTOR));
+                    });
+
+                    ApiBuilder.path("insurance", () -> {
+                        ApiBuilder.put(TicketController::putIRequest, Set.of(EnumAPIRole.DOCTOR));
+                    });
+
+                    ApiBuilder.path("switch", () -> {
+                        ApiBuilder.put(TicketController::putChangeDoctor, Set.of(EnumAPIRole.DOCTOR));
                     });
                 });
             });
