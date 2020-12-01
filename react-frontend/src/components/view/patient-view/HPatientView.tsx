@@ -13,6 +13,8 @@ export abstract class HPatientView<T extends ISectionProps> extends HView<T> {
 }
 
 export class HPatientWelcomeView<T extends ISectionProps> extends HPatientView<T> {
+    requiresUserManagement = (): boolean => true;
+
     constructor(props: T)
     {
         super(props);

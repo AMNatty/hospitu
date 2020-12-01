@@ -31,14 +31,15 @@ export class InternalAppScreen extends React.Component<{
     managedUser?: IUserSearchResult,
     userSearch?: IUserSearchResult[],
     errorText?: string,
-    searchTimeout?: number
+    searchTimeout?: number,
+    userManagementEnabled: boolean
 }> {
     constructor(props: never)
     {
         super(props);
 
         this.state = {
-            
+            userManagementEnabled: false
         };
     }
 
@@ -108,7 +109,16 @@ export class InternalAppScreen extends React.Component<{
 
     render(): ReactNode
     {
-        const ViewComponent = this.props.currentView;
+        const ViewComponentType = this.props.currentView;
+
+        const viewComponent = <ViewComponentType
+            dispatch={ this.props.dispatch }
+            loginData={ this.props.sectionState.loginData }
+            sectionState={ this.props.sectionState.sectionState }
+            managedUser={ this.state.managedUser }
+            requiresUserManagementCallback={ enabled => this.setState({
+                userManagementEnabled: enabled
+            })} />;
 
         let sectionChooser: ReactNode | null = null;
 
@@ -264,7 +274,7 @@ export class InternalAppScreen extends React.Component<{
                     </div>
                     <div id="hs-app-viewport">
                         {
-                            this.props.sectionState.sectionState.internalSection.permitsUserManagement ? (
+                            this.props.sectionState.sectionState.internalSection.permitsUserManagement && this.state.userManagementEnabled ? (
                                 <div id={ "hs-userbox" }>
                                     <div className={ "hs-userbox-spacer "} />
                                     <div className={ "hs-userbox-center "}>
@@ -301,7 +311,7 @@ export class InternalAppScreen extends React.Component<{
                         }
                         <div id="hs-app-viewport-inner">
                             {
-                                <ViewComponent dispatch={ this.props.dispatch } loginData={ this.props.sectionState.loginData } sectionState={ this.props.sectionState.sectionState }  />
+                                viewComponent
                             }
                         </div>
                     </div>

@@ -12,6 +12,8 @@ export abstract class HInsuranceView<T extends ISectionProps> extends HView<T> {
 }
 
 export class HInsuranceWelcomeView<T extends ISectionProps> extends HInsuranceView<T> {
+    requiresUserManagement = (): boolean => true;
+
     constructor(props: T)
     {
         super(props);

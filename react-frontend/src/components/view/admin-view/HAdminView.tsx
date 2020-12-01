@@ -12,6 +12,8 @@ export abstract class HAdminView<T extends ISectionProps> extends HView<T> {
 }
 
 export class HAdminWelcomeView<T extends ISectionProps> extends HAdminView<T> {
+    requiresUserManagement = (): boolean => true;
+
     constructor(props: T)
     {
         super(props);

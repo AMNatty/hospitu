@@ -1,5 +1,5 @@
 import React from "react";
-import { ILoginData, IUserData } from "../../data/UserData";
+import { ILoginData, IUserSearchResult } from "../../data/UserData";
 import { IInternalApplicationState } from "../../data/AppState";
 import { Dispatch } from "redux";
 
@@ -8,7 +8,9 @@ export interface ISectionProps {
     sectionState: IInternalApplicationState;
     dispatch: Dispatch;
 
-    managedUser?: IUserData;
+    managedUser?: IUserSearchResult;
+
+    requiresUserManagementCallback: (enabled: boolean) => void
 }
 
 export interface IMenuItem {
@@ -24,8 +26,10 @@ export interface IHSection {
 }
 
 export abstract class HView<T extends ISectionProps> extends React.Component<T> {
-    protected constructor(props: T)
+    requiresUserManagement = (): boolean => false;
+
+    componentDidMount(): void
     {
-        super(props);
+        this.props.requiresUserManagementCallback(this.requiresUserManagement());
     }
 }

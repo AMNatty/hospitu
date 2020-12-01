@@ -12,6 +12,8 @@ export abstract class HDoctorView<T extends ISectionProps> extends HView<T> {
 }
 
 export class HDoctorWelcomeView<T extends ISectionProps> extends HDoctorView<T> {
+    requiresUserManagement = (): boolean => true;
+
     constructor(props: T)
     {
         super(props);
