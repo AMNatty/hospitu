@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ChangeEvent, ReactNode } from "react";
 import { internalAppStateFromRole, InternalScreenSectionState } from "../data/AppState";
 import { Dispatch } from "redux";
 import { LogoutAction, SwitchSectionAction, SwitchViewAction } from "../data/AppAction";
@@ -11,17 +11,99 @@ import appsIcon from "../img/apps-white-18dp.svg";
 import { HClockDate, HClockTime } from "./HClock";
 import { HView } from "./view/HView";
 import { HProfileView } from "./view/user-view/HUserInfo";
-import { EnumRole, RoleToNameMap } from "../data/UserData";
-import { VBox } from "./HCard";
-
+import {
+    EnumRole,
+    IAPIReadableResponse,
+    IAPIResponse,
+    IUserSearch,
+    IUserSearchResult,
+    RoleToNameMap
+} from "../data/UserData";
+import { HBox, VBox } from "./HCard";
+import Axios from "axios";
+import { HButton, HButtonStyle } from "./HButton";
 
 export class InternalAppScreen extends React.Component<{
     dispatch: Dispatch,
     currentView: typeof HView,
     sectionState: InternalScreenSectionState
+}, {
+    managedUser?: IUserSearchResult,
+    userSearch?: IUserSearchResult[],
+    errorText?: string,
+    searchTimeout?: number
 }> {
+    constructor(props: never)
+    {
+        super(props);
+
+        this.state = {
+            
+        };
+    }
+
     logout = (): void => {
         this.props.dispatch(new LogoutAction());
+    }
+
+    performSearch = (e: ChangeEvent<HTMLInputElement>): void => {
+        const value = e.target.value;
+
+        if (typeof this.state.searchTimeout !== "undefined")
+        {
+            clearTimeout(this.state.searchTimeout);
+        }
+
+        if (value === "")
+        {
+            this.setState(() => ({
+                userSearch: []
+            }));
+
+            return;
+        }
+
+        const timeout = window.setTimeout(() => {
+            Axios.get("/users/search",
+                {
+                    params: {
+                        name: value
+                    },
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json; charset=UTF-8",
+                        "Authorization": "Bearer " + this.props.sectionState.loginData.token
+                    }
+                }
+            ).then((response) => {
+                const apiResponse = response.data as IAPIResponse;
+
+                switch (apiResponse.code)
+                {
+                    case 200:
+                    {
+                        const results = apiResponse as IUserSearch;
+                        this.setState(() => ({
+                            userSearch: results.searchResults
+                        }));
+                        break;
+                    }
+
+                    default:
+                        this.setState(() => ({
+                            errorText: `Chyba: ${(apiResponse as IAPIReadableResponse).humanReadableMessage}`
+                        }));
+                }
+            }).catch(() => {
+                this.setState(() => ({
+                    errorText: "Došlo k chybě při vyhledávání, prosím zkuste to znovu později."
+                }));
+            });
+        }, 350);
+
+        this.setState({
+            searchTimeout: timeout
+        });
     }
 
     render(): ReactNode
@@ -88,7 +170,7 @@ export class InternalAppScreen extends React.Component<{
                 <div id="hs-menu">
                     <ul>
                         <li className="hs-menu-option">
-                            <a href="#" className="hs-menu-current-entity">
+                            <span className="hs-menu-current-entity">
                                 <div className="hs-menu-current-container">
                                     <div className="hs-menu-option-text hs-menu-current-role">
                                         { RoleToNameMap[this.props.sectionState.loginData.role] }:
@@ -97,7 +179,7 @@ export class InternalAppScreen extends React.Component<{
                                         { this.props.sectionState.loginData.name } { this.props.sectionState.loginData.surname }
                                     </div>
                                 </div>
-                            </a>
+                            </span>
                         </li>
                         <li className="hs-menu-option hs-menu-time">
                             <div className="hs-menu-small-box">
@@ -182,8 +264,46 @@ export class InternalAppScreen extends React.Component<{
                     </div>
                     <div id="hs-app-viewport">
                         {
-                            <ViewComponent dispatch={ this.props.dispatch } loginData={ this.props.sectionState.loginData } sectionState={ this.props.sectionState.sectionState }  />
+                            this.props.sectionState.sectionState.internalSection.permitsUserManagement ? (
+                                <div id={ "hs-userbox" }>
+                                    <div className={ "hs-userbox-spacer "} />
+                                    <div className={ "hs-userbox-center "}>
+                                        <VBox>
+                                            <HBox>
+                                                <input type={ "text" } onClick={ event => {
+                                                    if (typeof this.state.managedUser !== "undefined")
+                                                        (event.target as HTMLInputElement).value = "";
+                                                } } onChange={ this.performSearch } placeholder={ "Vyberte uživatele..." } />
+                                            </HBox>
+                                            {
+                                                this.state.userSearch?.map(result => (
+                                                    <div className={ "hs-userbox-result" } key={ result.id }>
+                                                        <span className={ "hs-userbox-result-name" }>
+                                                            { result.name } { result.surname }
+                                                        </span>
+                                                        <span className={ "hs-userbox-result-role" }>
+                                                            { RoleToNameMap[result.role] }
+                                                        </span>
+                                                        <HButton buttonStyle={ HButtonStyle.BORDER }>
+                                                            Zobrazit informace
+                                                        </HButton>
+                                                        <HButton buttonStyle={ HButtonStyle.TEXT_INVERTED }>
+                                                            Vybrat
+                                                        </HButton>
+                                                    </div>
+                                                ))
+                                            }
+                                        </VBox>
+                                    </div>
+                                    <div className={ "hs-userbox-spacer "} />
+                                </div>
+                            ) : undefined
                         }
+                        <div id="hs-app-viewport-inner">
+                            {
+                                <ViewComponent dispatch={ this.props.dispatch } loginData={ this.props.sectionState.loginData } sectionState={ this.props.sectionState.sectionState }  />
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,14 +3,14 @@ import Axios from "axios";
 
 import { Dispatch } from "redux";
 import { IAPIResponse, ILoginData } from "../../../data/UserData";
-import { FileData} from "../../../data/HFileData";
-import { DoctorData } from "../../../data/DoctorData";
+import { FileData} from "../../../data/doctor-data/HFileData";
+import { DoctorData } from "../../../data/doctor-data/DoctorData";
 import { HFlow, HInput } from "../../HInput";
 import { HForm, HFormComponent, HFieldInfo } from "../../HForm";
 import { VBox } from "../../HCard";
 import { HButton, HButtonStyle } from "../../HButton";
 
-import "../../../style/healthFiles.less"
+import "../../../style/healthFiles.less";
 import "../../../style/p-profile.less";
 
 export class CreateHFile extends HFormComponent<{
@@ -45,7 +45,7 @@ export class CreateHFile extends HFormComponent<{
         Axios({
             url: "/hFile/patients",
             headers: {
-                Authorization: 'Bearer ' + this.props.loginData.token 
+                Authorization: "Bearer " + this.props.loginData.token 
             },
             method: "GET"
         }).then((response) => {
@@ -68,13 +68,13 @@ export class CreateHFile extends HFormComponent<{
                     
             }
         }).catch(() => {
-            
+            // TODO
         });
 
         Axios({
             url: "/doctors/files",
             headers: {
-                Authorization: 'Bearer ' + this.props.loginData.token 
+                Authorization: "Bearer " + this.props.loginData.token 
             },
             method: "GET"
         }).then((response) => {
@@ -97,7 +97,7 @@ export class CreateHFile extends HFormComponent<{
                     
             }
         }).catch(() => {
-            
+            // TODO
         });
     }
 
@@ -129,7 +129,7 @@ export class CreateHFile extends HFormComponent<{
                             <select name="patient-select" id="patient-select" className="patient-select">
                                 {
                                     this.state.fileList.map(fileo =>(
-                                    <option key={fileo.idPatient} value={fileo.idPatient}>{fileo.patientFirstName} {fileo.patientLastName}</option> 
+                                        <option key={fileo.idPatient} value={fileo.idPatient}>{fileo.patientFirstName} {fileo.patientLastName}</option> 
                                     ))
                                 }
                             </select>
@@ -137,7 +137,7 @@ export class CreateHFile extends HFormComponent<{
                             <select name="doctor-select" id="doctor-select" className="doctor-select">
                                 {
                                     this.state.doctorList.map(doctor =>(
-                                    <option key={doctor.idDoctor} value={doctor.idDoctor}>{doctor.firstName} {doctor.lastName}</option> 
+                                        <option key={doctor.idDoctor} value={doctor.idDoctor}>{doctor.firstName} {doctor.lastName}</option> 
                                     ))
                                 }
                             </select>
@@ -150,6 +150,6 @@ export class CreateHFile extends HFormComponent<{
                     </div>
                 </HForm>
             </div>
-        )
+        );
     }
 }

@@ -14,6 +14,18 @@ export interface IAPIReadableResponse {
     readonly humanReadableMessage: string
 }
 
+export interface IUserSearchResult {
+    readonly id: number;
+    readonly name: string;
+    readonly surname: string;
+    readonly role: EnumRole
+}
+
+export interface IUserSearch {
+    readonly code: number,
+    readonly searchResults: IUserSearchResult[]
+}
+
 export interface IUserData extends IAPIResponse {
     readonly id: number;
     readonly login: string;

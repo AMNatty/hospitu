@@ -4,6 +4,7 @@ import cz.vutbr.fit.hospitu.access.APIAccessManager;
 import cz.vutbr.fit.hospitu.access.EnumAPIRole;
 import cz.vutbr.fit.hospitu.controller.LoginController;
 import cz.vutbr.fit.hospitu.controller.RegisterController;
+import cz.vutbr.fit.hospitu.controller.UserSearchController;
 import cz.vutbr.fit.hospitu.controller.admin.RoleController;
 import cz.vutbr.fit.hospitu.controller.doctor.DoctorController;
 import cz.vutbr.fit.hospitu.controller.doctor.FilesController;
@@ -51,6 +52,8 @@ public class Main
                     ApiBuilder.post("login", LoginController::postLogin, Set.of(EnumAPIRole.ANONYMOUS));
 
                     ApiBuilder.put("register", RegisterController::putRegister, Set.of(EnumAPIRole.ANONYMOUS));
+
+                    ApiBuilder.get("search", UserSearchController::getSearch, Set.of(EnumAPIRole.PATIENT, EnumAPIRole.INSURANCE_WORKER));
 
                     ApiBuilder.path("@self", () -> {
                         ApiBuilder.path("profile", () -> {

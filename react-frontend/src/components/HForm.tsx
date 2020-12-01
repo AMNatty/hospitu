@@ -46,7 +46,7 @@ export class HForm extends React.Component<{
     render(): ReactNode
     {
         return (
-            <form onSubmit={ this.handleSubmit }>
+            <form onSubmit={ this.handleSubmit } method="POST">
                 { this.props.children }
             </form>
         );

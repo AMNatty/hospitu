@@ -3,14 +3,14 @@ import Axios from "axios";
 
 import { Dispatch } from "redux";
 import { IAPIResponse, ILoginData } from "../../../data/UserData";
-import { FileData} from "../../../data/HFileData";
-import { DoctorData } from "../../../data/DoctorData";
+import { FileData} from "../../../data/doctor-data/HFileData";
+import { DoctorData } from "../../../data/doctor-data/DoctorData";
 import { HFlow, HInput } from "../../HInput";
 import { HForm, HFormComponent, HFieldInfo } from "../../HForm";
 import { VBox } from "../../HCard";
 import { HButton, HButtonStyle } from "../../HButton";
 
-import "../style/healthFiles.less"
+import "../style/healthFiles.less";
 import "../style/p-profile.less";
 
 export class HFile extends HFormComponent<{
@@ -51,7 +51,7 @@ export class HFile extends HFormComponent<{
         Axios({
             url: "/hFile/info",
             headers: {
-                Authorization: 'Bearer ' + this.props.loginData.token 
+                Authorization: "Bearer " + this.props.loginData.token 
             },
             method: "GET"
         }).then((response) => {
@@ -74,7 +74,7 @@ export class HFile extends HFormComponent<{
                     
             }
         }).catch(() => {
-            
+            // TODO
         });
     }
 
@@ -128,6 +128,6 @@ export class HFile extends HFormComponent<{
                     {/*tady description*/}
                 </div>
             </div>
-        )
+        );
     }
 }
