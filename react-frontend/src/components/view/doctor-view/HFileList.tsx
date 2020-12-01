@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import Axios from "axios";
 
 import { Dispatch } from "redux";
@@ -12,20 +12,31 @@ import  "../../../style/healthFiles.less";
 import "../../../style/doctor-content.less";
 
 import addIcon from "../../../img/add_circle-white-18dp.svg";
+import { CreateHFile } from "./CreateHFile";
+import { HFile } from "./HFile";
+
+enum HFileDisplayData
+{
+    HFileTable,
+    HFileCreate,
+    HFile
+}
 
 export class HFileList extends React.Component<{
     dispatch: Dispatch,
     loginData: ILoginData 
 },{
     fileList: FileData[],
-    doctorList: DoctorData[]
+    doctorList: DoctorData[],
+    screenState: HFileDisplayData
 }> {
 
     constructor(props:never){
         super(props);
         this.state = {
             fileList:[],
-            doctorList:[]
+            doctorList:[],
+            screenState: HFileDisplayData.HFileTable,
         };
     }
 
@@ -43,7 +54,6 @@ export class HFileList extends React.Component<{
             {
                 case 200:
                 {
-                    console.log(response.data.fileListData);
                     this.setState(() => ({
                         fileList : response.data.fileListData as FileData[]
                     }));
@@ -90,56 +100,98 @@ export class HFileList extends React.Component<{
         });
     }
 
-    createFile() : void {
-        return;
-    }
-
     test() : void {
         return;
     }
 
-    render(): JSX.Element
+    createFile = (): void => {
+        switch(this.state.screenState){
+            case HFileDisplayData.HFileTable:
+                this.setState({
+                    screenState: HFileDisplayData.HFileCreate
+                });
+                break;
+            default:
+                break;
+        }
+    }
+
+    changeFile = (): void => {
+        switch(this.state.screenState){
+            case HFileDisplayData.HFileTable:
+                this.setState({
+                    screenState: HFileDisplayData.HFile
+                });
+                break;
+            default:
+                break;
+        }
+    }
+
+    render(): ReactNode
     {
-        return (
-            <div className="main">
-                <div className="table">
-                    <div className="th">
-                        <h3>Záznamy zdravotních problémů</h3>
-                        <button onSubmit={this.createFile}><img src={addIcon} alt="<add>"/> Vytvořit záznam</button>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Název záznamu</th>
-                                <th>Pacient</th>
-                                <th>Stav</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                this.state.fileList.map(fileo => (
-                                    <tr key={fileo.idFile}>
-                                        <td>{fileo.name}</td>
-                                        <td>{fileo.patientFirstName} {fileo.patientLastName}</td>
-                                        <td>{(fileo.finished) ? "Čeká na vyšetření" : "Ukončen"}</td>
+        let content : ReactNode;
+
+        switch(this.state.screenState){
+            case HFileDisplayData.HFileTable:
+                content = (
+                    <div className="main">
+                        <div className="table">
+                            <div className="th">
+                                <h3>Záznamy zdravotních problémů</h3>
+                                <button onClick={this.createFile}><img src={addIcon} alt="<add>"/> Vytvořit záznam</button>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Název záznamu</th>
+                                        <th>Pacient</th>
+                                        <th>Stav</th>
                                     </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                    <div className="pagination">
-                        <nav>
-                            <ul className="pagination-ul">
-                                <li className="pagination-item">
-                                    <a href="#" className="pagination-link">
-                                                1
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                                </thead>
+                                <tbody>
+                                    {
+                                        this.state.fileList.map(fileo => (
+                                            <tr key={fileo.idFile} onClick={this.changeFile}>
+                                                <td>{fileo.name}</td>
+                                                <td>{fileo.patientFirstName} {fileo.patientLastName}</td>
+                                                <td>{(fileo.finished) ? "Čeká na vyšetření" : "Ukončen"}</td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
+                            <div className="pagination">
+                                <nav>
+                                    <ul className="pagination-ul">
+                                        <li className="pagination-item">
+                                            <a href="#" className="pagination-link">
+                                                        1
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                );
+                break;
+            case HFileDisplayData.HFileCreate:
+                content = (
+                    <CreateHFile dispatch={this.props.dispatch} loginData={this.props.loginData}>
+                    </CreateHFile>
+                );
+                break;
+            case HFileDisplayData.HFile:
+                content = (
+                    <HFile dispatch={this.props.dispatch} loginData={this.props.loginData}>
+                    </HFile>
+                );
+                break;
+        }
+
+        return (
+            content
         );
     }
 }
