@@ -1,8 +1,13 @@
 import { HView, IHSection, ISectionProps } from "../HView";
+import { HPatientView } from "../patient-view/HPatientView";
 import React, { ReactNode } from "react";
 import receiptWhite from "../../../img/receipt-white-18dp.svg";
 import accountLogo from "../../../img/account_circle-white-18dp.svg";
 import { HProfileView } from "../user-view/HUserInfo";
+import {Tabulka} from "./AdminTable";
+import {AdminekAdd} from "./AdminEdit";
+import {adminekDeletePatient} from "./AdminDeletePatient";
+import {adminekDeleteDoctor} from "./AdminDeleteDoctor";
 
 export abstract class HAdminView<T extends ISectionProps> extends HView<T> {
     protected constructor(props: T)
@@ -11,9 +16,7 @@ export abstract class HAdminView<T extends ISectionProps> extends HView<T> {
     }
 }
 
-export class HAdminWelcomeView<T extends ISectionProps> extends HAdminView<T> {
-    requiresUserManagement = (): boolean => true;
-
+export class HAdminWelcomeView<T extends ISectionProps> extends HPatientView<T> {
     constructor(props: T)
     {
         super(props);
@@ -33,13 +36,13 @@ const HAdminSection: IHSection = {
     menuItems: [
         {
             icon: receiptWhite,
-            name: "Domů",
-            targetView: HAdminWelcomeView
+            name: "Home",
+            targetView: Tabulka
         },
         {
             icon: accountLogo,
             name: "Správa uživatelů",
-            targetView: HProfileView
+            targetView: adminekDeleteDoctor
         },
         {
             icon: accountLogo,
@@ -48,7 +51,7 @@ const HAdminSection: IHSection = {
         }
     ],
     permitsUserManagement: true,
-    defaultView: HAdminWelcomeView
+    defaultView: adminekDeleteDoctor
 };
 
 export { HAdminSection };
