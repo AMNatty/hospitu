@@ -10,6 +10,7 @@ import cz.vutbr.fit.hospitu.controller.doctor.DoctorController;
 import cz.vutbr.fit.hospitu.controller.doctor.FilesController;
 import cz.vutbr.fit.hospitu.controller.doctor.TicketController;
 import cz.vutbr.fit.hospitu.controller.doctor.UserController;
+import cz.vutbr.fit.hospitu.controller.validator.ValidationException;
 import cz.vutbr.fit.hospitu.data.response.generic.Generic400ResponseData;
 import cz.vutbr.fit.hospitu.data.response.generic.Generic500ResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
@@ -45,6 +46,7 @@ public class Main
                 config.defaultContentType = "application/json";
                 config.enableCorsForAllOrigins();
             });
+            app.exception(ValidationException.class, (exception, ctx) -> {});
             app.error(500, ctx -> ctx.json(new Generic500ResponseData()));
             app.error(400, ctx -> ctx.json(new Generic400ResponseData()));
             app.routes(() -> {
@@ -53,22 +55,26 @@ public class Main
 
                     ApiBuilder.put("register", RegisterController::putRegister, Set.of(EnumAPIRole.ANONYMOUS));
 
-                    ApiBuilder.get("search", UserSearchController::getSearch, Set.of(EnumAPIRole.PATIENT, EnumAPIRole.INSURANCE_WORKER));
+                    ApiBuilder.get("search", UserSearchController::getSearch, Set.of(EnumAPIRole.DOCTOR));
+
+                    ApiBuilder.get("search-detail", UserSearchController::getSearch, Set.of(EnumAPIRole.DOCTOR));
 
                     ApiBuilder.path("@self", () -> {
-                        ApiBuilder.path("profile", () -> {
-                            ApiBuilder.get(UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
-                        });
+                        ApiBuilder.get("profile", UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
+
+                        ApiBuilder.get("profile-full", UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
+
+                        ApiBuilder.patch("profile-update", UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
                     });
 
                     ApiBuilder.path(":user-id", () -> {
-                        ApiBuilder.path("profile", () -> {
-                            ApiBuilder.get(UserController::getUserProfile, Set.of(EnumAPIRole.ANONYMOUS));
-                        });
+                        ApiBuilder.get("profile", UserController::getUserProfile, Set.of(EnumAPIRole.ANONYMOUS));
 
-                        ApiBuilder.path("update-role", () -> {
-                            ApiBuilder.patch(RoleController::patchChangeRole, Set.of(EnumAPIRole.ADMIN));
-                        });
+                        ApiBuilder.patch("profile-full", UserController::getUserProfile, Set.of(EnumAPIRole.DOCTOR, EnumAPIRole.INSURANCE_WORKER));
+
+                        ApiBuilder.patch("profile-update", UserController::getSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
+
+                        ApiBuilder.patch("update-role", RoleController::patchChangeRole, Set.of(EnumAPIRole.ADMIN));
                     });
                 });
 

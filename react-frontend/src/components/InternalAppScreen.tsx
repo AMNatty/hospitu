@@ -55,6 +55,10 @@ export class InternalAppScreen extends React.Component<{
             clearTimeout(this.state.searchTimeout);
         }
 
+        this.setState(() => ({
+            errorText: ""
+        }));
+
         if (value === "")
         {
             this.setState(() => ({
@@ -92,7 +96,7 @@ export class InternalAppScreen extends React.Component<{
 
                     default:
                         this.setState(() => ({
-                            errorText: `Chyba: ${(apiResponse as IAPIReadableResponse).humanReadableMessage}`
+                            errorText: `Chyba při vyhledávání: ${(apiResponse as IAPIReadableResponse).humanReadableMessage}`
                         }));
                 }
             }).catch(() => {
@@ -285,6 +289,13 @@ export class InternalAppScreen extends React.Component<{
                                                         (event.target as HTMLInputElement).value = "";
                                                 } } onChange={ this.performSearch } placeholder={ "Vyberte uživatele..." } />
                                             </HBox>
+                                            {
+                                                this.state.errorText ? (
+                                                    <div className={ "hs-userbox-error" }>
+                                                        { this.state.errorText }
+                                                    </div>
+                                                ) : null
+                                            }
                                             {
                                                 this.state.userSearch?.map(result => (
                                                     <div className={ "hs-userbox-result" } key={ result.id }>

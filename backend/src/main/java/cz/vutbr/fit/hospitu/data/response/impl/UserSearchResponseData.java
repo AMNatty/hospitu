@@ -8,15 +8,15 @@ import java.util.List;
 public class UserSearchResponseData extends AbstractResponseData
 {
     @NotNull
-    private final List<UserSearchResult> searchResults;
+    private final List<? extends UserSearchResult> searchResults;
 
-    public UserSearchResponseData(@NotNull List<UserSearchResult> searchResults)
+    public UserSearchResponseData(@NotNull List<? extends UserSearchResult> searchResults)
     {
         super(200);
         this.searchResults = searchResults;
     }
 
-    public @NotNull List<UserSearchResult> getSearchResults()
+    public @NotNull List<? extends UserSearchResult> getSearchResults()
     {
         return this.searchResults;
     }
