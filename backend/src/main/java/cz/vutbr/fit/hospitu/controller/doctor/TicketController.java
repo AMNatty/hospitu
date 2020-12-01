@@ -1,7 +1,11 @@
 package cz.vutbr.fit.hospitu.controller.doctor;
 
+import cz.vutbr.fit.hospitu.data.response.generic.Generic404ResponseData;
+import cz.vutbr.fit.hospitu.data.response.impl.RegistrationResponseData;
+import cz.vutbr.fit.hospitu.data.response.impl.doctor.HumanReadableResponseData;
 import cz.vutbr.fit.hospitu.data.response.impl.doctor.TicketListResponseData;
 import cz.vutbr.fit.hospitu.data.response.impl.doctor.TicketResponseData;
+import cz.vutbr.fit.hospitu.data.request.doctor.TicketRequestData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import io.javalin.http.Context;
 import java.util.*;
@@ -47,6 +51,97 @@ public class TicketController {
                 }
 
                 context.status(200).json(new TicketListResponseData(ticketListData));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            context.status(500);
+        }
+    }
+
+    public static void putTickets(Context context)
+    {
+        try (var connection = SQLConnection.create())
+        {
+            var ticketRequestData = context.bodyAsClass(TicketRequestData.class);
+
+            String sql = """
+            INSERT INTO checkupreports(cr_dr_id, cr_ptch_id, cr_name, cr_performed, cr_report, cr_price)
+            VALUES (?, ?, ?, ?, ?, ?);
+            """;
+
+            try (var statement = connection.prepareStatement(sql))
+            {
+
+                statement.setInt(1, ticketRequestData.getIdDoctor());
+                statement.setInt(2, ticketRequestData.getIdFile());
+                statement.setString(3, ticketRequestData.getName());
+                statement.setString(4, ticketRequestData.getPerformed());
+                statement.setString(5, ticketRequestData.getReport());
+                statement.setString(6, ticketRequestData.getPrice());
+
+
+                statement.executeUpdate();
+
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            context.status(500);
+        }
+    }
+
+    public static void putIRequest(Context context)
+    {
+        try (var connection = SQLConnection.create())
+        {
+            var ticketRequestData = context.bodyAsClass(TicketRequestData.class);
+
+            String sql = """
+            INSERT INTO insurancerequests(ir_cr_id)
+            VALUES (?);
+            """;
+
+            try (var statement = connection.prepareStatement(sql))
+            {
+
+                statement.setInt(1, ticketRequestData.getIdTicket());
+
+
+                statement.executeUpdate();
+
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            context.status(500);
+        }
+    }
+
+    public static void putChangeDoctor(Context context)
+    {
+        try (var connection = SQLConnection.create())
+        {
+            var ticketRequestData = context.bodyAsClass(TicketRequestData.class);
+
+            String sql = """
+            UPDATE checkupreports
+            SET cr_dr_id = ?
+            WHERE cr_id = ?
+            """;
+
+            try (var statement = connection.prepareStatement(sql))
+            {
+
+                statement.setInt(1, ticketRequestData.getIdDoctor());
+                statement.setInt(2, ticketRequestData.getIdTicket());
+
+
+                statement.executeUpdate();
+
             }
         }
         catch (SQLException e)

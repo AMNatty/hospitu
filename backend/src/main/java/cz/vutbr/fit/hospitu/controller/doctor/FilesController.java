@@ -2,6 +2,7 @@ package cz.vutbr.fit.hospitu.controller.doctor;
 
 import cz.vutbr.fit.hospitu.data.response.impl.doctor.FileListResponseData;
 import cz.vutbr.fit.hospitu.data.response.impl.doctor.FileResponseData;
+import cz.vutbr.fit.hospitu.data.request.doctor.FileRequestData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import io.javalin.http.Context;
 import java.util.*;
@@ -103,6 +104,40 @@ public class FilesController
                 }
 
                 context.status(200).json(new FileListResponseData(fileListData));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            context.status(500);
+        }
+    }
+
+    public static void putFiles(Context context)
+    {
+        try (var connection = SQLConnection.create())
+        {
+            var fileRequestData = context.bodyAsClass(FileRequestData.class);
+
+            String sql = """
+            INSERT INTO patientcheckups(ptch_us_id, ptch_dr_id, ptch_description, ptch_name, ptch_from, ptch_to, ptch_finished)
+            VALUES (?, ?, ?, ?, ?, ?, ?);
+            """;
+
+            try (var statement = connection.prepareStatement(sql))
+            {
+
+                statement.setInt(1, fileRequestData.getIdPatient());
+                statement.setInt(2, fileRequestData.getIdDoctor());
+                statement.setString(3, fileRequestData.getDescription());
+                statement.setString(4, fileRequestData.getName());
+                statement.setString(5, fileRequestData.getFrom());
+                statement.setString(6, fileRequestData.getTo());
+                statement.setString(7, fileRequestData.getFinished());
+
+
+                statement.executeUpdate();
+
             }
         }
         catch (SQLException e)
