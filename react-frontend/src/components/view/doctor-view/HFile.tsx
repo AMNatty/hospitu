@@ -7,22 +7,26 @@ import { FileData} from "../../../data/doctor-data/HFileData";
 import { DoctorData } from "../../../data/doctor-data/DoctorData";
 import { HFlow, HInput } from "../../HInput";
 import { HForm, HFormComponent, HFieldInfo } from "../../HForm";
-import { VBox } from "../../HCard";
+import { HCard, HGrid, HHeader, HSubHeader, VBox } from "../../HCard";
 import { HButton, HButtonStyle } from "../../HButton";
 
-import "../style/healthFiles.less";
-import "../style/p-profile.less";
+import "../../../style/p-profile.less";
+import "../../../style/healthFiles.less";
 
 export class HFile extends HFormComponent<{
     dispatch: Dispatch,
     loginData: ILoginData 
 }, {
     fileList: FileData[],
+    editMode: boolean,
+    editModeReport: boolean,
     fields: {
+        ptch_id: string,
         ptch_name: string,
         ptch_description: string,
         ptch_from: string,
         ptch_to: string,
+        ptch_finished: string,
         us_name: string,
         us_surname: string,
         pt_allergies: string,
@@ -34,11 +38,15 @@ export class HFile extends HFormComponent<{
         super(props);
         this.state = {
             fileList:[],
+            editMode: false,
+            editModeReport: false,
             fields: {
+                ptch_id: "",
                 ptch_name: "",
                 ptch_description: "",
                 ptch_from: "",
                 ptch_to: "",
+                ptch_finished: "",
                 us_name: "",
                 us_surname: "",
                 pt_allergies: "",
@@ -51,7 +59,7 @@ export class HFile extends HFormComponent<{
         Axios({
             url: "/hFile/info",
             headers: {
-                Authorization: "Bearer " + this.props.loginData.token 
+                Authorization: 'Bearer ' + this.props.loginData.token 
             },
             method: "GET"
         }).then((response) => {
@@ -74,60 +82,101 @@ export class HFile extends HFormComponent<{
                     
             }
         }).catch(() => {
-            // TODO
+            
         });
     }
 
-    test() : void {
-        return;
+    toggleFileEdit = (): void => {
+        this.setState(state => ({
+            editMode: !state.editMode
+        }));
+    }
+
+    toggleReportEdit = (): void => {
+        this.setState(state => ({
+            editModeReport: !state.editModeReport
+        }));
+    }
+
+    updateFile = (): void => {
+        // TODO
+
+        this.setState({
+            editMode: false
+        });
     }
 
     render(): JSX.Element
     {
         return (
             <div className="main">
-                <HForm onSubmit={this.test}>
-                    <div className="h-file">
-                        <h3 className="h-headline">Vytvořit Záznam</h3>
-                        <div className="left-side">
+                <HCard>
+                    <HForm key={ this.state.editMode ? 1 : 0 } onSubmit={ this.updateFile }>
+                        <VBox>
                             <VBox>
-                                <HInput fieldInfo={ this.managedField("ptch_name")} label={"Název záznamu"} type={"text"} readOnly={true}>
-                                </HInput>
-                                <HInput fieldInfo={ this.managedField("ptch_description")} label={"Zpráva"} type={"text"} readOnly={true}>
-                                </HInput>
-                                <HInput fieldInfo={ this.managedField("ptch_from")} label={"Název záznamu"} type={"datetime-local"} readOnly={true}>
-                                </HInput>
-                                <HInput fieldInfo={ this.managedField("ptch_to")} label={"Název záznamu"} type={"datetime-local"} readOnly={true}>
-                                </HInput>
+                                <HHeader>
+                                    <HFlow>
+                                        Název záznamu
+                                    </HFlow>
+                                </HHeader>
+                                <HFlow>
+                                    <VBox>
+                                        <HSubHeader>
+                                            Termíny
+                                        </HSubHeader>
+                                        <HGrid shrink={ true }>
+                                            <HInput label={ "Termín od" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("ptch_from") } type={ "datetime-local" } />
+                                            <HInput label={ "Termín do" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("ptch_to") } type={ "datetime-local" } />
+                                            <HInput label={ "Stav" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("ptch_finished") } type={ "text" } />
+                                        </HGrid>
+                                    </VBox>
+                                    <VBox>
+                                        <HSubHeader>
+                                            Pacientovi údaje
+                                        </HSubHeader>
+                                        <HGrid shrink={ true }>
+                                            <HInput label={ "Jméno" } required={ true } readOnly={ true } fieldInfo={ this.managedField("us_name") } type={ "text" } />
+                                            <HInput label={ "Příjmení" } required={ true } readOnly={ true } fieldInfo={ this.managedField("us_surname") } type={ "text" } />
+                                            <HInput label={ "Alergeny" } required={ true } readOnly={ true } fieldInfo={ this.managedField("pt_allergies") } type={ "text" } />
+                                            <HInput label={ "Potíže" } required={ true } readOnly={ true } fieldInfo={ this.managedField("pt_condition") } type={ "text" } />
+                                        </HGrid>
+                                    </VBox>
+                                </HFlow>
                             </VBox>
-                        </div>
-                        <div className="right-side">
-                            <VBox>
-                                <HInput fieldInfo={ this.managedField("us_name")} label={"Jméno"} type={"text"} readOnly={true}>
-                                </HInput>
-                                <HInput fieldInfo={ this.managedField("us_surname")} label={"Příjmení"} type={"text"} readOnly={true}>
-                                </HInput>
-                                <HInput fieldInfo={ this.managedField("pt_allergies")} label={"Alergeny"} type={"datetime-local"} readOnly={true}>
-                                </HInput>
-                                <HInput fieldInfo={ this.managedField("pt_condition")} label={"Potíže"} type={"datetime-local"} readOnly={true}>
-                                </HInput>
-                            </VBox>
-                        </div>
-                    </div>
-                    <div className="button-container">
-                        <HButton action={ "submit" }>
-                            Povolit úpravy
-                        </HButton>
-                        <HButton action={ "submit" }>
-                            Uložit
-                        </HButton>
-                    </div>
-                </HForm>
+                            <HFlow right={ true }>
+                                <span style={{ visibility: (this.state.editMode ? "visible" : "hidden") }}>
+                                    <HButton buttonStyle={ HButtonStyle.TEXT } action={ "reset" } action2={ this.toggleFileEdit }>
+                                        Zrušit změny
+                                    </HButton>
+                                </span>
+                                <HButton buttonStyle={ HButtonStyle.TEXT_INVERTED } action={ this.state.editMode ? "submit" : this.toggleFileEdit }>
+                                    { this.state.editMode ? "Uložit změny" : "Upravit záznam" }
+                                </HButton>
+                            </HFlow>
+                        </VBox>
+                    </HForm>
+                </HCard>
                 <div className="reports">
-                    <h3 className="report-h">Lékařské zprávy</h3>
-                    {/*tady description*/}
+                    <HForm key={ this.state.editModeReport ? 1 : 0 } onSubmit = {this.updateFile}>
+                        <h3 className="report-h">Lékařská zpráva</h3>
+                        <div className="textarea-container">
+                            <textarea name="med-description" id="med-description" >
+
+                            </textarea>
+                        </div>
+                        <HFlow right={ true }>
+                                <span style={{ visibility: (this.state.editModeReport ? "visible" : "hidden") }}>
+                                    <HButton buttonStyle={ HButtonStyle.TEXT } action={ "reset" } action2={ this.toggleReportEdit }>
+                                        Zrušit změny
+                                    </HButton>
+                                </span>
+                                <HButton buttonStyle={ HButtonStyle.TEXT_INVERTED } action={ this.state.editModeReport ? "submit" : this.toggleReportEdit }>
+                                    { this.state.editMode ? "Uložit změny" : "Přidat do lékařské zprávy" }
+                                </HButton>
+                            </HFlow>
+                    </HForm>
                 </div>
             </div>
-        );
+        )
     }
 }
