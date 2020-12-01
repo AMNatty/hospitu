@@ -3,6 +3,12 @@ import React, { ReactNode } from "react";
 import receiptWhite from "../../../img/receipt-white-18dp.svg";
 import accountLogo from "../../../img/account_circle-white-18dp.svg";
 import { HProfileView } from "../user-view/HUserInfo";
+import { HFileList } from "./HFileList";
+import { CreateHFile } from "./CreateHFile";
+import { HFile } from "./HFile";
+import { Tickets } from "./Tickets";
+import { Ticket } from "./Ticket";
+import { CreateTicket } from "./CreateTicket";
 
 export abstract class HDoctorView<T extends ISectionProps> extends HView<T> {
     protected constructor(props: T)

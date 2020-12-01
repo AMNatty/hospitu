@@ -11,7 +11,7 @@ import { VBox } from "../../HCard";
 import { HButton, HButtonStyle } from "../../HButton";
 
 import "../../../style/healthFiles.less";
-import "../../../style/p-profile.less";
+import "../../../style/p-profile.less"
 
 export class CreateHFile extends HFormComponent<{
     dispatch: Dispatch,
@@ -43,7 +43,7 @@ export class CreateHFile extends HFormComponent<{
 
     componentDidMount() : void {
         Axios({
-            url: "/hFile/patients",
+            url: "/hFile/info",
             headers: {
                 Authorization: "Bearer " + this.props.loginData.token 
             },
@@ -112,35 +112,45 @@ export class CreateHFile extends HFormComponent<{
                 <HForm onSubmit={this.test}>
                     <div className="h-file">
                         <h3 className="h-headline">Vytvořit Záznam</h3>
-                        <div className="left-side">
-                            <VBox>
-                                <HInput fieldInfo={ this.managedField("ptch_name")} label={"Název záznamu"} type={"text"} readOnly={false} required={true}>
-                                </HInput>
-                                <HInput fieldInfo={ this.managedField("ptch_description")} label={"Zpráva"} type={"text"} readOnly={false}>
-                                </HInput>
-                                <HInput fieldInfo={ this.managedField("ptch_from")} label={"Název záznamu"} type={"datetime-local"} readOnly={false}>
-                                </HInput>
-                                <HInput fieldInfo={ this.managedField("ptch_to")} label={"Název záznamu"} type={"datetime-local"} readOnly={false}>
-                                </HInput>
-                            </VBox>
-                        </div>
-                        <div className="right-side">
-                            <label htmlFor="patient-select">Přiřadit pacientovi</label>
-                            <select name="patient-select" id="patient-select" className="patient-select">
-                                {
-                                    this.state.fileList.map(fileo =>(
-                                        <option key={fileo.idPatient} value={fileo.idPatient}>{fileo.patientFirstName} {fileo.patientLastName}</option> 
-                                    ))
-                                }
-                            </select>
-                            <label htmlFor="doctor-select">Přiřadit lékaři</label>
-                            <select name="doctor-select" id="doctor-select" className="doctor-select">
-                                {
-                                    this.state.doctorList.map(doctor =>(
-                                        <option key={doctor.idDoctor} value={doctor.idDoctor}>{doctor.firstName} {doctor.lastName}</option> 
-                                    ))
-                                }
-                            </select>
+                        <div className="container-file">
+                            <div className="left-side">
+                                <VBox>
+                                    <HInput fieldInfo={ this.managedField("ptch_name")} label={"Název záznamu"} type={"text"} readOnly={false} required={true}>
+                                    </HInput>
+                                    <HInput fieldInfo={ this.managedField("ptch_description")} label={"Zpráva"} type={"text"} readOnly={false}>
+                                    </HInput>
+                                    <HInput fieldInfo={ this.managedField("ptch_from")} label={"Termín od"} type={"datetime-local"} readOnly={false}>
+                                    </HInput>
+                                    <HInput fieldInfo={ this.managedField("ptch_to")} label={"Termín do"} type={"datetime-local"} readOnly={false}>
+                                    </HInput>
+                                </VBox>
+                            </div>
+                            <div className="right-side">
+                                <div className="first-selector">
+                                    <div className="selector-container">
+                                        <label htmlFor="patient-select">Přiřadit pacientovi: </label>
+                                        <select name="patient-select" id="patient-select" className="patient-select">
+                                            {
+                                                this.state.fileList.map(fileo =>(
+                                                    <option key={fileo.idPatient} value={fileo.idPatient}>{fileo.patientFirstName} {fileo.patientLastName}</option> 
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="second-selector">
+                                    <div className="selector-container">
+                                        <label htmlFor="doctor-select">Přiřadit lékaři: </label>
+                                        <select name="doctor-select" id="doctor-select" className="doctor-select">
+                                            {
+                                                this.state.doctorList.map(doctor =>(
+                                                    <option key={doctor.idDoctor} value={doctor.idDoctor}>{doctor.firstName} {doctor.lastName}</option> 
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="button-container">
