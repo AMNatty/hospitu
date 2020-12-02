@@ -3,7 +3,7 @@ export interface IGlobalConfig {
 }
 
 const config: IGlobalConfig = {
-    apiBaseURI: "https://172.104.154.171:49380/"
+    apiBaseURI: "https://iusearchbtw.com/"
 };
 
 export { config };
