@@ -144,9 +144,13 @@ public class Main
     }
 
     private static SslContextFactory getSslContextFactory(ServerConfigLoader.ServerConfig config) {
+        var keyStore = Main.class.getResource("/keystore.jks").toExternalForm();
+
         SslContextFactory sslContextFactory = new SslContextFactory.Server();
-        sslContextFactory.setKeyStorePath(Main.class.getResource("/keystore.jks").toExternalForm());
+        sslContextFactory.setKeyStorePath(keyStore);
         sslContextFactory.setKeyStorePassword(config.getKeyStorePassword());
+        sslContextFactory.setTrustStorePath(keyStore);
+        sslContextFactory.setTrustStorePassword(config.getKeyStorePassword());
         return sslContextFactory;
     }
 }
