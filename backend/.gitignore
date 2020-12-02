@@ -2,3 +2,5 @@
 /settings.json
 /build
 /.gradle
+/src/main/resources/*.jks
+*.json

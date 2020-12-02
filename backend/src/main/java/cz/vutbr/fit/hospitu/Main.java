@@ -4,12 +4,12 @@ import cz.vutbr.fit.hospitu.access.APIAccessManager;
 import cz.vutbr.fit.hospitu.access.EnumAPIRole;
 import cz.vutbr.fit.hospitu.controller.LoginController;
 import cz.vutbr.fit.hospitu.controller.RegisterController;
+import cz.vutbr.fit.hospitu.controller.UserController;
 import cz.vutbr.fit.hospitu.controller.UserSearchController;
 import cz.vutbr.fit.hospitu.controller.admin.RoleController;
 import cz.vutbr.fit.hospitu.controller.doctor.DoctorController;
 import cz.vutbr.fit.hospitu.controller.doctor.FilesController;
 import cz.vutbr.fit.hospitu.controller.doctor.TicketController;
-import cz.vutbr.fit.hospitu.controller.UserController;
 import cz.vutbr.fit.hospitu.controller.validator.ValidationException;
 import cz.vutbr.fit.hospitu.data.response.generic.Generic400ResponseData;
 import cz.vutbr.fit.hospitu.data.response.generic.Generic500ResponseData;
@@ -17,6 +17,10 @@ import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import cz.vutbr.fit.hospitu.sql.table.Tables;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.ApiBuilder;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 import java.util.Set;
 
@@ -42,9 +46,18 @@ public class Main
             }
 
             Javalin app = Javalin.create(config -> {
+                config.server(() -> {
+                    Server server = new Server();
+                    ServerConnector sslConnector = new ServerConnector(server, getSslContextFactory(serverConfig));
+                    sslConnector.setPort(serverConfig.getHttpPort());
+                    server.setConnectors(new Connector[]{ sslConnector });
+                    return server;
+                });
+
                 config.accessManager(APIAccessManager::manage);
                 config.defaultContentType = "application/json";
                 config.enableCorsForAllOrigins();
+                config.enforceSsl = true;
             });
             app.exception(ValidationException.class, (exception, ctx) -> {});
             app.error(500, ctx -> ctx.json(new Generic500ResponseData()));
@@ -128,5 +141,12 @@ public class Main
             System.err.println("The following error has occurred while initializing the server:");
             e.printStackTrace();
         }
+    }
+
+    private static SslContextFactory getSslContextFactory(ServerConfigLoader.ServerConfig config) {
+        SslContextFactory sslContextFactory = new SslContextFactory.Server();
+        sslContextFactory.setKeyStorePath(Main.class.getResource("/keystore.jks").toExternalForm());
+        sslContextFactory.setKeyStorePassword(config.getKeyStorePassword());
+        return sslContextFactory;
     }
 }
