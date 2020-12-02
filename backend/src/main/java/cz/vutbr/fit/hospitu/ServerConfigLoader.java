@@ -23,6 +23,7 @@ public class ServerConfigLoader
         private String dbUser;
         private String dbPassword;
         private String dbTimeZone;
+        private String keyStorePassword;
 
         public int getHttpPort()
         {
@@ -58,6 +59,11 @@ public class ServerConfigLoader
         {
             return this.dbTimeZone;
         }
+
+        public String getKeyStorePassword()
+        {
+            return this.keyStorePassword;
+        }
     }
 
     public static ServerConfig load() throws IOException
@@ -79,6 +85,7 @@ public class ServerConfigLoader
             config.dbUser = "insert the database user";
             config.dbPassword = "insert the database user's password";
             config.dbTimeZone = "CET";
+            config.keyStorePassword = "insert the JKS password";
 
             try (var out = Files.newBufferedWriter(configFile))
             {
