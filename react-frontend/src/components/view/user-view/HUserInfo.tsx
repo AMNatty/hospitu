@@ -155,8 +155,10 @@ class HUserProfile extends HFormComponent<HUserProfileProps, {
         const inputID = parseInt(this.state.fields.id);
         const uid = inputID === this.props.editor.id ? "@self" : inputID;
 
-        Axios.patch(`/users/${uid}/profile-update`,
-            {
+        Axios({
+            url: `/users/${ uid }/profile-update`,
+            method: "PATCH",
+            data: {
                 "name": this.state.fields.name,
                 "surname": this.state.fields.surname,
                 "birthDate": this.state.fields.birthDate,
@@ -164,13 +166,11 @@ class HUserProfile extends HFormComponent<HUserProfileProps, {
                 "email": this.state.fields.email,
                 "phone": this.state.fields.phone,
             },
-            {
-                headers: {
-                    "Content-Type": "application/json; charset=UTF-8",
-                    "Authorization": "Bearer " + this.props.editor.token
-                }
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "Authorization": "Bearer " + this.props.editor.token
             }
-        ).then((response) => {
+        }).then((response) => {
             const apiResponse = response.data as IAPIResponse;
 
             switch (apiResponse.code)

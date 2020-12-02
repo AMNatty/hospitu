@@ -85,7 +85,7 @@ public class Main
 
                         ApiBuilder.get("profile-detail", UserController::getUserProfileDetail, Set.of(EnumAPIRole.DOCTOR, EnumAPIRole.INSURANCE_WORKER));
 
-                        ApiBuilder.get("profile-update", UserController::updateUserProfile, Set.of(EnumAPIRole.ADMIN));
+                        ApiBuilder.patch("profile-update", UserController::updateUserProfile, Set.of(EnumAPIRole.ADMIN));
 
                         ApiBuilder.patch("update-role", RoleController::patchChangeRole, Set.of(EnumAPIRole.ADMIN));
                     });
