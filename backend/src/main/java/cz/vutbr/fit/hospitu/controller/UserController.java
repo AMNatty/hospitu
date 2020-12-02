@@ -233,7 +233,7 @@ public class UserController
         var name = UserValidator.validateName(context, profileUpdateRequestData.getName());
         var surname = UserValidator.validateSurname(context, profileUpdateRequestData.getSurname());
         var birthDate = Date.valueOf(parsedDate);
-        var birthID  = BasicValidator.validateText(context, "birthID", profileUpdateRequestData.getBirthDate(), 10, 15,  "rodné číslo");
+        var birthID  = BasicValidator.validateText(context, "birthID", profileUpdateRequestData.getBirthID(), 10, 15,  "rodné číslo");
         var email = BasicValidator.validateText(context, "email", profileUpdateRequestData.getEmail(), 5, 50,  "e-mail");
         var phone = BasicValidator.validateText(context, "phone", profileUpdateRequestData.getPhone(), 1, 20,  "telefonní číslo");
 
