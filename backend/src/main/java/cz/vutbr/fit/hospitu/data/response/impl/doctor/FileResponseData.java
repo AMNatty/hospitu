@@ -33,8 +33,7 @@ public class FileResponseData
         this.patientGender = patientGender;
     }
 
-    public FileResponseData(int idFile, int idPatient, String patientFirstName, String patientLastName){
-        this.idFile = idFile;
+    public FileResponseData(int idPatient, String patientFirstName, String patientLastName){
         this.idPatient = idPatient;
         this.patientFirstName = patientFirstName;
         this.patientLastName = patientLastName;

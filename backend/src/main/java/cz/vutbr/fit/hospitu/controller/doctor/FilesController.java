@@ -31,7 +31,7 @@ public class FilesController
                 p.pt_gender AS patient_gender
             FROM patientcheckups AS pc
                 JOIN patients AS p ON p.pt_pc_id = pc.ptch_id
-                    JOIN users AS u ON u.us_id = p.pt_us_id
+                JOIN users AS u ON u.us_id = p.pt_us_id
             """;
 
             try (var statement = connection.prepareStatement(sql))
@@ -77,12 +77,10 @@ public class FilesController
         {
             String sql = """
             SELECT p.pt_us_id, 
-                pc.ptch_id, 
-                u.us_name AS patient_first_name, 
-                u.us_surname AS patient_last_name
+            u.us_name AS patient_first_name, 
+            u.us_surname AS patient_last_name
             FROM patients AS p
-                JOIN patientcheckups AS pc ON pc.ptch_us_id = p.pt_us_id
-                JOIN users AS u ON u.us_id = p.pt_us_id
+            JOIN users AS u ON u.us_id = p.pt_us_id
             """;
 
             try (var statement = connection.prepareStatement(sql))
@@ -93,10 +91,8 @@ public class FilesController
                 List <FileResponseData> fileListData = new ArrayList<>();
                 while(result.next())
                 {
-                    int fileID = result.getInt("ptch_id");
                     int patientsID = result.getInt("pt_us_id");
                     fileListData.add(new FileResponseData(
-                        fileID,
                         patientsID,
                         result.getString("patient_first_name"),
                         result.getString("patient_last_name")
@@ -134,6 +130,36 @@ public class FilesController
                 statement.setString(5, fileRequestData.getFrom());
                 statement.setString(6, fileRequestData.getTo());
                 statement.setString(7, fileRequestData.getFinished());
+
+
+                statement.executeUpdate();
+
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            context.status(500);
+        }
+    }
+
+    public static void putChangeDoctor(Context context)
+    {
+        try (var connection = SQLConnection.create())
+        {
+            var fileRequestData = context.bodyAsClass(FileRequestData.class);
+
+            String sql = """
+            UPDATE patientcheckups
+            SET ptch_dr_id = ?
+            WHERE ptch_id = ?
+            """;
+
+            try (var statement = connection.prepareStatement(sql))
+            {
+
+                statement.setInt(1, fileRequestData.getIdDoctor());
+                statement.setInt(2, fileRequestData.getIdFile());
 
 
                 statement.executeUpdate();

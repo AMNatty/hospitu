@@ -28,10 +28,10 @@ public class DoctorController
                 de.dp_name AS department_name, 
                 de.dp_location AS department_location
             FROM doctors AS d
-                JOIN patientcheckups AS pc ON pc.ptch_dr_id = d.dr_us_id
+                LEFT JOIN patientcheckups AS pc ON pc.ptch_dr_id = d.dr_us_id
                 JOIN users AS u ON u.us_id = d.dr_us_id
-                    JOIN usercontactinfo AS uc ON uc.uci_us_id = u.us_id
-                JOIN departments AS de ON de.dp_id = d.dr_dp_id
+                LEFT JOIN usercontactinfo AS uc ON uc.uci_us_id = u.us_id
+                LEFTJOIN departments AS de ON de.dp_id = d.dr_dp_id
             """;
 
             try (var statement = connection.prepareStatement(sql))
@@ -77,8 +77,8 @@ public class DoctorController
             String sql = """
             SELECT d.dr_us_id, pc.ptch_id, u.us_name AS first_name, u.us_surname AS last_name
             FROM doctors AS d
-                JOIN patientcheckups AS pc ON pc.ptch_dr_id = d.dr_us_id
-                JOIN users AS u ON u.us_id = d.dr_us_id
+            LEFT JOIN patientcheckups AS pc ON pc.ptch_dr_id = d.dr_us_id
+            JOIN users AS u ON u.us_id = d.dr_us_id
             """;
 
             try (var statement = connection.prepareStatement(sql))
