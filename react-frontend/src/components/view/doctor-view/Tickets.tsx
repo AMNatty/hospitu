@@ -116,6 +116,7 @@ export class Tickets extends React.Component<{
             {
                 case 200:
                 {
+                    console.log(response);
                     this.setState(() => ({
                         doctorList : response.data.doctorListData as DoctorData[]
                     }));
@@ -331,7 +332,7 @@ export class Tickets extends React.Component<{
                                             <select name="ticket-select" id="ticket-select" className="ticket-select" onChange={(e) => this.chooseFile(e.target.value)}>
                                                 {
                                                     this.state.ticketList.map(ticket =>(
-                                                        <option key={ticket.idTicket} value={ticket.idFile}>{ticket.name}</option> 
+                                                        <option key={ticket.idTicket} value={ticket.idTicket}>{ticket.name}</option> 
                                                     ))
                                                 }
                                             </select>
@@ -356,7 +357,7 @@ export class Tickets extends React.Component<{
                                             <select name="ticket-select-again" id="ticket-select-again" className="ticket-select-again" onChange={(e) => this.chooseFileV2(e.target.value)}>
                                                 {
                                                     this.state.ticketList.map(ticket =>(
-                                                        <option key={ticket.idTicket} value={ticket.idFile}>{ticket.name}</option> 
+                                                        <option key={ticket.idTicket} value={ticket.idTicket}>{ticket.name}</option> 
                                                     ))
                                                 }
                                             </select>

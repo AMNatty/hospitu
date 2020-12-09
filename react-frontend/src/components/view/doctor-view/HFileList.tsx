@@ -29,7 +29,9 @@ export class HFileList extends React.Component<{
     fileList: FileData[],
     doctorList: DoctorData[],
     screenState: HFileDisplayData,
-    fileData: FileData
+    fileData: FileData,
+    fileVal: string,
+    doctorVal: string
 }> {
 
     constructor(props:never){
@@ -52,7 +54,9 @@ export class HFileList extends React.Component<{
                 patientAllergies : "",
                 patientCondition : "",
                 patientGender : ""
-            }
+            },
+            fileVal: "1",
+            doctorVal: this.props.loginData.id.toString()
         };
     }
 
@@ -123,8 +127,40 @@ export class HFileList extends React.Component<{
         });
     }
 
-    test() : void {
-        return;
+    switchD = (): void => {
+        setTimeout(() => {
+            Axios({
+                url: "/hFile/switch",
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    Authorization: "Bearer " + this.props.loginData.token
+                },
+                data: {
+                    idFile: this.state.fileVal,
+                    idDoctor: this.state.doctorVal
+                }
+            }).then((response) => {
+                const apiResponse = response.data as IAPIResponse;
+
+                switch (apiResponse.code)
+                {
+                    case 200:
+                    {
+                        console.log("success")
+                        break;
+                    }
+
+                    default:
+
+                }
+                alert("Dokončeno")
+            }).catch((e) => {
+                console.log(e)
+                alert("Chyba")
+            }).then(() => {
+            });
+        }, 500);
     }
 
     createFile = (): void => {
@@ -150,6 +186,18 @@ export class HFileList extends React.Component<{
             default:
                 break;
         }
+    }
+
+    chooseFile = (val : string) : void => {
+        this.setState({
+            fileVal: val.toString()
+        })
+    }
+
+    chooseDoctor = (val : string) : void => {
+        this.setState({
+            doctorVal: val.toString()
+        })
     }
 
     render(): ReactNode
@@ -196,6 +244,42 @@ export class HFileList extends React.Component<{
                                     </ul>
                                 </nav>
                             </div>
+                        </div>
+                        <div className="switch">
+                            <h3 className="header-switch">Převést Záznam</h3>
+                            <HForm onSubmit={this.switchD}>
+                                <div className="switch-file">
+                                    <div className="file-to">
+                                        <div className="selector-container">
+                                            <label htmlFor="ticket-select-again">Vybrat záznam: </label>
+                                            <select name="ticket-select-again" id="ticket-select-again" className="ticket-select-again" onChange={(e) => this.chooseFile(e.target.value)}>
+                                                {
+                                                    this.state.fileList.map(fileo =>(
+                                                        <option key={fileo.idFile} value={fileo.idFile}>{fileo.name}</option> 
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="to-doctor">
+                                        <div className="selector-container">
+                                            <label htmlFor="doctor-select">Převést lékaři: </label>
+                                            <select name="doctor-select" id="doctor-select" className="doctor-select" onChange={(e) => this.chooseDoctor(e.target.value)}>
+                                                {
+                                                    this.state.doctorList.map(doctor =>(
+                                                    <option key={doctor.idDoctor} value={doctor.idDoctor}>{doctor.firstName} {doctor.lastName}</option> 
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="approve">
+                                        <HButton action={ "submit" } buttonStyle={ HButtonStyle.TEXT_INVERTED }>
+                                            Převést
+                                        </HButton>
+                                    </div>
+                                </div>
+                            </HForm>
                         </div>
                     </div>
                 );

@@ -53,7 +53,7 @@ export class CreateHFile extends HFormComponent<{
 
     componentDidMount() : void {
         Axios({
-            url: "/hFile/info",
+            url: "/hFile/patients",
             headers: {
                 Authorization: "Bearer " + this.props.loginData.token 
             },
