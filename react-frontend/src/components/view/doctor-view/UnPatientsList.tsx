@@ -88,6 +88,8 @@ export class UnPatientsList extends React.Component<{
 
                     default:
                     {
+                        alert("Chyba")
+                        break;
                     }
 
                 }

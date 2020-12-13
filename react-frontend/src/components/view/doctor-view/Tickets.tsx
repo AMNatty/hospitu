@@ -208,14 +208,17 @@ export class Tickets extends React.Component<{
                 {
                     case 200:
                     {
-                        console.log("success")
+                        alert("Vytvořeno")
                         break;
                     }
 
                     default:
+                    {
+                        alert("Chyba")
+                        break;
+                    }
 
                 }
-                alert("Dokončeno")
             }).catch((e) => {
                 console.log(e)
                 alert("Chybe")
@@ -243,14 +246,17 @@ export class Tickets extends React.Component<{
                 {
                     case 200:
                     {
-                        console.log("success")
+                        alert("Vytvořeno")
                         break;
                     }
 
                     default:
+                    {
+                        alert("Chyba")
+                        break;
+                    }
 
                 }
-                alert("Dokončeno")
             }).catch((e) => {
                 console.log(e)
                 alert("Chybe")

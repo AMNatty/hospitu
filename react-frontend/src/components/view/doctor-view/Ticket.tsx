@@ -174,6 +174,9 @@ export class Ticket extends HFormComponent<{
                     case 200:
                     {
                         alert("Aktualizováno")
+                        this.setState(() => ({
+                            loaded: this.state.loaded + 1
+                        }));
                         break;
                     }
 

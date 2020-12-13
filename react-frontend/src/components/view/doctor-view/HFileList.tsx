@@ -147,14 +147,17 @@ export class HFileList extends React.Component<{
                 {
                     case 200:
                     {
-                        console.log("success")
+                        alert("Převedeno")
                         break;
                     }
 
                     default:
+                    {
+                        alert("Chyba")
+                        break;
+                    }
 
                 }
-                alert("Dokončeno")
             }).catch((e) => {
                 console.log(e)
                 alert("Chyba")

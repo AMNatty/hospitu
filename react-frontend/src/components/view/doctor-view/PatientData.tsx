@@ -186,7 +186,9 @@ export class PatientData extends HFormComponent<{
                 {
                     case 200:
                     {
-                        console.log("success")
+                        this.setState(() => ({
+                            loaded: this.state.loaded + 1
+                        }));
                         break;
                     }
 
