@@ -110,6 +110,12 @@ public class Main
                     ApiBuilder.path("switch", () -> {
                         ApiBuilder.put(FilesController::putChangeDoctor, Set.of(EnumAPIRole.DOCTOR));
                     });
+
+                    ApiBuilder.path(":ptch-id", () -> {
+                        ApiBuilder.patch("file-update", FilesController::updateFile, Set.of(EnumAPIRole.DOCTOR));
+
+                        ApiBuilder.patch("file-report-update", FilesController::updateFileReport, Set.of(EnumAPIRole.DOCTOR));
+                    });
                 });
 
                 ApiBuilder.path("doctors", () -> {
@@ -119,6 +125,28 @@ public class Main
 
                     ApiBuilder.path("files", () -> {
                         ApiBuilder.get(DoctorController::getDoctorFiles, Set.of(EnumAPIRole.DOCTOR));
+                    });
+
+                    ApiBuilder.path("practitioners", () -> {
+                        ApiBuilder.get(DoctorController::getPractitioners, Set.of(EnumAPIRole.DOCTOR));
+                    });
+
+                    ApiBuilder.path("un-patients", () -> {
+                        ApiBuilder.get(DoctorController::getUnPatients, Set.of(EnumAPIRole.DOCTOR));
+                    });
+
+                    ApiBuilder.path("patients", () -> {
+                        ApiBuilder.get(DoctorController::getPatients, Set.of(EnumAPIRole.DOCTOR));
+                    });
+
+                    ApiBuilder.path(":un_pid", () -> {
+                        ApiBuilder.put("move-patient",DoctorController::movePatient, Set.of(EnumAPIRole.DOCTOR));
+
+                        ApiBuilder.patch("update-patient",DoctorController::updatePatient, Set.of(EnumAPIRole.DOCTOR));
+                    });
+
+                    ApiBuilder.path("create-patient", () -> {
+                        ApiBuilder.put(DoctorController::putPatient, Set.of(EnumAPIRole.DOCTOR));
                     });
                 });
 
@@ -137,6 +165,12 @@ public class Main
 
                     ApiBuilder.path("switch", () -> {
                         ApiBuilder.put(TicketController::putChangeDoctor, Set.of(EnumAPIRole.DOCTOR));
+                    });
+
+                    ApiBuilder.path(":cr-id", () -> {
+                        ApiBuilder.patch("ticket-update", TicketController::updateFileTicket, Set.of(EnumAPIRole.DOCTOR));
+
+                        ApiBuilder.patch("ticket-report-update", TicketController::updateFileTicketReport, Set.of(EnumAPIRole.DOCTOR));
                     });
                 });
             });
