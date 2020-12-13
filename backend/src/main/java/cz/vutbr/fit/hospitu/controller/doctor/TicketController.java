@@ -5,6 +5,7 @@ import cz.vutbr.fit.hospitu.data.response.impl.RegistrationResponseData;
 import cz.vutbr.fit.hospitu.data.response.impl.doctor.HumanReadableResponseData;
 import cz.vutbr.fit.hospitu.data.response.impl.doctor.TicketListResponseData;
 import cz.vutbr.fit.hospitu.data.response.impl.doctor.TicketResponseData;
+import cz.vutbr.fit.hospitu.data.response.impl.doctor.TicketUpdateResponseData;
 import cz.vutbr.fit.hospitu.data.request.doctor.TicketRequestData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import io.javalin.http.Context;
@@ -143,6 +144,99 @@ public class TicketController {
                 statement.executeUpdate();
 
             }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            context.status(500);
+        }
+    }
+
+    public static void updateFileTicket(Context context)
+    {
+        var targetTicketID = context.pathParam("cr-id", int.class).getOrNull();
+
+        if (targetTicketID == null)
+        {
+            context.status(400);
+            return;
+        }
+
+        updateTicket(context, targetTicketID);
+    }
+
+    public static void updateFileTicketReport(Context context)
+    {
+        var targetTicketID = context.pathParam("cr-id", int.class).getOrNull();
+
+        if (targetTicketID == null)
+        {
+            context.status(400);
+            return;
+        }
+
+        updateTicketReport(context, targetTicketID);
+    }
+
+    public static void updateTicket(Context context, int crId)
+    {
+        try (var connection = SQLConnection.create())
+        {
+            var ticketRequestData = context.bodyAsClass(TicketRequestData.class);
+
+            String sql = """
+            UPDATE checkupreports
+            SET cr_performed = ?, cr_price = ?
+            WHERE cr_id = ?
+            """;
+
+            try (var statement = connection.prepareStatement(sql))
+            {
+
+                statement.setString(1, ticketRequestData.getPerformed());
+                statement.setString(2, ticketRequestData.getPrice());
+                statement.setInt(3, crId);
+
+
+                statement.executeUpdate();
+
+            }
+
+            context.status(200).json(new TicketUpdateResponseData());
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            context.status(500);
+        }
+    }
+
+    public static void updateTicketReport(Context context, int crId)
+    {
+        try (var connection = SQLConnection.create())
+        {
+            var ticketRequestData = context.bodyAsClass(TicketRequestData.class);
+
+            String sql = """
+            UPDATE checkupreports
+            SET cr_report = ?
+            WHERE cr_id = ?
+            """;
+
+            try (var statement = connection.prepareStatement(sql))
+            {
+
+                statement.setString(1, ticketRequestData.getReport());
+                statement.setInt(2, crId);
+
+
+                statement.executeUpdate();
+
+            }
+
+            context.status(200).json(new TicketUpdateResponseData());
+
         }
         catch (SQLException e)
         {
