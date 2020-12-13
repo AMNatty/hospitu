@@ -18,7 +18,7 @@ public class UserContactInfoTable extends AbstractTable
                 uci_us_id     INT         NOT NULL,
                 uci_phone     VARCHAR(20) UNIQUE NOT NULL,
                 uci_email     VARCHAR(50) UNIQUE NOT NULL,
-                uci_birthdate DATE        UNIQUE NOT NULL,
+                uci_birthdate DATE        NOT NULL,
                 uci_birthid   VARCHAR(15) UNIQUE NOT NULL,
                                     
                 CONSTRAINT usercontactinfo_users_us_id_fk

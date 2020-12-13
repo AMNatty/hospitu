@@ -10,6 +10,7 @@ import cz.vutbr.fit.hospitu.controller.admin.RoleController;
 import cz.vutbr.fit.hospitu.controller.doctor.DoctorController;
 import cz.vutbr.fit.hospitu.controller.doctor.FilesController;
 import cz.vutbr.fit.hospitu.controller.doctor.TicketController;
+import cz.vutbr.fit.hospitu.controller.patient.PatientInfoController;
 import cz.vutbr.fit.hospitu.controller.validator.ValidationException;
 import cz.vutbr.fit.hospitu.data.response.generic.Generic400ResponseData;
 import cz.vutbr.fit.hospitu.data.response.generic.Generic500ResponseData;
@@ -78,6 +79,8 @@ public class Main
                         ApiBuilder.get("profile-detail", UserController::getSelfUserProfileDetail, Set.of(EnumAPIRole.PATIENT));
 
                         ApiBuilder.patch("profile-update", UserController::updateSelfUserProfile, Set.of(EnumAPIRole.PATIENT));
+
+                        ApiBuilder.get("patient-info", PatientInfoController::getPatientSelfInfo, Set.of(EnumAPIRole.PATIENT));
                     });
 
                     ApiBuilder.path(":user-id", () -> {
