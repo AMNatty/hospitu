@@ -1,11 +1,7 @@
 package cz.vutbr.fit.hospitu.controller.admin;
 
-import cz.vutbr.fit.hospitu.data.request.admin.AdminRequestDeleteDoctor;
-import cz.vutbr.fit.hospitu.data.request.admin.AdminRequestDeletePatient;
 import cz.vutbr.fit.hospitu.data.response.AdminResponseAdminTable;
 import cz.vutbr.fit.hospitu.data.response.AdminResponseAdminTableList;
-import cz.vutbr.fit.hospitu.data.response.impl.doctor.DoctorListResponseData;
-import cz.vutbr.fit.hospitu.data.response.impl.doctor.DoctorResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import io.javalin.http.Context;
 
