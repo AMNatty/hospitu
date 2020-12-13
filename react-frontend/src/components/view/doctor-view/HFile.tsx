@@ -34,7 +34,9 @@ export class HFile extends HFormComponent<{
         pt_allergies: string,
         pt_condition: string
     },
-    loaded : number
+    loaded : number,
+    errorText? : string,
+    errorTextReport? : string
 }> {
     constructor(props: never)
     {
@@ -139,11 +141,119 @@ export class HFile extends HFormComponent<{
     }
 
     updateFile = (): void => {
-        // TODO
-
         this.setState({
-            editMode: false
+            errorText: ""
         });
+
+        const ptchId = parseInt(this.state.fields.ptch_id);
+        const ptchFinished = this.state.fields.ptch_finished === "Čeká na vyšetření" ? 0 : 1
+
+        Axios({
+            url: `/hFile/${ ptchId }/file-update`,
+            method: "PATCH",
+            data: {
+                "from" : this.state.fields.ptch_from,
+                "to" : this.state.fields.ptch_to,
+                "finished" : ptchFinished
+            },
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                Authorization: "Bearer " + this.props.loginData.token
+            }
+        }).then((response) => {
+            const apiResponse = response.data as IAPIResponse;
+
+                switch (apiResponse.code)
+                {
+                    case 200:
+                    {
+                        alert("Aktualizováno")
+                        break;
+                    }
+
+                    case 403:
+                    {
+                        this.setState(() => ({
+                            errorText: "Špatně zadané datum."
+                        }));
+                    }
+
+                    default:
+                    {
+                        this.setState(() => ({
+                            errorText: "Došlo k chybě při ukládání záznamu."
+                        }));
+                    }
+
+                }
+        }).catch((e) => {
+            this.setState(() => ({
+                errorText: "Došlo k chybě při ukládání záznamu."
+            }));
+        });
+        
+        if (!this.state.errorText)
+            this.setState({
+                editMode: false
+            });
+    }
+
+    updateReport = (): void => {
+        this.setState({
+            errorTextReport: ""
+        });
+
+        const ptchId = parseInt(this.state.fields.ptch_id);
+        const ptchDescription = this.state.fields.ptch_description;
+
+        Axios({
+            url: `/hFile/${ ptchId }/file-report-update`,
+            method: "PATCH",
+            data: {
+                "description": ptchDescription
+            },
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                Authorization: "Bearer " + this.props.loginData.token
+            }
+        }).then((response) => {
+            const apiResponse = response.data as IAPIResponse;
+
+                switch (apiResponse.code)
+                {
+                    case 200:
+                    {
+                        alert("Aktualizováno")
+                        break;
+                    }
+
+                    default:
+                    {
+                        this.setState(() => ({
+                            errorTextReport: "Došlo k chybě při ukládání záznamu."
+                        }));
+                    }
+
+                }
+        }).catch((e) => {
+            this.setState(() => ({
+                errorTextReport: "Došlo k chybě při ukládání záznamu."
+            }));
+        });
+        
+        if (!this.state.errorTextReport)
+            this.setState({
+                editModeReport: false
+            });
+    }
+
+    updateTextArea = (ptchDes : string): void => {
+        this.setState({
+            fields: {
+                ...this.state.fields,
+                ptch_description : ptchDes
+            }
+        })
     }
 
     render(): JSX.Element
@@ -165,14 +275,14 @@ export class HFile extends HFormComponent<{
                                             Termíny
                                         </HSubHeader>
                                         <HGrid shrink={ true }>
-                                            <HInput label={ "Termín od" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("ptch_from") } type={ "datetime-local" } />
-                                            <HInput label={ "Termín do" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("ptch_to") } type={ "datetime-local" } />
+                                            <HInput label={ "Termín od" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("ptch_from") } type={ "datetime" } />
+                                            <HInput label={ "Termín do" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("ptch_to") } type={ "datetime" } />
                                             <HInput label={ "Stav" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("ptch_finished") } type={ "text" } />
                                         </HGrid>
                                     </VBox>
                                     <VBox>
                                         <HSubHeader>
-                                            Pacientovi údaje
+                                            Pacientovy údaje
                                         </HSubHeader>
                                         <HGrid shrink={ true }>
                                             <HInput label={ "Jméno" } required={ true } readOnly={ true } fieldInfo={ this.managedField("us_name") } type={ "text" } />
@@ -181,6 +291,11 @@ export class HFile extends HFormComponent<{
                                             <HInput label={ "Potíže" } required={ true } readOnly={ true } fieldInfo={ this.managedField("pt_condition") } type={ "text" } />
                                         </HGrid>
                                     </VBox>
+                                </HFlow>
+                                <HFlow>
+                                    <span style={{ color: "red" }}>
+                                        { this.state.errorText }
+                                    </span>
                                 </HFlow>
                             </VBox>
                             <HFlow right={ true }>
@@ -197,12 +312,17 @@ export class HFile extends HFormComponent<{
                     </HForm>
                 </HCard>
                 <div className="reports">
-                    <HForm key={ this.state.editModeReport ? 1 : 0 } onSubmit = {this.updateFile}>
+                    <HForm key={ this.state.editModeReport ? 1 : 0 } onSubmit = {this.updateReport}>
                         <h3 className="report-h">Lékařská zpráva</h3>
                         <div className="textarea-container">
-                            <textarea name="med-description" id="med-description" defaultValue={this.state.fields.ptch_description}>
+                            <textarea onChange={(e) => this.updateTextArea(e.target.value)} name="med-description" id="med-description" defaultValue={this.state.fields.ptch_description} readOnly={ !this.state.editModeReport }>
                             </textarea>
                         </div>
+                        <HFlow>
+                            <span style={{ color: "red" }}>
+                                { this.state.errorTextReport }
+                            </span>
+                        </HFlow>
                         <HFlow right={ true }>
                                 <span style={{ visibility: (this.state.editModeReport ? "visible" : "hidden") }}>
                                     <HButton buttonStyle={ HButtonStyle.TEXT } action={ "reset" } action2={ this.toggleReportEdit }>

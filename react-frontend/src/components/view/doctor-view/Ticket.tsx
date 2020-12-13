@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import Axios from "axios";
 
 import { Dispatch } from "redux";
@@ -17,7 +17,7 @@ export class Ticket extends HFormComponent<{
     dispatch: Dispatch,
     loginData: ILoginData,
     ticketData: TicketData,
-    fileListData: FileData[]
+    fileListData: FileData[],
 }, {
     ticketList: TicketData[],
     fileList: FileData[],
@@ -36,7 +36,9 @@ export class Ticket extends HFormComponent<{
         us_surname: string,
         pt_allergies: string,
         pt_condition: string
-    }
+    },
+    errorText?: string,
+    errorTextReport? : string
 }> {
     constructor(props: never)
     {
@@ -139,11 +141,118 @@ export class Ticket extends HFormComponent<{
     }
 
     updateTicket = (): void => {
-        // TODO
-
         this.setState({
-            editMode: false
+            errorText: ""
         });
+
+        const crId = parseInt(this.state.fields.cr_id);
+        const crPerformed = this.state.fields.cr_performed === "Čekající" ? 0 : 1;
+        let crPriceUP = this.state.fields.cr_price.toUpperCase();
+        let crPrice = "";
+        if(crPriceUP.includes("KČ") || crPriceUP.includes("KC")){
+            crPrice = this.state.fields.cr_price.substr(0, this.state.fields.cr_price.length-2);
+        }else{
+            crPrice = crPriceUP;
+        }
+
+        Axios({
+            url: `/tickets/${ crId }/ticket-update`,
+            method: "PATCH",
+            data: {
+                "performed": crPerformed,
+                "price": crPrice,
+            },
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                Authorization: "Bearer " + this.props.loginData.token
+            }
+        }).then((response) => {
+            const apiResponse = response.data as IAPIResponse;
+
+                switch (apiResponse.code)
+                {
+                    case 200:
+                    {
+                        alert("Aktualizováno")
+                        break;
+                    }
+
+                    default:
+                    {
+                        this.setState(() => ({
+                            errorText: "Došlo k chybě při ukládání vyšetření."
+                        }));
+                    }
+
+                }
+        }).catch((e) => {
+            this.setState(() => ({
+                errorText: "Došlo k chybě při ukládání vyšetření."
+            }));
+        });
+        
+        if (!this.state.errorText)
+            this.setState({
+                editMode: false
+            });
+    }
+
+    updateReport = (): void => {
+        this.setState({
+            errorTextReport: ""
+        });
+
+        const crId = parseInt(this.state.fields.cr_id);
+        const crReport = this.state.fields.cr_report;
+
+        Axios({
+            url: `/tickets/${ crId }/ticket-report-update`,
+            method: "PATCH",
+            data: {
+                "report": crReport
+            },
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                Authorization: "Bearer " + this.props.loginData.token
+            }
+        }).then((response) => {
+            const apiResponse = response.data as IAPIResponse;
+
+                switch (apiResponse.code)
+                {
+                    case 200:
+                    {
+                        alert("Aktualizováno")
+                        break;
+                    }
+
+                    default:
+                    {
+                        this.setState(() => ({
+                            errorTextReport: "Došlo k chybě při ukládání vyšetření."
+                        }));
+                    }
+
+                }
+        }).catch((e) => {
+            this.setState(() => ({
+                errorTextReport: "Došlo k chybě při ukládání vyšetření."
+            }));
+        });
+        
+        if (!this.state.errorTextReport)
+            this.setState({
+                editModeReport: false
+            });
+    }
+
+    updateTextArea = (crRep : string): void => {
+        this.setState({
+            fields: {
+                ...this.state.fields,
+                cr_report : crRep
+            }
+        })
     }
 
     render(): JSX.Element
@@ -165,7 +274,7 @@ export class Ticket extends HFormComponent<{
                                             Základní údaje
                                         </HSubHeader>
                                         <HGrid shrink={ true }>
-                                            <HInput label={ "Příslušná zpráva" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("ptch_name") } type={ "text" } />
+                                            <HInput label={ "Příslušná zpráva" } required={ true } readOnly={ true } fieldInfo={ this.managedField("ptch_name") } type={ "text" } />
                                             <HInput label={ "Stav" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("cr_performed") } type={ "text" } />
                                             <HInput label={ "Cena vyšetření" } required={ false } readOnly={ !this.state.editMode } fieldInfo={ this.managedField("cr_price") } type={ "text" } />
                                         </HGrid>
@@ -182,6 +291,11 @@ export class Ticket extends HFormComponent<{
                                         </HGrid>
                                     </VBox>
                                 </HFlow>
+                                <HFlow>
+                                    <span style={{ color: "red" }}>
+                                        { this.state.errorText }
+                                    </span>
+                                </HFlow>
                             </VBox>
                             <HFlow right={ true }>
                                 <span style={{ visibility: (this.state.editMode ? "visible" : "hidden") }}>
@@ -197,13 +311,17 @@ export class Ticket extends HFormComponent<{
                     </HForm>
                 </HCard>
                 <div className="reports">
-                    <HForm key={ this.state.editModeReport ? 1 : 0 } onSubmit = {this.updateTicket}>
+                    <HForm key={ this.state.editModeReport ? 1 : 0 } onSubmit = {this.updateReport}>
                         <h3 className="report-h">Lékařská zpráva</h3>
                         <div className="textarea-container">
-                            <textarea name="med-description" id="med-description" defaultValue={this.state.fields.cr_report}>
-
+                            <textarea onChange={(e) => this.updateTextArea(e.target.value)} name="med-description" id="med-description" defaultValue={this.state.fields.cr_report} readOnly={ !this.state.editModeReport }>
                             </textarea>
                         </div>
+                        <HFlow>
+                            <span style={{ color: "red" }}>
+                                { this.state.errorTextReport }
+                            </span>
+                        </HFlow>
                         <HFlow right={ true }>
                                 <span style={{ visibility: (this.state.editModeReport ? "visible" : "hidden") }}>
                                     <HButton buttonStyle={ HButtonStyle.TEXT } action={ "reset" } action2={ this.toggleReportEdit }>
