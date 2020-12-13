@@ -11,7 +11,7 @@ public class PatientInfoResponseData extends HumanReadableResponseData
 
     private PatientInfoResponseData()
     {
-        super(404, "Patient data not found.", "");
+        super(404, "Patient data not found.", "Vaše karta nebyla zatím vyplněna, prosím kontaktujte lékaře.");
 
         this.practitioner = null;
         this.allergies = null;
