@@ -118,6 +118,27 @@ public class Main
                     });
                 });
 
+                 ApiBuilder.path("admin", () -> {
+                    ApiBuilder.path("change", () -> {
+                        ApiBuilder.post(AdminControllerWriteDoc::getAdmins, Set.of(EnumAPIRole.ADMIN));
+                    });
+                    ApiBuilder.path("changep", () -> {
+                        ApiBuilder.post(AdminControllerWritePoj::getAdmins, Set.of(EnumAPIRole.ADMIN));
+                    });
+                    ApiBuilder.path("info", () -> {
+                        ApiBuilder.get(AdminControllerTable::getAdmins, Set.of(EnumAPIRole.ADMIN));
+                    });
+                    ApiBuilder.path("deleted", () -> {
+                        ApiBuilder.post(AdminControllerDeleteDoctor::getAdmins, Set.of(EnumAPIRole.ADMIN));
+                    });
+                    ApiBuilder.path("deletep", () -> {
+                        ApiBuilder.post(AdminControllerDeletePoj::getAdmins, Set.of(EnumAPIRole.ADMIN));
+                    });
+                    ApiBuilder.path("deletepac", () -> {
+                        ApiBuilder.post(AdminControllerDeletePacient::getAdmins, Set.of(EnumAPIRole.ADMIN));
+                    });
+                });
+
                 ApiBuilder.path("doctors", () -> {
                     ApiBuilder.path("info", () -> {
                         ApiBuilder.get(DoctorController::getDoctorInfo, Set.of(EnumAPIRole.DOCTOR));
