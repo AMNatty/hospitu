@@ -2,8 +2,8 @@ package cz.vutbr.fit.hospitu.controller;
 
 import cz.vutbr.fit.hospitu.access.AuthorizationManager;
 import cz.vutbr.fit.hospitu.data.request.LoginRequestData;
-import cz.vutbr.fit.hospitu.data.response.generic.Generic404ResponseData;
 import cz.vutbr.fit.hospitu.data.response.impl.LoginResponseData;
+import cz.vutbr.fit.hospitu.data.response.impl.doctor.HumanReadableResponseData;
 import cz.vutbr.fit.hospitu.sql.SQLConnection;
 import io.javalin.http.Context;
 
@@ -27,7 +27,9 @@ public class LoginController
 
                 if (!result.next())
                 {
-                    context.status(404).json(new Generic404ResponseData("A user with these credentials was not found."));
+                    context.status(404).json(new HumanReadableResponseData(404,
+                        "A user with these credentials was not found.",
+                        "Uživatel s těmito přihlašovacími údaji nebyl nalezen."));
                     return;
                 }
 
