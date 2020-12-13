@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="container" prefHeight="480.0" prefWidth="720.0" stylesheets="@../../../../../style/components.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vutbr.fit.hospitu.frontend.AppBaseController">
+   <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox prefHeight="64.0" style="-fx-background-color: teal;">
+         <children>
+            <VBox alignment="CENTER" fillWidth="false" minWidth="240.0" style="-fx-background-color: rgba(0, 0, 0, 0.15);">
+               <children>
+                  <VBox style="-fx-border-color: white; -fx-border-radius: 50;">
+                     <children>
+                        <Label fx:id="roleLabel" text="&lt;user type&gt;" textFill="WHITE">
+                           <padding>
+                              <Insets left="25.0" right="25.0" />
+                           </padding>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="nameLabel" text="&lt;user name&gt;" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets left="25.0" right="25.0" top="-5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </VBox>
+            <GridPane hgap="5.0" HBox.hgrow="NEVER">
+              <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
+                <ColumnConstraints fillWidth="false" hgrow="NEVER" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" percentHeight="50.0" valignment="BOTTOM" vgrow="NEVER" />
+                <RowConstraints fillHeight="false" percentHeight="50.0" valignment="TOP" vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <Label text="Čas:" textFill="WHITE" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Datum:" textFill="WHITE" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="timeLabel" text="&lt;time&gt;" textFill="WHITE" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="dateLabel" text="&lt;date&gt;" textFill="WHITE" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </GridPane>
+            <Pane HBox.hgrow="ALWAYS" />
+            <AnchorPane layoutX="540.0" layoutY="10.0">
+               <children>
+                  <Button fx:id="profile" contentDisplay="TOP" mnemonicParsing="false" styleClass="h-button" text="&lt;username&gt;" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                           <image>
+                              <Image url="@../../../../../img/account_circle_white_24dp.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#logoutClick" styleClass="h-button" text="Odhlásit" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                           <image>
+                              <Image url="@../../../../../img/close_white_24dp.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <HBox VBox.vgrow="ALWAYS">
+         <children>
+            <VBox maxWidth="-Infinity" minWidth="-Infinity" prefWidth="240.0" style="-fx-background-color: #282828;" HBox.hgrow="NEVER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" onMouseClicked="#homeClick" styleClass="h-darken">
+                     <children>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../img/home_white_24dp.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Domů" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" onMouseClicked="#healthStateClick" styleClass="h-darken">
+                     <children>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../img/add_circle_white_24dp.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Můj zdravotní stav" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" styleClass="h-darken">
+                     <children>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../img/receipt_white_24dp.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Moje vyšetření" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="90.0" styleClass="h-darken">
+                     <children>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../img/receipt_long_white_24dp.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Historie vyšetření" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="130.0" styleClass="h-darken">
+                     <children>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../img/account_circle_white_24dp.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Můj účet" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </HBox>
+               </children>
+            </VBox>
+            <ScrollPane fx:id="viewPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </VBox>
+</AnchorPane>

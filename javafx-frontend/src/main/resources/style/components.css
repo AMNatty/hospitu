@@ -1,0 +1,37 @@
+.h-darken
+{
+
+}
+
+.h-darken:hover
+{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+.h-darken:pressed
+{
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+
+.h-bright
+{
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.h-button
+{
+    -fx-text-fill: white;
+    -fx-border-radius: 4px;
+    -fx-background-color: rgb(0, 128, 128);
+    -fx-cursor: hand;
+}
+
+.h-button:hover
+{
+    -fx-background-color: rgb(0, 100, 100);
+}
+
+.h-button:pressed
+{
+    -fx-background-color: rgb(0, 80, 80);
+}

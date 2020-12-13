@@ -1,8 +1,8 @@
 package cz.vutbr.fit.hospitu.data.response.impl.patient;
 
-import cz.vutbr.fit.hospitu.data.response.AbstractResponseData;
+import cz.vutbr.fit.hospitu.data.response.impl.doctor.HumanReadableResponseData;
 
-public class PatientInfoResponseData extends AbstractResponseData
+public class PatientInfoResponseData extends HumanReadableResponseData
 {
     private final String practitioner;
     private final String allergies;
@@ -11,7 +11,7 @@ public class PatientInfoResponseData extends AbstractResponseData
 
     private PatientInfoResponseData()
     {
-        super(404);
+        super(404, "Patient data not found.", "");
 
         this.practitioner = null;
         this.allergies = null;
@@ -21,7 +21,7 @@ public class PatientInfoResponseData extends AbstractResponseData
 
     private PatientInfoResponseData(String practitioner, String allergies, String conditions, String gender)
     {
-        super(200);
+        super(200, "Patient data OK.", "");
 
         this.practitioner = practitioner;
         this.allergies = allergies;

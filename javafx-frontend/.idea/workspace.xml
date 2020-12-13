@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f97fc4e2-6664-429f-af4b-d90c0c88da24" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/AppBaseController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/AppMain.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/LoginScreenController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/APIErrorException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/APIManager$APIConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/APIManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/APIRoleAdapter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/EnumAPIRole.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/request/LoginRequestData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/response/AbstractGenericCodeResponseData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/response/AbstractResponseData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/response/HumanReadableResponseData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/response/LoginResponseData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/api/response/UserResponseData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/cz/vutbr/fit/hospitu/frontend/data/LoginData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/cz/vutbr/fit/hospitu/frontend/AppBase.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/img/account_circle_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/img/add_circle_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/img/apps_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/img/close_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/img/home_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/img/receipt_long_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/img/receipt_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/AppBaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/AppMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/LoginScreenController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/APIErrorException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/APIManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/APIRoleAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/EnumAPIRole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/request/LoginRequestData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/response/AbstractGenericCodeResponseData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/response/AbstractResponseData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/response/HumanReadableResponseData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/response/LoginResponseData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/response/PatientInfoResponseData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/api/response/UserResponseData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/data/LoginData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/view/HomeViewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/view/IViewSwitcher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/view/PatientInfoSelfViewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend/view/ViewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/config/api_config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/cz/vutbr/fit/hospitu/frontend/AppBase.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/cz/vutbr/fit/hospitu/frontend/LoginScreen.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/cz/vutbr/fit/hospitu/frontend/view/HomeView.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/cz/vutbr/fit/hospitu/frontend/view/PatientInfoSelfView.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/account_circle_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/add_circle_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/apps_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/close_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/home_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/receipt_long_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/receipt_white_24dp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/style/components.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaFXApplication" />
+        <option value="OpenAPI" />
+        <option value="module-info" />
+        <option value="CSS File" />
+        <option value="Interface" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1lWro0mG3Ztik6NWETYN49i8DMr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="flattenPackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/cz/vutbr/fit/hospitu/frontend" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/cz/vutbr/fit/hospitu/frontend/view" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="copyright" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\WebstormProjects\hospitu\javafx-frontend\src\main\resources\cz\vutbr\fit\hospitu\frontend\view" />
+      <recent name="D:\WebstormProjects\hospitu\javafx-frontend\src\main\java\cz\vutbr\fit\hospitu\frontend\data" />
+      <recent name="D:\WebstormProjects\hospitu\javafx-frontend\src\main\resources\cz\vutbr\fit\hospitu\frontend" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\WebstormProjects\hospitu\javafx-frontend\src\main\resources\cz\vutbr\fit\hospitu\frontend\view" />
+      <recent name="D:\WebstormProjects\hospitu\javafx-frontend\src\main\resources\style" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="cz.vutbr.fit.hospitu.frontend.api.response" />
+      <recent name="cz.vutbr.fit.hospitu.frontend.api.request" />
+      <recent name="cz.vutbr.fit.hospitu.frontend.api" />
+      <recent name="cz.vutbr.fit.hospitu.frontend.data" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="javafx-frontend [run]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--stacktrace" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="run" />
+          </list>
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f97fc4e2-6664-429f-af4b-d90c0c88da24" name="Default Changelist" comment="" />
+      <created>1607723862615</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1607723862615</updated>
+      <workItem from="1607723864675" duration="593000" />
+      <workItem from="1607726244313" duration="16734000" />
+      <workItem from="1607792990882" duration="41431000" />
+      <workItem from="1607880579375" duration="9522000" />
+      <workItem from="1607891652183" duration="21000" />
+      <workItem from="1607891722301" duration="306000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

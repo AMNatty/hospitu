@@ -1,0 +1,39 @@
+cz/vutbr/fit/hospitu/frontend/view/ViewController.java
+ cz.vutbr.fit.hospitu.frontend.view.ViewController
+cz/vutbr/fit/hospitu/frontend/api/APIErrorException.java
+ cz.vutbr.fit.hospitu.frontend.api.APIErrorException
+cz/vutbr/fit/hospitu/frontend/api/response/AbstractResponseData.java
+ cz.vutbr.fit.hospitu.frontend.api.response.AbstractResponseData
+cz/vutbr/fit/hospitu/frontend/AppBaseController.java
+ cz.vutbr.fit.hospitu.frontend.AppBaseController
+cz/vutbr/fit/hospitu/frontend/api/request/LoginRequestData.java
+ cz.vutbr.fit.hospitu.frontend.api.request.LoginRequestData
+cz/vutbr/fit/hospitu/frontend/api/response/AbstractGenericCodeResponseData.java
+ cz.vutbr.fit.hospitu.frontend.api.response.AbstractGenericCodeResponseData
+cz/vutbr/fit/hospitu/frontend/api/response/HumanReadableResponseData.java
+ cz.vutbr.fit.hospitu.frontend.api.response.HumanReadableResponseData
+cz/vutbr/fit/hospitu/frontend/view/IViewSwitcher.java
+ cz.vutbr.fit.hospitu.frontend.view.IViewSwitcher
+cz/vutbr/fit/hospitu/frontend/api/EnumAPIRole.java
+ cz.vutbr.fit.hospitu.frontend.api.EnumAPIRole
+cz/vutbr/fit/hospitu/frontend/api/response/LoginResponseData.java
+ cz.vutbr.fit.hospitu.frontend.api.response.LoginResponseData
+cz/vutbr/fit/hospitu/frontend/view/HomeViewController.java
+ cz.vutbr.fit.hospitu.frontend.view.HomeViewController
+cz/vutbr/fit/hospitu/frontend/api/response/UserResponseData.java
+ cz.vutbr.fit.hospitu.frontend.api.response.UserResponseData
+cz/vutbr/fit/hospitu/frontend/data/LoginData.java
+ cz.vutbr.fit.hospitu.frontend.data.LoginData
+cz/vutbr/fit/hospitu/frontend/api/APIRoleAdapter.java
+ cz.vutbr.fit.hospitu.frontend.api.APIRoleAdapter
+cz/vutbr/fit/hospitu/frontend/api/response/PatientInfoResponseData.java
+ cz.vutbr.fit.hospitu.frontend.api.response.PatientInfoResponseData
+cz/vutbr/fit/hospitu/frontend/LoginScreenController.java
+ cz.vutbr.fit.hospitu.frontend.LoginScreenController
+cz/vutbr/fit/hospitu/frontend/api/APIManager.java
+ cz.vutbr.fit.hospitu.frontend.api.APIManager
+ cz.vutbr.fit.hospitu.frontend.api.APIManager$APIConfig
+cz/vutbr/fit/hospitu/frontend/view/PatientInfoSelfViewController.java
+ cz.vutbr.fit.hospitu.frontend.view.PatientInfoSelfViewController
+cz/vutbr/fit/hospitu/frontend/AppMain.java
+ cz.vutbr.fit.hospitu.frontend.AppMain
