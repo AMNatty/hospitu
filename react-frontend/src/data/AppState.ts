@@ -1,4 +1,4 @@
-import { EnumRole, ILoginData, IUserData } from "./UserData";
+import { EnumRole, IExtendedUserData, ILoginData, IUserData } from "./UserData";
 import { HView, IHSection } from "../components/view/HView";
 import { HPatientSection } from "../components/view/patient-view/HPatientView";
 import { HDoctorSection } from "../components/view/doctor-view/HDoctorView";
@@ -84,9 +84,9 @@ export class InternalScreenSectionState implements IApplicationSection {
     readonly sectionType: SectionType;
     readonly loginData: ILoginData;
     readonly sectionState: IInternalApplicationState;
-    readonly managedUser?: IUserData;
+    readonly managedUser?: IExtendedUserData;
 
-    constructor(loginData: ILoginData, sectionState?: IInternalApplicationState, managedUser?: IUserData)
+    constructor(loginData: ILoginData, sectionState?: IInternalApplicationState, managedUser?: IExtendedUserData)
     {
         this.sectionType = SectionType.INTERNAL_SCREEN;
         this.loginData = loginData;

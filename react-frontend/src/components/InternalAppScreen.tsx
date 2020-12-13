@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { EnumInternalState, internalAppStateFromRole, InternalScreenSectionState } from "../data/AppState";
 import { Dispatch } from "redux";
-import { LogoutAction, SwitchSectionAction, SwitchViewAction } from "../data/AppAction";
+import { LogoutAction, SwitchManagedUserAction, SwitchSectionAction, SwitchViewAction } from "../data/AppAction";
 
 import "../style/h-internal-shared.less";
 
@@ -30,7 +30,6 @@ export class InternalAppScreen extends React.Component<{
     currentView: typeof HView,
     sectionState: InternalScreenSectionState
 }, {
-    managedUser?: IExtendedUserData,
     userManagementEnabled: boolean,
     errorText?: string
 }> {
@@ -46,9 +45,7 @@ export class InternalAppScreen extends React.Component<{
     chooseUser = (result: IUserSearchResult | null): void => {
         if (result === null)
         {
-            this.setState({
-                managedUser: undefined
-            });
+            this.props.dispatch(new SwitchManagedUserAction(null));
             return;
         }
 
@@ -69,9 +66,7 @@ export class InternalAppScreen extends React.Component<{
                 case 200:
                 {
                     const results = apiResponse as IExtendedUserData;
-                    this.setState(() => ({
-                        managedUser: results
-                    }));
+                    this.props.dispatch(new SwitchManagedUserAction(results));
                     break;
                 }
 
@@ -101,11 +96,11 @@ export class InternalAppScreen extends React.Component<{
         const ViewComponentType = this.props.currentView;
 
         const viewComponent = <ViewComponentType
-            key={ this.state.managedUser?.id }
+            key={ this.props.sectionState.managedUser?.id }
             dispatch={ this.props.dispatch }
             loginData={ this.props.sectionState.loginData }
             sectionState={ this.props.sectionState.sectionState }
-            managedUser={ this.state.managedUser }
+            managedUser={ this.props.sectionState.managedUser }
             requiresUserManagementCallback={ enabled => this.setState({
                 userManagementEnabled: enabled
             })} />;
@@ -205,16 +200,6 @@ export class InternalAppScreen extends React.Component<{
                                 </table>
                             </div>
                         </li>
-                        <li className="hs-menu-option">
-                            <a href="#">
-                                <div className="hs-menu-option-img">
-                                    <img src={ appsIcon } alt="<calendar>" />
-                                </div>
-                                <div className="hs-menu-option-text">
-                                    Kalendář
-                                </div>
-                            </a>
-                        </li>
 
                         <li className="hs-menu-free-space">
                         </li>
@@ -276,7 +261,7 @@ export class InternalAppScreen extends React.Component<{
                                     chooseUserCallback={ this.chooseUser }
                                     viewUserCallback={ this.viewUser }
                                     loginData={ this.props.sectionState.loginData }
-                                    managedUser={ this.state.managedUser }
+                                    managedUser={ this.props.sectionState.managedUser }
                                     searchRole={ this.props.sectionState.sectionState.internalState === EnumInternalState.ADMIN_PANEL ? EnumRole.ADMIN : EnumRole.DOCTOR } />
                             ) : undefined
                         }

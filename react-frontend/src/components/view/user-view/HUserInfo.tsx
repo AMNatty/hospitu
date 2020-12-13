@@ -15,6 +15,7 @@ import { HButton, HButtonStyle } from "../../HButton";
 import { Dispatch } from "redux";
 import Axios from "axios";
 import { EnumInternalState } from "../../../data/AppState";
+import { UpdateManagedUserAction, UpdateSelfUserAction } from "../../../data/AppAction";
 
 interface HUserProfileProps
 {
@@ -176,6 +177,27 @@ class HUserProfile extends HFormComponent<HUserProfileProps, {
             switch (apiResponse.code)
             {
                 case 200:
+                    this.setState({
+                        editMode: false
+                    });
+
+                    if (this.state.yourProfile)
+                    {
+                        this.props.dispatch(new UpdateSelfUserAction({
+                            ...this.state.fields,
+                            id: this.props.editor.id,
+                            role: this.props.editor.role
+                        }));
+                    }
+                    else
+                    {
+                        const userData = this.props.userData ?? (this.props.user as IUserData);
+                        this.props.dispatch(new UpdateManagedUserAction({
+                            ...this.state.fields,
+                            id: userData.id,
+                            role: userData.role
+                        }));
+                    }
                     break;
 
                 default:
@@ -193,11 +215,6 @@ class HUserProfile extends HFormComponent<HUserProfileProps, {
                 errorText: "Došlo k chybě při ukládání profilu, prosím zkuste to znovu později."
             }));
         });
-
-        if (!this.state.errorText)
-            this.setState({
-                editMode: false
-            });
     }
 
     render()
