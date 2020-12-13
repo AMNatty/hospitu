@@ -46,13 +46,13 @@ public class Main
             }
 
             Javalin app = Javalin.create(config -> {
-                /*config.server(() -> {
+                config.server(() -> {
                     Server server = new Server();
                     ServerConnector sslConnector = new ServerConnector(server, getSslContextFactory(serverConfig));
                     sslConnector.setPort(serverConfig.getHttpPort());
                     server.setConnectors(new Connector[]{ sslConnector });
                     return server;
-                });*/
+                });
 
                 config.accessManager(APIAccessManager::manage);
                 config.defaultContentType = "application/json";
